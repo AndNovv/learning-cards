@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { cn } from "@/lib/utils";
+import NavigationMenu from "@/components/Layout/NavigationMenu";
+import AsideMenu from "@/components/Aside/AsideMenu";
+import { FavouritesStoreProvider } from "@/providers/favourites-store-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +21,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={cn(inter.className, 'flex flex-row')}>
+        <FavouritesStoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AsideMenu />
+            <main className="flex flex-col w-full">
+
+              <NavigationMenu />
+              <div className="px-10 py-6">
+                {children}
+              </div>
+            </main>
+          </ThemeProvider>
+        </FavouritesStoreProvider>
+      </body>
     </html>
   );
 }
