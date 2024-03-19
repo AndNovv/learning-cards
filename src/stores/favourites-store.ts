@@ -1,35 +1,26 @@
-import { createStore } from 'zustand/vanilla'
+import { create } from 'zustand'
 
-export type FavouritesState = {
-  favourites: Set<number>
+export type FavouriteCollectionState = {
+  favouriteCollections: number[]
 }
 
-export type FavouritesActions = {
-  addFavourite: (collectionId: number) => void
-  deleteFavourite: (collectionId: number) => void
+export const useFavouriteCollectionsStore = create<FavouriteCollectionState>()(() => ({
+  favouriteCollections: [],
+}))
+
+export const addFavouriteCollection = (collectionId: number) => {
+  useFavouriteCollectionsStore.setState((state) => {
+    return { favouriteCollections: [...state.favouriteCollections, collectionId] }
+  })
 }
 
-export type FavouritesStore = FavouritesState & FavouritesActions
-
-export const defaultFavouritesState: FavouritesState = {
-  favourites: new Set([]),
-}
-
-// Create your store, which includes both state and (optionally) actions
-export const createFavouritesStore = (
-  initFavouritesState: FavouritesState = defaultFavouritesState,
-) => {
-  return createStore<FavouritesState & FavouritesActions>((set) => ({
-    ...initFavouritesState,
-    addFavourite: (collectionId) => set((prev) => {
-      const newFavourites: Set<number> = new Set(prev.favourites)
-      newFavourites.add(collectionId)
-      return { favourites: newFavourites }
-    }),
-    deleteFavourite: (collectionId) => set((prev) => {
-      const newFavourites: Set<number> = new Set(prev.favourites)
-      newFavourites.delete(collectionId)
-      return { favourites: newFavourites }
-    })
-  }))
+export const deleteFavouriteCollection = (collectionId: number) => {
+  useFavouriteCollectionsStore.setState((state) => {
+    const newFavourites: number[] = [...state.favouriteCollections]
+    const index = newFavourites.indexOf(collectionId);
+    if (index > -1) {
+      newFavourites.splice(index, 1)
+    }
+    return { favouriteCollections: newFavourites }
+  })
 }

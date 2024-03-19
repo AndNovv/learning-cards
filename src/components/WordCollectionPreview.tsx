@@ -11,25 +11,25 @@ import {
 } from "@/components/ui/card"
 import { Star } from 'lucide-react'
 import { Button } from './ui/button'
-import { useFavouritesStore } from '@/providers/favourites-store-provider'
+import { addFavouriteCollection, deleteFavouriteCollection, useFavouriteCollectionsStore } from '@/stores/favourites-store'
 
 const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollection }) => {
 
     const previewFlashCards = [...wordCollection.flashcards]
     previewFlashCards.length = 7
 
-    const { favourites, addFavourite, deleteFavourite } = useFavouritesStore((state) => { return state })
+    const { favouriteCollections } = useFavouriteCollectionsStore((state) => state)
 
     const handleFavoutiteButtonClick = () => {
         if (isFavourite) {
-            deleteFavourite(wordCollection.id)
+            deleteFavouriteCollection(wordCollection.id)
         }
         else {
-            addFavourite(wordCollection.id)
+            addFavouriteCollection(wordCollection.id)
         }
     }
 
-    const isFavourite = favourites.has(wordCollection.id)
+    const isFavourite = favouriteCollections.includes(wordCollection.id)
 
     return (
         <Card className='w-[350px]'>
@@ -54,7 +54,7 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
             </CardContent>
             <CardFooter className='flex justify-between'>
                 <Button variant={'default'} size={'lg'}>
-                    Начать
+                    Смотреть
                 </Button>
                 <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
                     <Star />
