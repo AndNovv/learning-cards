@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/dialog"
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
-    DrawerFooter,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
@@ -23,6 +21,7 @@ import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
 import { FlashCard } from "@/types/types"
 import { deleteFlashCardFromNewCollection, editFlashCardFromNewCollection } from "@/stores/new-collection-store"
+import { useRef } from "react"
 
 const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard: FlashCard, flashCardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
@@ -31,7 +30,7 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
         return (
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <div className='flex flex-row hover:bg-secondary cursor-pointer px-4 py-3 justify-between gap-4'>
+                    <div className='flex flex-row hover:bg-secondary transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
                         <div className='flex flex-row gap-2 w-full'>
                             <p>{flashcard.english}</p>
                             <p>-</p>
@@ -47,32 +46,7 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
                             Внесите нужные изменения
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="flex flex-col mt-2">
-                        <div className="flex flex-row gap-4">
-                            <div className="flex flex-col gap-2">
-                                <p>Английский</p>
-                                <Input placeholder="Английский" defaultValue={flashcard.english}></Input>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <p>Русский</p>
-                                <Input placeholder="Русский" defaultValue={flashcard.russian}></Input>
-                            </div>
-                        </div>
-                        <div className="flex flex-row justify-between mt-6">
-                            <Button variant={'outline'} onClick={() => {
-                                setOpen(false)
-                                editFlashCardFromNewCollection(flashCardIndex, { english: 'asd', russian: 'sla' })
-                            }}>
-                                Сохранить
-                            </Button>
-                            <Button variant={'destructive'} size={'smallIcon'} onClick={() => {
-                                setOpen(false)
-                                deleteFlashCardFromNewCollection(flashCardIndex)
-                            }}>
-                                <Trash className="scale-90" />
-                            </Button>
-                        </div>
-                    </div>
+                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
                 </DialogContent>
             </Dialog>
         )
@@ -81,7 +55,7 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <div className='flex flex-row hover:bg-secondary cursor-pointer px-4 py-3 justify-between gap-4'>
+                <div className='flex flex-row hover:bg-secondary transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
                     <div className='flex flex-row gap-2 w-full'>
                         <p>{flashcard.english}</p>
                         <p>-</p>
@@ -96,33 +70,54 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
                     <DrawerDescription>
                         Внесите нужные изменения
                     </DrawerDescription>
-                    <div className="flex flex-col mt-4">
-                        <div className="flex flex-row gap-4">
-                            <div className="flex flex-col gap-2 flex-1">
-                                <p>Английский</p>
-                                <Input placeholder="Английский" defaultValue={flashcard.english}></Input>
-                            </div>
-                            <div className="flex flex-col gap-2 flex-1">
-                                <p>Русский</p>
-                                <Input placeholder="Русский" defaultValue={flashcard.russian}></Input>
-                            </div>
-                        </div>
-                        <div className="flex flex-row justify-between mt-6">
-                            <DrawerClose>
-                                <Button variant={'outline'} onClick={() => { editFlashCardFromNewCollection(flashCardIndex, { english: 'asd', russian: 'sla' }) }}>
-                                    Сохранить
-                                </Button>
-                            </DrawerClose>
-                            <DrawerClose>
-                                <Button variant={'destructive'} size={'smallIcon'} onClick={() => { deleteFlashCardFromNewCollection(flashCardIndex) }}>
-                                    <Trash className="scale-90" />
-                                </Button>
-                            </DrawerClose>
-                        </div>
-                    </div>
+                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
                 </DrawerHeader>
             </DrawerContent>
         </Drawer>
+    )
+}
+
+const ModalWindowDialog = ({ setOpen, flashcard, flashCardIndex }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCard, flashCardIndex: number }) => {
+
+
+    const englishModalInputRef = useRef<HTMLInputElement>(null)
+    const russianModalInputRef = useRef<HTMLInputElement>(null)
+
+    return (
+        <form
+            onSubmit={(e: React.FormEvent) => {
+                e.preventDefault()
+                setOpen(false)
+                if (englishModalInputRef.current?.value && russianModalInputRef.current?.value) {
+                    editFlashCardFromNewCollection(flashCardIndex, { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value })
+                }
+            }}
+            onReset={(e: React.FormEvent) => {
+                e.preventDefault()
+                setOpen(false)
+                deleteFlashCardFromNewCollection(flashCardIndex)
+            }}
+            className="flex flex-col mt-2"
+        >
+            <div className="flex flex-row gap-4">
+                <div className="flex flex-col gap-2 flex-1">
+                    <p>Английский</p>
+                    <Input ref={englishModalInputRef} placeholder="Английский" defaultValue={flashcard.english}></Input>
+                </div>
+                <div className="flex flex-col gap-2 flex-1">
+                    <p>Русский</p>
+                    <Input ref={russianModalInputRef} placeholder="Русский" defaultValue={flashcard.russian}></Input>
+                </div>
+            </div>
+            <div className="flex flex-row justify-between mt-6">
+                <Button type={'submit'} variant={'outline'}>
+                    Сохранить
+                </Button>
+                <Button type={'reset'} variant={'destructive'} size={'smallIcon'}>
+                    <Trash className="scale-90" />
+                </Button>
+            </div>
+        </form>
     )
 }
 

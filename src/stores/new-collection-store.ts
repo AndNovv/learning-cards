@@ -12,13 +12,9 @@ export type NewCollectionState = {
 export const useNewCollectionStore = create<NewCollectionState>()(() => ({
     id: allCollections.length,
     title: undefined,
-    author: undefined,
+    author: 'user',
     flashcards: [],
 }))
-
-export const createNewCollection = (title: string, author: string) => {
-
-}
 
 export const addFlashCardToNewCollection = (flashcard: FlashCard) => {
     useNewCollectionStore.setState((state) => {
@@ -47,6 +43,17 @@ export const editFlashCardFromNewCollection = (flashCardIndex: number, flashcard
         return {
             ...state,
             flashcards: newFlashcards
+        }
+    })
+}
+
+export const resetNewCollection = () => {
+    useNewCollectionStore.setState(() => {
+        return {
+            id: allCollections.length + 1,
+            author: 'user',
+            title: undefined,
+            flashcards: [],
         }
     })
 }

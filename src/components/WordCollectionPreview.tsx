@@ -20,16 +20,26 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
 
     const { favouriteCollections } = useFavouriteCollectionsStore((state) => state)
 
+    const isFavouriteFn = () => {
+        for (let i = 0; i < favouriteCollections.length; i++) {
+            if (favouriteCollections[i].id === wordCollection.id) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const isFavourite = isFavouriteFn()
+
     const handleFavoutiteButtonClick = () => {
         if (isFavourite) {
             deleteFavouriteCollection(wordCollection.id)
         }
         else {
-            addFavouriteCollection(wordCollection.id)
+            addFavouriteCollection(wordCollection)
         }
     }
 
-    const isFavourite = favouriteCollections.includes(wordCollection.id)
 
     return (
         <Card className='w-[350px]'>

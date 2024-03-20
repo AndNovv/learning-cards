@@ -1,26 +1,24 @@
+import { allCollections } from '@/data/data'
+import { WordCollection } from '@/types/types'
 import { create } from 'zustand'
 
-export type FavouriteCollectionState = {
-  favouriteCollections: number[]
+export type FavouriteCollectionsState = {
+  favouriteCollections: WordCollection[]
 }
 
-export const useFavouriteCollectionsStore = create<FavouriteCollectionState>()(() => ({
+export const useFavouriteCollectionsStore = create<FavouriteCollectionsState>()(() => ({
   favouriteCollections: [],
 }))
 
-export const addFavouriteCollection = (collectionId: number) => {
+export const addFavouriteCollection = (collection: WordCollection) => {
   useFavouriteCollectionsStore.setState((state) => {
-    return { favouriteCollections: [...state.favouriteCollections, collectionId] }
+    return { favouriteCollections: [...state.favouriteCollections, collection] }
   })
 }
 
 export const deleteFavouriteCollection = (collectionId: number) => {
   useFavouriteCollectionsStore.setState((state) => {
-    const newFavourites: number[] = [...state.favouriteCollections]
-    const index = newFavourites.indexOf(collectionId);
-    if (index > -1) {
-      newFavourites.splice(index, 1)
-    }
-    return { favouriteCollections: newFavourites }
+    const newFavouriteCollections = [...state.favouriteCollections].filter((item) => item.id !== collectionId)
+    return { favouriteCollections: newFavouriteCollections }
   })
 }

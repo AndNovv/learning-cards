@@ -22,8 +22,6 @@ const NewWordCardInput = () => {
 
         if (english) {
             if (russian) {
-                console.log(english)
-                console.log(russian)
                 addFlashCardToNewCollection({ english: english, russian: russian })
                 englishInputRef.value = ''
                 russianInputRef.value = ''
