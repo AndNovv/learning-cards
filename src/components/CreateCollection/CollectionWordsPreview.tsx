@@ -1,13 +1,12 @@
 "use client"
 import useMediaQuery from '@/hooks/useMediaQuery'
-import { useNewCollectionStore } from '@/stores/new-collection-store'
 import React from 'react'
 import SingleCardPreview from './SingleCardPreview'
+import { FlashCardType } from '@/types/types'
 
-const CollectionWordsPreview = () => {
+const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardType[] }) => {
 
     const isDesktop = useMediaQuery("(min-width: 768px)")
-    const { flashcards } = useNewCollectionStore((state) => state)
 
     return (
         <div className='flex flex-col divide-y-2'>

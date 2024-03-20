@@ -1,4 +1,6 @@
 "use client"
+import CollectionWords from '@/components/Collection/CollectionWords'
+import CollectionWordsPreview from '@/components/CreateCollection/CollectionWordsPreview'
 import { useFavouriteCollectionsStore } from '@/stores/favourites-store'
 import React from 'react'
 
@@ -20,18 +22,10 @@ const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) 
     if (!collection) return <div>Коллекция с таким номером не найдена</div>
 
     return (
-        <div>
-            <h1>{collection.title}</h1>
-            <p>{`Автор: ${collection.author}`}</p>
-            {collection.flashcards.map((flashcard, index) => {
-                return (
-                    <div className="flex flex-row gap-2" key={`flashcard${index}`}>
-                        <p>{flashcard.english}</p>
-                        <p>-</p>
-                        <p>{flashcard.russian}</p>
-                    </div>
-                )
-            })}
+        <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1'>
+            <h1 className='text-xl mt-2'>{collection.title}</h1>
+            <p className='text-muted-foreground mt-2 mb-4'>{`Автор: ${collection.author}`}</p>
+            <CollectionWords collection={collection} />
         </div>
     )
 }

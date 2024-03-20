@@ -51,13 +51,14 @@ const CreateCollectionPage = () => {
     }
 
     return (
-        <div className='flex flex-col gap-8 xl:px-60 lg:px-40 md:px-20 px-1'>
-            <div className='flex flex-row gap-4'>
+        <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1'>
+            <h2 className='text-2xl mb-4'>Создание новой Коллекции</h2>
+            <div className='flex flex-row gap-4 mb-8'>
                 <Input ref={nameInputRef} placeholder='Введите название Коллекции' />
                 <Button onClick={handleCreateCollectionButtonClick} variant={'outline'}>Создать</Button>
             </div>
             <NewWordCardInput />
-            <CollectionWordsPreview />
+            <CollectionWordsPreview flashcards={flashcards} />
         </div>
     )
 }
