@@ -19,11 +19,11 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
-import { FlashCard } from "@/types/types"
+import { FlashCardType } from "@/types/types"
 import { deleteFlashCardFromNewCollection, editFlashCardFromNewCollection } from "@/stores/new-collection-store"
 import { useRef } from "react"
 
-const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard: FlashCard, flashCardIndex: number, isDesktop: boolean }) => {
+const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard: FlashCardType, flashCardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
 
     if (isDesktop) {
@@ -77,7 +77,7 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
     )
 }
 
-const ModalWindowDialog = ({ setOpen, flashcard, flashCardIndex }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCard, flashCardIndex: number }) => {
+const ModalWindowDialog = ({ setOpen, flashcard, flashCardIndex }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashCardIndex: number }) => {
 
 
     const englishModalInputRef = useRef<HTMLInputElement>(null)

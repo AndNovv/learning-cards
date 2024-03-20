@@ -1,4 +1,4 @@
-import { FlashCard, WordCollection } from "@/types/types";
+import { WordCollection } from "@/types/types";
 
 export const beginnerPack: WordCollection = {
     id: 0,

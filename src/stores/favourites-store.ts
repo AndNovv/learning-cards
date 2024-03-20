@@ -1,4 +1,3 @@
-import { allCollections } from '@/data/data'
 import { WordCollection } from '@/types/types'
 import { create } from 'zustand'
 

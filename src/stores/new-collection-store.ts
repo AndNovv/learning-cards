@@ -1,12 +1,12 @@
 import { allCollections } from '@/data/data'
-import { FlashCard, WordCollection } from '@/types/types'
+import { FlashCardType } from '@/types/types'
 import { create } from 'zustand'
 
 export type NewCollectionState = {
     id: number,
     title: string | undefined,
     author: string | undefined,
-    flashcards: FlashCard[]
+    flashcards: FlashCardType[]
 }
 
 export const useNewCollectionStore = create<NewCollectionState>()(() => ({
@@ -16,7 +16,7 @@ export const useNewCollectionStore = create<NewCollectionState>()(() => ({
     flashcards: [],
 }))
 
-export const addFlashCardToNewCollection = (flashcard: FlashCard) => {
+export const addFlashCardToNewCollection = (flashcard: FlashCardType) => {
     useNewCollectionStore.setState((state) => {
         return {
             ...state,
@@ -27,7 +27,7 @@ export const addFlashCardToNewCollection = (flashcard: FlashCard) => {
 
 export const deleteFlashCardFromNewCollection = (flashCardIndex: number) => {
     useNewCollectionStore.setState((state) => {
-        const newFlashcards: FlashCard[] = [...state.flashcards]
+        const newFlashcards: FlashCardType[] = [...state.flashcards]
         newFlashcards.splice(flashCardIndex, 1)
         return {
             ...state,
@@ -36,9 +36,9 @@ export const deleteFlashCardFromNewCollection = (flashCardIndex: number) => {
     })
 }
 
-export const editFlashCardFromNewCollection = (flashCardIndex: number, flashcard: FlashCard) => {
+export const editFlashCardFromNewCollection = (flashCardIndex: number, flashcard: FlashCardType) => {
     useNewCollectionStore.setState((state) => {
-        const newFlashcards: FlashCard[] = [...state.flashcards]
+        const newFlashcards: FlashCardType[] = [...state.flashcards]
         newFlashcards[flashCardIndex] = flashcard
         return {
             ...state,

@@ -1,5 +1,5 @@
 
-export type FlashCard = {
+export type FlashCardType = {
     english: string
     russian: string
 }
@@ -8,5 +8,5 @@ export type WordCollection = {
     id: number
     title: string
     author: string
-    flashcards: FlashCard[]
+    flashcards: FlashCardType[]
 }

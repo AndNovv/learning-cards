@@ -6,9 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { FlashCard } from '@/types/types'
+import { FlashCardType } from '@/types/types'
 
-const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCard }) => {
+const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
     return (
         <Card className='flex-grow'>
             <CardHeader>
