@@ -16,20 +16,20 @@ export const addFavouriteCollection = (collection: WordCollection) => {
   })
 }
 
-export const deleteFavouriteCollection = (collectionId: number) => {
+export const deleteFavouriteCollection = (collectionId: string) => {
   useFavouriteCollectionsStore.setState((state) => {
-    const newFavouriteCollections = [...state.favouriteCollections].filter((item) => item.id !== collectionId)
+    const newFavouriteCollections = [...state.favouriteCollections].filter((item) => item._id !== collectionId)
     return { favouriteCollections: newFavouriteCollections }
   })
 }
 
 
 // Collection
-export const addFlashCardToCollection = (collectionId: number, flashcard: FlashCardType) => {
+export const addFlashCardToCollection = (collectionId: string, flashcard: FlashCardType) => {
   useFavouriteCollectionsStore.setState((state) => {
     const newFavouriteCollections = [...state.favouriteCollections]
     for (let i = 0; i < newFavouriteCollections.length; i++) {
-      if (newFavouriteCollections[i].id === collectionId) {
+      if (newFavouriteCollections[i]._id === collectionId) {
         const newFlashcards = newFavouriteCollections[i].flashcards
         newFlashcards.push(flashcard)
         newFavouriteCollections[i] = { ...newFavouriteCollections[i], flashcards: newFlashcards }
@@ -41,11 +41,11 @@ export const addFlashCardToCollection = (collectionId: number, flashcard: FlashC
   })
 }
 
-export const deleteFlashCardFromCollection = (collectionId: number, flashcardIndex: number) => {
+export const deleteFlashCardFromCollection = (collectionId: string, flashcardIndex: number) => {
   useFavouriteCollectionsStore.setState((state) => {
     const newFavouriteCollections = [...state.favouriteCollections]
     for (let i = 0; i < newFavouriteCollections.length; i++) {
-      if (newFavouriteCollections[i].id === collectionId) {
+      if (newFavouriteCollections[i]._id === collectionId) {
         const newFlashcards = newFavouriteCollections[i].flashcards
         newFlashcards.splice(flashcardIndex, 1)
         newFavouriteCollections[i] = { ...newFavouriteCollections[i], flashcards: newFlashcards }
@@ -57,11 +57,11 @@ export const deleteFlashCardFromCollection = (collectionId: number, flashcardInd
   })
 }
 
-export const editFlashCardFromCollection = (collectionId: number, flashcardIndex: number, flashcard: FlashCardType) => {
+export const editFlashCardFromCollection = (collectionId: string, flashcardIndex: number, flashcard: FlashCardType) => {
   useFavouriteCollectionsStore.setState((state) => {
     const newFavouriteCollections = [...state.favouriteCollections]
     for (let i = 0; i < newFavouriteCollections.length; i++) {
-      if (newFavouriteCollections[i].id === collectionId) {
+      if (newFavouriteCollections[i]._id === collectionId) {
         const newFlashcards = newFavouriteCollections[i].flashcards
         newFlashcards[flashcardIndex] = flashcard
         newFavouriteCollections[i] = { ...newFavouriteCollections[i], flashcards: newFlashcards }

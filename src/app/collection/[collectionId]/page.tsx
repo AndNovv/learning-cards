@@ -1,6 +1,5 @@
 "use client"
 import CollectionWords from '@/components/Collection/CollectionWords'
-import CollectionWordsPreview from '@/components/CreateCollection/CollectionWordsPreview'
 import { useFavouriteCollectionsStore } from '@/stores/favourites-store'
 import React from 'react'
 
@@ -10,7 +9,7 @@ const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) 
 
     const findCollection = () => {
         for (let i = 0; i < favouriteCollections.length; i++) {
-            if (favouriteCollections[i].id === Number(params.collectionId)) {
+            if (favouriteCollections[i]._id === params.collectionId) {
                 return favouriteCollections[i]
             }
         }

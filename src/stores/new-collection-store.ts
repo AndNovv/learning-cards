@@ -1,16 +1,13 @@
-import { allCollections } from '@/data/data'
 import { FlashCardType } from '@/types/types'
 import { create } from 'zustand'
 
 export type NewCollectionState = {
-    id: number,
     title: string | undefined,
     author: string | undefined,
     flashcards: FlashCardType[]
 }
 
 export const useNewCollectionStore = create<NewCollectionState>()(() => ({
-    id: allCollections.length,
     title: undefined,
     author: 'user',
     flashcards: [],
@@ -50,7 +47,6 @@ export const editFlashCardFromNewCollection = (flashCardIndex: number, flashcard
 export const resetNewCollection = () => {
     useNewCollectionStore.setState(() => {
         return {
-            id: allCollections.length + 1,
             author: 'user',
             title: undefined,
             flashcards: [],

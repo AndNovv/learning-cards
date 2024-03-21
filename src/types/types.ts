@@ -5,7 +5,7 @@ export type FlashCardType = {
 }
 
 export type WordCollection = {
-    id: number
+    _id: string
     title: string
     author: string
     flashcards: FlashCardType[]

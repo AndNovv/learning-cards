@@ -4,11 +4,27 @@ import NewWordCardInput from '@/components/CreateCollection/NewWordCardInput'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { allCollections } from '@/data/data'
 import { addFavouriteCollection } from '@/stores/favourites-store'
 import { resetNewCollection, useNewCollectionStore } from '@/stores/new-collection-store'
-import { WordCollection } from '@/types/types'
+import { FlashCardType, WordCollection } from '@/types/types'
 import React, { useRef } from 'react'
+
+async function createCollection(title: string, flashcards: FlashCardType[]) {
+
+    const request = { title, flashcards }
+    const response = await fetch('http://localhost:3000/api/collections/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(request)
+    });
+
+    const result: WordCollection = await response.json()
+    console.log(result)
+    addFavouriteCollection(result)
+    return result
+}
 
 const CreateCollectionPage = () => {
 
@@ -18,18 +34,11 @@ const CreateCollectionPage = () => {
 
     const { flashcards } = useNewCollectionStore((state) => state)
 
-    const handleCreateCollectionButtonClick = () => {
+    const handleSubmitNewWordCollection = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         if (nameInputRef.current?.value) {
             if (flashcards.length >= 5) {
-                console.log('success')
-                const collection: WordCollection = {
-                    id: allCollections.length,
-                    author: 'user',
-                    title: nameInputRef.current.value,
-                    flashcards: flashcards
-                }
-                addFavouriteCollection(collection)
-                allCollections.push(collection)
+                createCollection(nameInputRef.current.value, flashcards)
                 resetNewCollection()
                 nameInputRef.current.value = ''
             }
@@ -53,10 +62,10 @@ const CreateCollectionPage = () => {
     return (
         <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1'>
             <h2 className='text-2xl mb-4'>Создание новой Коллекции</h2>
-            <div className='flex flex-row gap-4 mb-8'>
+            <form onSubmit={handleSubmitNewWordCollection} className='flex flex-row gap-4 mb-8'>
                 <Input ref={nameInputRef} placeholder='Введите название Коллекции' />
-                <Button onClick={handleCreateCollectionButtonClick} variant={'outline'}>Создать</Button>
-            </div>
+                <Button type={'submit'} variant={'outline'}>Создать</Button>
+            </form>
             <NewWordCardInput />
             <CollectionWordsPreview flashcards={flashcards} />
         </div>
