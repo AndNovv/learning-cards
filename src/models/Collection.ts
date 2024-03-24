@@ -1,19 +1,19 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-interface Flashcard {
+interface IFlashcard {
     english: string;
     russian: string;
 }
 
 // Define the interface for the collection document
-interface ICollection extends Document {
+export interface ICollection extends Document {
     title: string;
     author: string;
-    flashcards: Flashcard[];
+    flashcards: IFlashcard[];
 }
 
 // Define the mongoose schema
-const CollectionSchema: Schema = new Schema({
+export const CollectionSchema: Schema = new Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     flashcards: [{

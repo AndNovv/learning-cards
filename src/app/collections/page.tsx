@@ -2,26 +2,28 @@ import WordCollectionPreview from '@/components/WordCollectionPreview'
 import { WordCollection } from '@/types/types'
 import React from 'react'
 
-async function fetchCollections() {
-    try {
-        const res = await fetch("http://localhost:3000/api/collections")
-        const collections: WordCollection[] = await res.json()
-        return collections
-    }
-    catch (e) {
-        console.log(e)
-    }
-}
 
 async function AllCollectionsPage() {
 
-    let collections
+    async function fetchCollections() {
+        try {
+            const res = await fetch("http://localhost:3000/api/collection/all", { cache: "no-store" })
+            const collections = await res.json()
+            return collections
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
+    let collections: WordCollection[] | null
     try {
         collections = await fetchCollections()
     }
     catch (e) {
         return <div>Данные не найдены</div>
     }
+
 
     if (!collections) return <div>Данные не найдены</div>
 

@@ -19,11 +19,13 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
-import { FlashCardType } from "@/types/types"
-import { deleteFlashCardFromNewCollection, editFlashCardFromNewCollection } from "@/stores/new-collection-store"
+import { FlashCardClientType } from "@/types/types"
 import { useRef } from "react"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/state/store"
+import { deleteFlashcard, editFlashcard } from "@/state/newCollection/newCollectionSlice"
 
-const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard: FlashCardType, flashCardIndex: number, isDesktop: boolean }) => {
+const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard: FlashCardClientType, flashcardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
 
     if (isDesktop) {
@@ -46,7 +48,7 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
                             Внесите нужные изменения
                         </DialogDescription>
                     </DialogHeader>
-                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
+                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashcardIndex={flashcardIndex} />
                 </DialogContent>
             </Dialog>
         )
@@ -70,18 +72,20 @@ const SingleCardPreview = ({ flashcard, flashCardIndex, isDesktop }: { flashcard
                     <DrawerDescription>
                         Внесите нужные изменения
                     </DrawerDescription>
-                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
+                    <ModalWindowDialog setOpen={setOpen} flashcard={flashcard} flashcardIndex={flashcardIndex} />
                 </DrawerHeader>
             </DrawerContent>
         </Drawer>
     )
 }
 
-const ModalWindowDialog = ({ setOpen, flashcard, flashCardIndex }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashCardIndex: number }) => {
+const ModalWindowDialog = ({ setOpen, flashcard, flashcardIndex }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardClientType, flashcardIndex: number }) => {
 
 
     const englishModalInputRef = useRef<HTMLInputElement>(null)
     const russianModalInputRef = useRef<HTMLInputElement>(null)
+
+    const dispatch = useDispatch<AppDispatch>()
 
     return (
         <form
@@ -89,13 +93,13 @@ const ModalWindowDialog = ({ setOpen, flashcard, flashCardIndex }: { setOpen: Re
                 e.preventDefault()
                 setOpen(false)
                 if (englishModalInputRef.current?.value && russianModalInputRef.current?.value) {
-                    editFlashCardFromNewCollection(flashCardIndex, { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value })
+                    dispatch(editFlashcard({ flashcardIndex, flashcard: { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value } }))
                 }
             }}
             onReset={(e: React.FormEvent) => {
                 e.preventDefault()
                 setOpen(false)
-                deleteFlashCardFromNewCollection(flashCardIndex)
+                dispatch(deleteFlashcard(flashcardIndex))
             }}
             className="flex flex-col mt-2"
         >

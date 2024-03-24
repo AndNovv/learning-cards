@@ -2,9 +2,9 @@
 import useMediaQuery from '@/hooks/useMediaQuery'
 import React from 'react'
 import SingleCardPreview from './SingleCardPreview'
-import { FlashCardType } from '@/types/types'
+import { FlashCardClientType } from '@/types/types'
 
-const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardType[] }) => {
+const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardClientType[] }) => {
 
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -12,7 +12,7 @@ const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardType[] })
         <div className='flex flex-col divide-y-2'>
             {flashcards.map((flashcard, index) => {
                 return (
-                    <SingleCardPreview key={`flashcardPreview${index}`} flashcard={flashcard} flashCardIndex={index} isDesktop={isDesktop} />
+                    <SingleCardPreview key={`flashcardPreview${index}`} flashcard={flashcard} flashcardIndex={index} isDesktop={isDesktop} />
                 )
             })}
         </div>

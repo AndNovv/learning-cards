@@ -3,9 +3,13 @@ import React, { useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { MoveHorizontal, Plus } from 'lucide-react'
-import { addFlashCardToNewCollection } from '@/stores/new-collection-store'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/state/store'
+import { addFlashcard } from '@/state/newCollection/newCollectionSlice'
 
 const NewWordCardInput = () => {
+
+    const dispatch = useDispatch<AppDispatch>()
 
     const englishWordInputRef = useRef<HTMLInputElement>(null)
     const russianWordInputRef = useRef<HTMLInputElement>(null)
@@ -22,7 +26,7 @@ const NewWordCardInput = () => {
 
         if (english) {
             if (russian) {
-                addFlashCardToNewCollection({ english: english, russian: russian })
+                dispatch(addFlashcard({ english, russian }))
                 englishInputRef.value = ''
                 russianInputRef.value = ''
                 wordsOrderReversed ? englishInputRef?.focus() : russianInputRef?.focus()

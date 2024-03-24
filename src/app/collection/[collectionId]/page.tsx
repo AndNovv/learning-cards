@@ -1,11 +1,14 @@
 "use client"
 import CollectionWords from '@/components/Collection/CollectionWords'
-import { useFavouriteCollectionsStore } from '@/stores/favourites-store'
+import { RootState } from '@/state/store';
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) => {
 
-    const { favouriteCollections } = useFavouriteCollectionsStore((state) => state)
+    const { user, loading, error } = useSelector((state: RootState) => state.user);
+    const favouriteCollections = user.collections
+
 
     const findCollection = () => {
         for (let i = 0; i < favouriteCollections.length; i++) {

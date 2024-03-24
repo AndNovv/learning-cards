@@ -12,7 +12,7 @@ const CollectionWord = ({ collection }: { collection: WordCollection }) => {
         <div className='flex flex-col divide-y-2'>
             {collection.flashcards.map((flashcard, index) => {
                 return (
-                    <ExistingCollectionWordPreview key={`flashcardPreview${index}`} collectionId={collection.id} flashcard={flashcard} flashCardIndex={index} isDesktop={isDesktop} />
+                    <ExistingCollectionWordPreview key={`flashcardPreview${index}`} collectionId={collection._id} flashcard={flashcard} flashCardIndex={index} isDesktop={isDesktop} />
                 )
             })}
         </div>

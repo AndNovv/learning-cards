@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 import NavigationMenu from "@/components/Layout/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { NextAuthProvider } from "@/providers/NextAuthProvider"
+import StoreProvider from "@/providers/StoreProvider";
+import UserProvider from "@/providers/UserProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,23 +26,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, 'flex flex-row')}>
+        <StoreProvider>
+          <NextAuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <UserProvider>
+                <AsideMenu />
+                <main className="flex flex-col w-full">
 
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AsideMenu />
-          <main className="flex flex-col w-full">
+                  <NavigationMenu />
+                  <div className="px-10 py-6">
+                    {children}
+                  </div>
+                </main>
+                <Toaster />
+              </UserProvider>
 
-            <NavigationMenu />
-            <div className="px-10 py-6">
-              {children}
-            </div>
-          </main>
-          <Toaster />
-        </ThemeProvider>
+            </ThemeProvider>
+          </NextAuthProvider>
+        </StoreProvider>
       </body>
     </html >
   );

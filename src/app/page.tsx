@@ -1,21 +1,23 @@
 import FlashCard from "@/components/FlashCard";
+import { ICollection } from "@/models/Collection";
 import { WordCollection } from "@/types/types";
-
-async function fetchCollections() {
-  try {
-    const res = await fetch("http://localhost:3000/api/collections")
-    const collections: WordCollection[] = await res.json()
-    return collections
-  }
-  catch (e) {
-    console.log(e)
-  }
-}
 
 
 export default async function Home() {
 
-  let collections
+  async function fetchCollections() {
+    try {
+      const res = await fetch("http://localhost:3000/api/collection/all")
+      const collections = await res.json()
+      console.log('Коллекция', collections)
+      return collections._doc
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  let collections: ICollection[]
   try {
     collections = await fetchCollections()
   }
@@ -27,6 +29,7 @@ export default async function Home() {
 
   const collection = collections[1]
 
+
   return (
     <main className="flex flex-col px-10 py-4">
 
@@ -37,6 +40,7 @@ export default async function Home() {
           )
         })}
       </section>
+
     </main>
   );
 }

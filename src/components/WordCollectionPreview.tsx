@@ -11,18 +11,25 @@ import {
 } from "@/components/ui/card"
 import { Star } from 'lucide-react'
 import { Button } from './ui/button'
-import { addFavouriteCollection, deleteFavouriteCollection, useFavouriteCollectionsStore } from '@/stores/favourites-store'
+import { useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/state/store'
+import { useDispatch } from 'react-redux'
+import { addCollectionToUser, deleteCollectionFromUser } from '@/state/user/userSlice'
 
 const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollection }) => {
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const { user, loading, error } = useSelector((state: RootState) => state.user);
+    const favouriteCollections = user.collections
 
     const previewFlashCards = [...wordCollection.flashcards]
     previewFlashCards.length = 7
 
-    const { favouriteCollections } = useFavouriteCollectionsStore((state) => state)
 
     const isFavouriteFn = () => {
         for (let i = 0; i < favouriteCollections.length; i++) {
-            if (favouriteCollections[i].id === wordCollection.id) {
+            if (favouriteCollections[i]._id === wordCollection._id) {
                 return true
             }
         }
@@ -33,10 +40,10 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
 
     const handleFavoutiteButtonClick = () => {
         if (isFavourite) {
-            deleteFavouriteCollection(wordCollection.id)
+            dispatch(deleteCollectionFromUser(wordCollection._id))
         }
         else {
-            addFavouriteCollection(wordCollection)
+            dispatch(addCollectionToUser(wordCollection))
         }
     }
 

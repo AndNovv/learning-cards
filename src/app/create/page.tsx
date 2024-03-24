@@ -4,42 +4,32 @@ import NewWordCardInput from '@/components/CreateCollection/NewWordCardInput'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { addFavouriteCollection } from '@/stores/favourites-store'
-import { resetNewCollection, useNewCollectionStore } from '@/stores/new-collection-store'
-import { FlashCardType, WordCollection } from '@/types/types'
+import { resetCollection } from '@/state/newCollection/newCollectionSlice'
+import { AppDispatch, RootState } from '@/state/store'
+import { createNewCollectionAndAddToUser } from '@/state/user/userSlice'
 import React, { useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-async function createCollection(title: string, flashcards: FlashCardType[]) {
-
-    const request = { title, flashcards }
-    const response = await fetch('http://localhost:3000/api/collections/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(request)
-    });
-
-    const result: WordCollection = await response.json()
-    console.log(result)
-    addFavouriteCollection(result)
-    return result
-}
 
 const CreateCollectionPage = () => {
+
+    const { user, loading, error } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch<AppDispatch>()
 
     const { toast } = useToast()
 
     const nameInputRef = useRef<HTMLInputElement>(null)
 
-    const { flashcards } = useNewCollectionStore((state) => state)
+    const newCollection = useSelector((state: RootState) => state.newCollection)
+    const flashcards = newCollection.flashcards
 
     const handleSubmitNewWordCollection = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (nameInputRef.current?.value) {
             if (flashcards.length >= 5) {
-                createCollection(nameInputRef.current.value, flashcards)
-                resetNewCollection()
+                dispatch(createNewCollectionAndAddToUser({ userId: user._id, collection: { title: nameInputRef.current.value, author: user.name, flashcards } }))
+                dispatch(resetCollection())
                 nameInputRef.current.value = ''
             }
             else {

@@ -20,12 +20,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
 import { FlashCardType } from "@/types/types"
-import { deleteFlashCardFromNewCollection, editFlashCardFromNewCollection } from "@/stores/new-collection-store"
 import { useRef } from "react"
-import { deleteFlashCardFromCollection, editFlashCardFromCollection } from "@/stores/favourites-store"
 
-const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex, isDesktop }: { collectionId: number, flashcard: FlashCardType, flashCardIndex: number, isDesktop: boolean }) => {
+const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex, isDesktop }: { collectionId: string, flashcard: FlashCardType, flashCardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
+
 
     if (isDesktop) {
         return (
@@ -78,7 +77,7 @@ const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex
     )
 }
 
-const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }: { collectionId: number, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashCardIndex: number }) => {
+const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashCardIndex: number }) => {
 
 
     const englishModalInputRef = useRef<HTMLInputElement>(null)
@@ -90,13 +89,13 @@ const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }:
                 e.preventDefault()
                 setOpen(false)
                 if (englishModalInputRef.current?.value && russianModalInputRef.current?.value) {
-                    editFlashCardFromCollection(collectionId, flashCardIndex, { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value })
+                    // editFlashCardFromCollection(collectionId, flashCardIndex, { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value })
                 }
             }}
             onReset={(e: React.FormEvent) => {
                 e.preventDefault()
                 setOpen(false)
-                deleteFlashCardFromCollection(collectionId, flashCardIndex)
+                // deleteFlashCardFromCollection(collectionId, flashCardIndex)
             }}
             className="flex flex-col mt-2"
         >
