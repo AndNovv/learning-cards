@@ -19,10 +19,13 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
-import { FlashCardType } from "@/types/types"
+import { FlashCardClientType } from "@/types/types"
 import { useRef } from "react"
+import { AppDispatch } from "@/state/store"
+import { useDispatch } from "react-redux"
+import { deleteFlashcard, editFlashcard } from "@/state/editedCollection/editedCollectionSlice"
 
-const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex, isDesktop }: { collectionId: string, flashcard: FlashCardType, flashCardIndex: number, isDesktop: boolean }) => {
+const EditableExistingCollectionWordPreview = ({ collectionId, flashcard, flashcardIndex, isDesktop }: { collectionId: string, flashcard: FlashCardClientType, flashcardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
 
 
@@ -46,7 +49,7 @@ const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex
                             Внесите нужные изменения
                         </DialogDescription>
                     </DialogHeader>
-                    <ModalWindowDialog collectionId={collectionId} setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
+                    <ModalWindowDialog collectionId={collectionId} setOpen={setOpen} flashcard={flashcard} flashcardIndex={flashcardIndex} />
                 </DialogContent>
             </Dialog>
         )
@@ -70,15 +73,16 @@ const ExistingCollectionWordPreview = ({ collectionId, flashcard, flashCardIndex
                     <DrawerDescription>
                         Внесите нужные изменения
                     </DrawerDescription>
-                    <ModalWindowDialog collectionId={collectionId} setOpen={setOpen} flashcard={flashcard} flashCardIndex={flashCardIndex} />
+                    <ModalWindowDialog collectionId={collectionId} setOpen={setOpen} flashcard={flashcard} flashcardIndex={flashcardIndex} />
                 </DrawerHeader>
             </DrawerContent>
         </Drawer>
     )
 }
 
-const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashCardIndex: number }) => {
+const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardClientType, flashcardIndex: number }) => {
 
+    const dispatch = useDispatch<AppDispatch>()
 
     const englishModalInputRef = useRef<HTMLInputElement>(null)
     const russianModalInputRef = useRef<HTMLInputElement>(null)
@@ -89,13 +93,13 @@ const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }:
                 e.preventDefault()
                 setOpen(false)
                 if (englishModalInputRef.current?.value && russianModalInputRef.current?.value) {
-                    // editFlashCardFromCollection(collectionId, flashCardIndex, { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value })
+                    dispatch(editFlashcard({ flashcardIndex, flashcard: { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value } }))
                 }
             }}
             onReset={(e: React.FormEvent) => {
                 e.preventDefault()
                 setOpen(false)
-                // deleteFlashCardFromCollection(collectionId, flashCardIndex)
+                dispatch(deleteFlashcard(flashcardIndex))
             }}
             className="flex flex-col mt-2"
         >
@@ -121,4 +125,4 @@ const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashCardIndex }:
     )
 }
 
-export default ExistingCollectionWordPreview 
+export default EditableExistingCollectionWordPreview 

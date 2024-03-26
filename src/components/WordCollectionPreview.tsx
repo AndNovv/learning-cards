@@ -27,14 +27,9 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
     previewFlashCards.length = 7
 
 
-    const isFavouriteFn = () => {
-        for (let i = 0; i < favouriteCollections.length; i++) {
-            if (favouriteCollections[i]._id === wordCollection._id) {
-                return true
-            }
-        }
-        return false
-    }
+    const isFavouriteFn = () => favouriteCollections.findIndex((element) => {
+        return element._id == wordCollection._id
+    }) !== -1
 
     const isFavourite = isFavouriteFn()
 

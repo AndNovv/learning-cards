@@ -12,10 +12,6 @@ const navLinks = [
         title: 'Изучение'
     },
     {
-        href: '/duels',
-        title: 'Дуэли'
-    },
-    {
         href: '/collections',
         title: 'Коллекции карточек'
     },
@@ -27,7 +23,7 @@ const navLinks = [
 
 const NavigationMenu = () => {
     return (
-        <header className='z-10 sticky top-0 flex flex-row items-center justify-between px-10 py-4 bg-gradient-to-b from-background from-70% to-transparent'>
+        <header className='z-10 flex flex-row items-center px-10 py-6 bg-gradient-to-b from-background from-70% to-transparent'>
             <nav>
                 <ul className="flex flex-row gap-4 items-center">
                     {navLinks.map((link, index) => {
@@ -40,7 +36,6 @@ const NavigationMenu = () => {
                     }
                 </ul>
             </nav>
-            <ModeToggle />
         </header>
     )
 }

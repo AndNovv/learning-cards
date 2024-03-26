@@ -1,31 +1,18 @@
 import FlashCard from "@/components/FlashCard";
-import { ICollection } from "@/models/Collection";
 import { WordCollection } from "@/types/types";
 
 
 export default async function Home() {
 
-  async function fetchCollections() {
-    try {
-      const res = await fetch("http://localhost:3000/api/collection/all")
-      const collections = await res.json()
-      console.log('Коллекция', collections)
-      return collections._doc
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  let collections: ICollection[]
+  let collections: WordCollection[]
   try {
-    collections = await fetchCollections()
+    collections = []
   }
   catch (e) {
     return <div>Данные не найдены</div>
   }
 
-  if (!collections) return <div>Данные не найдены</div>
+  if (!collections.length) return <div>Данные не найдены</div>
 
   const collection = collections[1]
 

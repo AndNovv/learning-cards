@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import NavigationMenu from "@/components/Layout/NavigationMenu";
+import NavigationMenu from "@/components/Navigation/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -36,10 +36,10 @@ export default function RootLayout({
             >
               <UserProvider>
                 <AsideMenu />
-                <main className="flex flex-col w-full">
+                <main className="flex flex-col w-full h-screen">
 
                   <NavigationMenu />
-                  <div className="px-10 py-6">
+                  <div className="relative flex-1 px-10 py-2 overflow-hidden">
                     {children}
                   </div>
                 </main>

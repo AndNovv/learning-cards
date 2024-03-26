@@ -1,4 +1,4 @@
-import { WordCollection, WordCollectionClient } from "@/types/types"
+import { FlashCardClientType, FlashCardType, WordCollection, WordCollectionClient } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 interface User {
@@ -37,6 +37,10 @@ const userSlice = createSlice({
             const index = state.user.collections.findIndex((element) => element._id === action.payload)
             state.user.collections.splice(index, 1)
             deleteCollectionFromUserDB(state.user._id, action.payload)
+        },
+        editCollection: (state, action: PayloadAction<WordCollection>) => {
+            const index = state.user.collections.findIndex((element) => element._id === action.payload._id)
+            state.user.collections[index] = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -128,9 +132,9 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
                 body: JSON.stringify(request)
             })
             if (response.ok) {
-                const newCollection: WordCollection = await response.json()
+                const newCollection = await response.json()
                 await addCollectionToUserDB(userId, newCollection._id)
-                return newCollection
+                return newCollection as WordCollection
             }
             else {
                 console.log("Ошибка добавления новой коллекции")
@@ -162,6 +166,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { addCollectionToUser, deleteCollectionFromUser } = userSlice.actions
+export const { addCollectionToUser, deleteCollectionFromUser, editCollection } = userSlice.actions
 
 export default userSlice.reducer

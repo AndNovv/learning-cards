@@ -19,7 +19,7 @@ export const CollectionSchema: Schema = new Schema({
     flashcards: [{
         english: { type: String, required: true },
         russian: { type: String, required: true }
-    }]
+    }],
 });
 
 const Collection = mongoose.models.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)

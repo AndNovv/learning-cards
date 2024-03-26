@@ -1,13 +1,13 @@
 "use client"
 import React, { useRef, useState } from 'react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
 import { MoveHorizontal, Plus } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/state/store'
-import { addFlashcard } from '@/state/newCollection/newCollectionSlice'
+import { addFlashcard } from '@/state/editedCollection/editedCollectionSlice'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
-const NewWordCardInput = () => {
+const EditNewWordCardInput = () => {
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -47,7 +47,6 @@ const NewWordCardInput = () => {
 
     return (
         <div className='mb-6'>
-            <h2 className='text-xl mb-4'>Добавьте слова в Коллекцию</h2>
             <form onSubmit={handleSubmitNewWordCard} className='flex flex-row gap-4'>
                 <div className='flex flex-row gap-4 flex-1'>
                     <Input className={wordsOrderReversed ? 'order-first' : 'order-last'} placeholder='Русский' ref={russianWordInputRef} />
@@ -62,4 +61,4 @@ const NewWordCardInput = () => {
     )
 }
 
-export default NewWordCardInput
+export default EditNewWordCardInput

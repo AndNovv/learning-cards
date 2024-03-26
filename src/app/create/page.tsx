@@ -7,6 +7,8 @@ import { useToast } from '@/components/ui/use-toast'
 import { resetCollection } from '@/state/newCollection/newCollectionSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { createNewCollectionAndAddToUser } from '@/state/user/userSlice'
+import { WordCollection } from '@/types/types'
+import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -19,18 +21,28 @@ const CreateCollectionPage = () => {
 
     const { toast } = useToast()
 
-    const nameInputRef = useRef<HTMLInputElement>(null)
+    const router = useRouter()
+
+    const titleInputRef = useRef<HTMLInputElement>(null)
 
     const newCollection = useSelector((state: RootState) => state.newCollection)
     const flashcards = newCollection.flashcards
 
+
+    const createNewCollection = async (title: string) => {
+        const newCollection = await dispatch(createNewCollectionAndAddToUser({ userId: user._id, collection: { title: title, author: user.name, flashcards } })).unwrap()
+        if (newCollection) {
+            router.push(`/collection/${newCollection._id}`)
+        }
+    }
+
     const handleSubmitNewWordCollection = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (nameInputRef.current?.value) {
+        if (titleInputRef.current?.value) {
             if (flashcards.length >= 5) {
-                dispatch(createNewCollectionAndAddToUser({ userId: user._id, collection: { title: nameInputRef.current.value, author: user.name, flashcards } }))
+                createNewCollection(titleInputRef.current.value)
                 dispatch(resetCollection())
-                nameInputRef.current.value = ''
+                titleInputRef.current.value = ''
             }
             else {
                 toast({
@@ -43,17 +55,17 @@ const CreateCollectionPage = () => {
             toast({
                 title: "Сначала введите имя вашей коллекции",
             })
-            if (nameInputRef.current) {
-                nameInputRef.current.focus()
+            if (titleInputRef.current) {
+                titleInputRef.current.focus()
             }
         }
     }
 
     return (
-        <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1'>
+        <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1 h-full'>
             <h2 className='text-2xl mb-4'>Создание новой Коллекции</h2>
             <form onSubmit={handleSubmitNewWordCollection} className='flex flex-row gap-4 mb-8'>
-                <Input ref={nameInputRef} placeholder='Введите название Коллекции' />
+                <Input ref={titleInputRef} placeholder='Введите название Коллекции' />
                 <Button type={'submit'} variant={'outline'}>Создать</Button>
             </form>
             <NewWordCardInput />

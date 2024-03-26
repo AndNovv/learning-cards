@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/mongo/dbConnect";
-import User from "@/models/User";
+import User, { IUser } from "@/models/User";
+import Collection, { ICollection } from "@/models/Collection"
 import { NextRequest } from "next/server";
 
 
@@ -7,9 +8,17 @@ import { NextRequest } from "next/server";
 export async function GET(_request: NextRequest, { params }: { params: { email: string } }) {
     try {
         await dbConnect()
-        const user = await User.findOne({ email: params.email }).populate('collections').lean()
+
+        const user: IUser | null = await User.findOne({ email: params.email }).lean()
+
         if (user) {
-            return Response.json(user)
+
+            const collectionIds = user.collections
+            const collections: ICollection[] = await Collection.find({ _id: { $in: collectionIds } }).lean()
+
+            const result = { ...user, collections }
+            return Response.json(result)
+
         }
         return Response.json("Пользователь не найден")
     }

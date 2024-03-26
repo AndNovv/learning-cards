@@ -1,14 +1,16 @@
 "use client"
-import CollectionWords from '@/components/Collection/CollectionWords'
-import { RootState } from '@/state/store';
-import React from 'react'
+import React, { useState } from 'react'
+import EditableCollectionPage from '@/components/Collection/Editable/EditableCollectionPage';
+import CollectionPage from '@/components/Collection/Preview/CollectionPage';
 import { useSelector } from 'react-redux';
+import { RootState } from '@/state/store';
 
 const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) => {
 
+    const [editing, setEditing] = useState(false)
+
     const { user, loading, error } = useSelector((state: RootState) => state.user);
     const favouriteCollections = user.collections
-
 
     const findCollection = () => {
         for (let i = 0; i < favouriteCollections.length; i++) {
@@ -21,14 +23,13 @@ const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) 
 
     const collection = findCollection()
 
-    if (!collection) return <div>Коллекция с таким номером не найдена</div>
+    if (!collection) return <div>Такой коллекции не существует</div>
+
 
     return (
-        <div className='flex flex-col xl:px-60 lg:px-40 md:px-20 px-1'>
-            <h1 className='text-xl mt-2'>{collection.title}</h1>
-            <p className='text-muted-foreground mt-2 mb-4'>{`Автор: ${collection.author}`}</p>
-            <CollectionWords collection={collection} />
-        </div>
+        <>
+            {editing ? <EditableCollectionPage collection={collection} setEditing={setEditing} /> : <CollectionPage collection={collection} setEditing={setEditing} />}
+        </>
     )
 }
 

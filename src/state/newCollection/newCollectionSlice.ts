@@ -21,15 +21,12 @@ const newCollectionSlice = createSlice({
             state.flashcards[action.payload.flashcardIndex].english = action.payload.flashcard.english
             state.flashcards[action.payload.flashcardIndex].russian = action.payload.flashcard.russian
         },
-        resetCollection: (state) => {
-            console.log('reset')
+        resetCollection: () => {
             return {
                 title: '',
                 author: '',
                 flashcards: []
             }
-            state.flashcards = []
-            state.title = ''
         }
     }
 })
