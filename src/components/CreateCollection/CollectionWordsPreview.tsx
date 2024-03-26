@@ -4,6 +4,7 @@ import React from 'react'
 import SingleCardPreview from './SingleCardPreview'
 import { FlashCardClientType } from '@/types/types'
 import { ScrollArea } from '../ui/scroll-area'
+import { motion } from 'framer-motion'
 
 const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardClientType[] }) => {
 
@@ -11,13 +12,31 @@ const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardClientTyp
 
     return (
         <ScrollArea className='h-full'>
-            <div className='flex flex-col divide-y-2'>
+            <motion.div
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                    ease: "linear",
+                    duration: 0.2,
+                }}
+                className='flex flex-col divide-y-2'>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
-                        <SingleCardPreview key={`flashcardPreview${index}`} flashcard={flashcard} flashcardIndex={flashcards.length - index - 1} isDesktop={isDesktop} />
+                        <motion.div
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{
+                                ease: "linear",
+                                duration: 0.2,
+                            }}
+                            key={`flashcardPreview-${flashcard.english}`} >
+                            <SingleCardPreview flashcard={flashcard} flashcardIndex={flashcards.length - index - 1} isDesktop={isDesktop} />
+                        </motion.div>
                     )
                 })}
-            </div>
+            </motion.div>
         </ScrollArea>
     )
 }

@@ -4,6 +4,7 @@ import React from 'react'
 import EditableExistingCollectionWordPreview from './EditableExistingWordPreview'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { EditedWordCollection } from '@/state/editedCollection/editedCollectionSlice'
+import { motion } from 'framer-motion'
 
 const EditableCollectionWords = ({ collection }: { collection: EditedWordCollection }) => {
 
@@ -17,13 +18,33 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
 
     return (
         <ScrollArea className='h-full'>
-            <div className='flex flex-col divide-y-2'>
+            <motion.div
+                layout
+                transition={{
+                    ease: "linear",
+                    duration: 2,
+                    x: { duration: 1 }
+                }}
+
+                className='flex flex-col divide-y-2'
+            >
                 {collection.flashcards.slice().reverse().map((flashcard, index) => {
                     return (
-                        <EditableExistingCollectionWordPreview key={`flashcardPreview${index}`} collectionId={collectionId} flashcard={flashcard} flashcardIndex={collection.flashcards.length - index - 1} isDesktop={isDesktop} />
+                        <motion.div
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{
+                                ease: "linear",
+                                duration: 0.2,
+                            }}
+                            key={`flashcardPreview-${flashcard.english}-${flashcard.russian}`}
+                        >
+                            <EditableExistingCollectionWordPreview collectionId={collectionId} flashcard={flashcard} flashcardIndex={collection.flashcards.length - index - 1} isDesktop={isDesktop} />
+                        </motion.div>
                     )
                 })}
-            </div>
+            </motion.div>
         </ScrollArea>
     )
 }
