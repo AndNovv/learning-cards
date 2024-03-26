@@ -25,7 +25,6 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
                     duration: 2,
                     x: { duration: 1 }
                 }}
-
                 className='flex flex-col divide-y-2'
             >
                 {collection.flashcards.slice().reverse().map((flashcard, index) => {

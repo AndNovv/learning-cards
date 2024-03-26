@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import CancelButtonWithAlert from './CancelButtonWithAlert';
+import DeleteButtonWithAlert from './DeleteButtonWithAlert';
 
 const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCollection, setEditing: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
@@ -35,11 +37,6 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
         }
     }
 
-    const handleResetClick = () => {
-        dispatch(resetCollection())
-        setEditing(false)
-    }
-
     const handleDeleteClick = () => {
         if (editedCollection.collectionId) {
             router.push('/')
@@ -48,6 +45,10 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
         }
     }
 
+    const handleResetClick = () => {
+        dispatch(resetCollection())
+        setEditing(false)
+    }
 
     return (
         <div className='relative flex flex-col xl:px-60 lg:px-40 md:px-20 px-1 h-full'>
@@ -59,11 +60,9 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
                     </div>
 
                     <div className='flex flex-row gap-2 items-center'>
-                        <Button variant={'outline'} onClick={handleResetClick}>Отмена</Button>
+                        <CancelButtonWithAlert handleResetClick={handleResetClick} />
                         <Button className='bg-emerald-600 hover:bg-emerald-700' onClick={handleSaveClick}>Сохранить</Button>
-                        <Button onClick={handleDeleteClick} variant={'destructive'} size={'smallIcon'}>
-                            <Trash className='size-5' />
-                        </Button>
+                        <DeleteButtonWithAlert handleDeleteClick={handleDeleteClick} />
                     </div>
 
                 </div>

@@ -31,7 +31,8 @@ const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardClientTyp
                                 ease: "linear",
                                 duration: 0.2,
                             }}
-                            key={`flashcardPreview-${flashcard.english}`} >
+                            key={`flashcardPreview-${flashcard.english}-${flashcard.russian}`}
+                        >
                             <SingleCardPreview flashcard={flashcard} flashcardIndex={flashcards.length - index - 1} isDesktop={isDesktop} />
                         </motion.div>
                     )
