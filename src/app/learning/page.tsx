@@ -1,11 +1,17 @@
+import FlashCard from '@/components/Learning/FlashCard'
+import ForgetButton from '@/components/Learning/ForgetButton'
+import RememberButton from '@/components/Learning/RememberButton'
 import React from 'react'
 
 const Learning = () => {
+
     return (
-        <div className='w-full h-full flex flex-col gap-3 items-center justify-center'>
-            <h1 className='text-3xl'>Изучение</h1>
-            <p className='text-xl mt-4'>В разработке...</p>
-            <p className='text-lg text-muted-foreground'>Здесь вы сможете повторить слова</p>
+        <div className='flex flex-col gap-10 justify-center items-center h-full'>
+            <FlashCard flashcardInfo={{ _id: '', english: 'english', russian: 'russian' }} />
+            <div className='flex flex-row w-1/2 justify-between'>
+                {/* <ForgetButton />
+                <RememberButton /> */}
+            </div>
         </div>
     )
 }

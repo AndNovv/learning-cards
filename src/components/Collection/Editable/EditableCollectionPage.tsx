@@ -6,7 +6,6 @@ import { deleteCollection, initEditedCollection, resetCollection, updateCollecti
 import { AppDispatch, RootState } from '@/state/store';
 import { deleteCollectionFromUser, editCollection } from '@/state/user/userSlice';
 import { WordCollection } from '@/types/types';
-import { Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';

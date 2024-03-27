@@ -15,10 +15,13 @@ import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/state/store'
 import { useDispatch } from 'react-redux'
 import { addCollectionToUser, deleteCollectionFromUser } from '@/state/user/userSlice'
+import { useRouter } from 'next/navigation'
 
 const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollection }) => {
 
     const dispatch = useDispatch<AppDispatch>()
+
+    const router = useRouter()
 
     const { user, loading, error } = useSelector((state: RootState) => state.user);
     const favouriteCollections = user.collections
@@ -65,7 +68,7 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
                 </div>
             </CardContent>
             <CardFooter className='flex justify-between'>
-                <Button variant={'default'} size={'lg'}>
+                <Button variant={'default'} size={'lg'} onClick={() => router.push(`/learning/${wordCollection._id}`)}>
                     Смотреть
                 </Button>
                 <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>

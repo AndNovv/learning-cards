@@ -1,4 +1,4 @@
-import FlashCard from "@/components/FlashCard";
+import FlashCard from "@/components/Learning/FlashCard";
 import { WordCollection } from "@/types/types";
 
 

@@ -50,6 +50,30 @@
   }
 }
 
+.animate-gradient {
+  background-size: 300%;
+  background-repeat: no-repeat;
+}
+
+.flip-card {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  transition: transform 0.2s;
+  transform-style: preserve-3d;
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg)
+}
+
 
 @layer base {
   * {
