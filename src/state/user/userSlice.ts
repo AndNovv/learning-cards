@@ -1,4 +1,4 @@
-import { FlashCardClientType, FlashCardType, WordCollection, WordCollectionClient } from "@/types/types"
+import { WordCollection, WordCollectionClient } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 interface User {
@@ -122,7 +122,7 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
     'user/createNewCollectionAndAddToUser',
     async ({ userId, collection }: { userId: string, collection: WordCollectionClient }) => {
         try {
-            const request = { title: collection.title, author: collection.author, flashcards: collection.flashcards }
+            const request = { title: collection.title, author: collection.author, flashcards: collection.flashcards.map((flashcard) => ({ english: flashcard.english, russian: flashcard.russian })) }
             const response = await fetch('http://localhost:3000/api/collection', {
                 cache: "no-store",
                 method: 'POST',

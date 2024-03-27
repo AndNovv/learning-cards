@@ -6,6 +6,7 @@ import { AppDispatch } from '@/state/store'
 import { addFlashcard } from '@/state/editedCollection/editedCollectionSlice'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import shortid from 'shortid'
 
 const EditNewWordCardInput = () => {
 
@@ -26,7 +27,7 @@ const EditNewWordCardInput = () => {
 
         if (english) {
             if (russian) {
-                dispatch(addFlashcard({ english, russian }))
+                dispatch(addFlashcard({ _id: shortid.generate(), english, russian }))
                 englishInputRef.value = ''
                 russianInputRef.value = ''
                 wordsOrderReversed ? russianInputRef?.focus() : englishInputRef?.focus()

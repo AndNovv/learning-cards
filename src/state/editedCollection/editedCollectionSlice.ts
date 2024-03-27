@@ -1,11 +1,11 @@
-import { FlashCardClientType, FlashCardType, WordCollection } from "@/types/types"
+import { FlashCardDataType, FlashCardType, WordCollection } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 export type EditedWordCollection = {
     collectionId: string | null
     title: string
     author: string
-    flashcards: FlashCardClientType[]
+    flashcards: FlashCardType[]
 }
 
 
@@ -26,13 +26,13 @@ const editedCollectionSlice = createSlice({
             state.collectionId = action.payload.collectionId
             state.flashcards = action.payload.flashcards
         },
-        addFlashcard: (state, action: PayloadAction<FlashCardClientType>) => {
+        addFlashcard: (state, action: PayloadAction<FlashCardType>) => {
             state.flashcards.push(action.payload)
         },
         deleteFlashcard: (state, action: PayloadAction<number>) => {
             state.flashcards.splice(action.payload, 1)
         },
-        editFlashcard: (state, action: PayloadAction<{ flashcardIndex: number, flashcard: FlashCardClientType }>) => {
+        editFlashcard: (state, action: PayloadAction<{ flashcardIndex: number, flashcard: FlashCardDataType }>) => {
             const { flashcardIndex, flashcard } = action.payload
             state.flashcards[flashcardIndex].russian = flashcard.russian
             state.flashcards[flashcardIndex].english = flashcard.english
@@ -66,7 +66,7 @@ const editedCollectionSlice = createSlice({
                     state.collectionId = action.payload._id
                     state.author = action.payload.author
                     state.title = action.payload.title
-                    state.flashcards = action.payload.flashcards.map((element) => ({ english: element.english, russian: element.russian }))
+                    state.flashcards = action.payload.flashcards
                 }
                 else {
                     console.log('Ошибка добавления новой коллекции')
@@ -96,7 +96,7 @@ const deleteCollectionDB = async (collectionId: string, userId: string) => {
 
 export const updateCollection = createAsyncThunk(
     'editedCollection/updateCollection',
-    async ({ collectionId, flashcards }: { collectionId: string, flashcards: FlashCardClientType[] }) => {
+    async ({ collectionId, flashcards }: { collectionId: string, flashcards: FlashCardDataType[] }) => {
         try {
             const request = { flashcards }
             const response = await fetch(`http://localhost:3000/api/collection/${collectionId}`, {

@@ -37,7 +37,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
                                 ease: "linear",
                                 duration: 0.2,
                             }}
-                            key={`flashcardPreview-${flashcard.english}-${flashcard.russian}`}
+                            key={`flashcardPreview${flashcard._id}`}
                         >
                             <EditableExistingCollectionWordPreview collectionId={collectionId} flashcard={flashcard} flashcardIndex={collection.flashcards.length - index - 1} isDesktop={isDesktop} />
                         </motion.div>

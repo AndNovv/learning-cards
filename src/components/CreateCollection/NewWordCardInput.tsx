@@ -6,6 +6,7 @@ import { MoveHorizontal, Plus } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/state/store'
 import { addFlashcard } from '@/state/newCollection/newCollectionSlice'
+import shortid from 'shortid';
 
 const NewWordCardInput = () => {
 
@@ -26,7 +27,7 @@ const NewWordCardInput = () => {
 
         if (english) {
             if (russian) {
-                dispatch(addFlashcard({ english, russian }))
+                dispatch(addFlashcard({ _id: shortid.generate(), english, russian }))
                 englishInputRef.value = ''
                 russianInputRef.value = ''
                 wordsOrderReversed ? russianInputRef?.focus() : englishInputRef?.focus()

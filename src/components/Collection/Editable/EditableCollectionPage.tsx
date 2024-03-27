@@ -31,7 +31,7 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
     const handleSaveClick = async () => {
         setEditing(false)
         if (editedCollection.collectionId) {
-            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, flashcards: editedCollection.flashcards }))
+            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, flashcards: editedCollection.flashcards.map((flashcard) => ({ english: flashcard.english, russian: flashcard.russian })) }))
             dispatch(editCollection(updatedCollection.payload))
         }
     }

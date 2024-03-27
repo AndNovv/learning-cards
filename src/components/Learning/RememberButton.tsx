@@ -25,7 +25,7 @@ const RememberButton = ({ handleButtonClick }: { handleButtonClick: () => void }
                 initial={{ x: 0 }}
                 animate={{ x: hovered ? 10 : 0 }}
                 transition={{ duration: 0.4 }}
-                className='flex gap-2 items-center'
+                className='flex gap-2 items-center select-none'
             >
                 <p>Помню</p>
                 <ChevronRight className='size-8' />

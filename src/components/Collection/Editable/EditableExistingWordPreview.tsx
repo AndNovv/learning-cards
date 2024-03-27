@@ -19,13 +19,13 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
-import { FlashCardClientType } from "@/types/types"
-import { useRef } from "react"
+import { FlashCardDataType, FlashCardType } from "@/types/types"
+import { useEffect, useRef } from "react"
 import { AppDispatch } from "@/state/store"
 import { useDispatch } from "react-redux"
 import { deleteFlashcard, editFlashcard } from "@/state/editedCollection/editedCollectionSlice"
 
-const EditableExistingCollectionWordPreview = ({ collectionId, flashcard, flashcardIndex, isDesktop }: { collectionId: string, flashcard: FlashCardClientType, flashcardIndex: number, isDesktop: boolean }) => {
+const EditableExistingCollectionWordPreview = ({ collectionId, flashcard, flashcardIndex, isDesktop }: { collectionId: string, flashcard: FlashCardType, flashcardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
 
 
@@ -80,12 +80,16 @@ const EditableExistingCollectionWordPreview = ({ collectionId, flashcard, flashc
     )
 }
 
-const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardClientType, flashcardIndex: number }) => {
+const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardDataType, flashcardIndex: number }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
     const englishModalInputRef = useRef<HTMLInputElement>(null)
     const russianModalInputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        englishModalInputRef?.current?.focus()
+    }, [englishModalInputRef])
 
     return (
         <form

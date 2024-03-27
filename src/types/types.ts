@@ -5,7 +5,7 @@ export type FlashCardType = {
     russian: string
 }
 
-export type FlashCardClientType = {
+export type FlashCardDataType = {
     english: string
     russian: string
 }
@@ -20,5 +20,5 @@ export type WordCollection = {
 export type WordCollectionClient = {
     title: string
     author: string
-    flashcards: FlashCardClientType[]
+    flashcards: FlashCardDataType[]
 }
