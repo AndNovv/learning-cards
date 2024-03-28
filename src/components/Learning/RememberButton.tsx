@@ -11,6 +11,7 @@ const RememberButton = ({ handleButtonClick }: { handleButtonClick: () => void }
         <motion.div
             initial={'hovered'}
             animate={hovered ? 'hovered' : 'notHovered'}
+            whileTap={{ scale: 1.1, transition: { duration: 0.1 } }}
             variants={{
                 notHovered: { backgroundPositionX: '65%' },
                 hovered: { backgroundPositionX: '75%' }

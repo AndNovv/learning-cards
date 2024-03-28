@@ -29,6 +29,7 @@ const AsideProfileIcon = ({ description, href }: { description: string, href: st
                 {data?.user?.image &&
                     <Image
                         src={data.user.image}
+                        priority={false}
                         alt="Profile Image"
                         width={60}
                         height={60}
