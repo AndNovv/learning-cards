@@ -1,5 +1,6 @@
 import { WordCollection, WordCollectionClient } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import axios from 'axios'
 
 interface User {
     _id: string
@@ -80,17 +81,7 @@ const userSlice = createSlice({
 const addCollectionToUserDB = async (userId: string, collectionId: string) => {
     try {
         const request = { userId, collectionId }
-        const response = await fetch('http://localhost:3000/api/user/collection', {
-            cache: "no-store",
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(request)
-        })
-        if (!response.ok) {
-            console.log("Ошибка добавления коллекции")
-        }
+        await axios.post(`/api/user/collection`, request)
     }
     catch (e) {
         console.log("Ошибка добавления коллекции")
@@ -100,20 +91,10 @@ const addCollectionToUserDB = async (userId: string, collectionId: string) => {
 const deleteCollectionFromUserDB = async (userId: string, collectionId: string) => {
     try {
         const request = { userId, collectionId }
-        const response = await fetch('http://localhost:3000/api/user/collection', {
-            cache: "no-store",
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(request)
-        })
-        if (!response.ok) {
-            console.log("Ошибка добавления коллекции")
-        }
+        await axios.patch(`/api/user/collection`, request)
     }
     catch (e) {
-        console.log("Ошибка добавления коллекции")
+        console.log("Ошибка удаления коллекции")
     }
 }
 
@@ -123,22 +104,11 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
     async ({ userId, collection }: { userId: string, collection: WordCollectionClient }) => {
         try {
             const request = { title: collection.title, author: collection.author, flashcards: collection.flashcards.map((flashcard) => ({ english: flashcard.english, russian: flashcard.russian })) }
-            const response = await fetch('http://localhost:3000/api/collection', {
-                cache: "no-store",
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(request)
-            })
-            if (response.ok) {
-                const newCollection = await response.json()
-                await addCollectionToUserDB(userId, newCollection._id)
-                return newCollection as WordCollection
-            }
-            else {
-                console.log("Ошибка добавления новой коллекции")
-            }
+            const { data } = await axios.post(`/api/collection`, request)
+            const newCollection: WordCollection = data
+
+            await addCollectionToUserDB(userId, newCollection._id)
+            return newCollection as WordCollection
         }
         catch (e) {
             console.log(e)
@@ -150,13 +120,9 @@ export const fetchUser = createAsyncThunk(
     'user/fetchUser',
     async (email: string) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/user/${email}`, { cache: "no-store" })
-            if (response.ok) {
-                const user = await response.json()
-                return user
-            }
-            else {
-                console.log("Ошибка получения данных о пользователе")
+            const { data, status } = await axios(`/api/user/${email}`)
+            if (status === 200) {
+                return data as User
             }
         }
         catch (e) {

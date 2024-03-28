@@ -1,30 +1,28 @@
+"use client"
 import WordCollectionPreview from '@/components/WordCollectionPreview'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { WordCollection } from '@/types/types'
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 
-async function AllCollectionsPage() {
+const AllCollectionsPage = () => {
+
+    const [collections, setCollections] = useState<WordCollection[] | null>(null)
 
     async function fetchCollections() {
         try {
-            const res = await fetch("http://localhost:3000/api/collection/all", { cache: "no-store" })
-            const collections = await res.json()
-            return collections
+            const { data } = await axios.get(`/api/collection/all`)
+            setCollections(data)
         }
         catch (e) {
             console.log(e)
         }
     }
 
-    let collections: WordCollection[] | null
-    try {
-        collections = await fetchCollections()
-    }
-    catch (e) {
-        return <div>Данные не найдены</div>
-    }
-
+    useEffect(() => {
+        fetchCollections()
+    }, [])
 
     if (!collections) return <div>Данные не найдены</div>
 

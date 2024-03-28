@@ -1,5 +1,6 @@
 import { FlashCardDataType, FlashCardType, WordCollection } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import axios from "axios"
 
 export type EditedWordCollection = {
     collectionId: string | null
@@ -7,7 +8,6 @@ export type EditedWordCollection = {
     author: string
     flashcards: FlashCardType[]
 }
-
 
 const initialState: EditedWordCollection = {
     collectionId: null,
@@ -78,16 +78,7 @@ const editedCollectionSlice = createSlice({
 const deleteCollectionDB = async (collectionId: string, userId: string) => {
 
     try {
-        const response = await fetch(`http://localhost:3000/api/collection/${collectionId}`, {
-            cache: "no-store",
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-        })
-        if (!response.ok) {
-            console.log("Ошибка удаления коллекции")
-        }
+        await axios.delete(`/api/collection/${collectionId}`)
     }
     catch (e) {
         console.log("Ошибка удаления коллекции")
@@ -99,19 +90,8 @@ export const updateCollection = createAsyncThunk(
     async ({ collectionId, flashcards }: { collectionId: string, flashcards: FlashCardDataType[] }) => {
         try {
             const request = { flashcards }
-            const response = await fetch(`http://localhost:3000/api/collection/${collectionId}`, {
-                cache: "no-store",
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(request)
-            })
-            if (!response.ok) {
-                console.log("Ошибка изменения коллекции")
-            }
-            const collection = await response.json()
-            return collection
+            const { data } = await axios.patch(`/api/collection/${collectionId}`, request)
+            return data as WordCollection
         }
         catch (e) {
             console.log("Ошибка изменения коллекции")

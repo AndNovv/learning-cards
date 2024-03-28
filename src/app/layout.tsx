@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { NextAuthProvider } from "@/providers/NextAuthProvider"
 import StoreProvider from "@/providers/StoreProvider";
 import UserProvider from "@/providers/UserProvider";
+import Providers from "@/providers/Providers";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,29 +27,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, 'flex flex-row')}>
-        <StoreProvider>
-          <NextAuthProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <UserProvider>
-                <AsideMenu />
-                <main className="flex flex-col w-full h-screen">
+        <Providers>
+          <>
+            <AsideMenu />
+            <main className="flex flex-col w-full h-screen">
 
-                  <NavigationMenu />
-                  <div className="relative flex-1 px-10 py-2 overflow-hidden">
-                    {children}
-                  </div>
-                </main>
-                <Toaster />
-              </UserProvider>
+              <NavigationMenu />
+              <div className="relative flex-1 px-10 py-2 overflow-hidden">
+                {children}
+              </div>
+            </main>
+            <Toaster />
+          </>
+        </Providers>
 
-            </ThemeProvider>
-          </NextAuthProvider>
-        </StoreProvider>
       </body>
     </html >
   );

@@ -1,3 +1,4 @@
+import axios from "axios";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google"
 
@@ -14,18 +15,9 @@ const authOptions = {
 
             if (account.provider === 'google') {
                 try {
-                    const res = await fetch("http://localhost:3000/api/user", {
-                        cache: "no-store",
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ name, email })
-                    })
-                    if (res.ok) {
-                        const newUser = await res.json()
-                        return user
-                    }
+                    const request = { name, email }
+                    await axios.post(`/api/user`, request)
+                    return user
                 }
                 catch (e) {
                     console.log(e)
