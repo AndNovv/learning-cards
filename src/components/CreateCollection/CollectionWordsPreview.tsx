@@ -2,14 +2,13 @@
 import useMediaQuery from '@/hooks/useMediaQuery'
 import React from 'react'
 import SingleCardPreview from './SingleCardPreview'
-import { FlashCardType } from '@/types/types'
+import { ClientFlashCardType } from '@/types/types'
 import { ScrollArea } from '../ui/scroll-area'
 import { motion } from 'framer-motion'
 
-const CollectionWordsPreview = ({ flashcards }: { flashcards: FlashCardType[] }) => {
+const CollectionWordsPreview = ({ flashcards }: { flashcards: ClientFlashCardType[] }) => {
 
     const isDesktop = useMediaQuery("(min-width: 768px)")
-    console.log(flashcards)
 
     return (
         <ScrollArea className='h-full'>

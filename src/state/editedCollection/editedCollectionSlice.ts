@@ -1,4 +1,4 @@
-import { FlashCardDataType, FlashCardType, WordCollection } from "@/types/types"
+import { ClientFlashCardType, FlashCardType, WordCollection } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
@@ -26,21 +26,20 @@ const editedCollectionSlice = createSlice({
             state.collectionId = action.payload.collectionId
             state.flashcards = action.payload.flashcards
         },
-        addFlashcard: (state, action: PayloadAction<FlashCardType>) => {
-            state.flashcards.push(action.payload)
+        addFlashcard: (state, action: PayloadAction<ClientFlashCardType>) => {
+            state.flashcards.push({ ...action.payload, EF: 2.5, repetition: 0, repetitionTime: Date.now(), interval: 1 })
         },
         deleteFlashcard: (state, action: PayloadAction<number>) => {
             state.flashcards.splice(action.payload, 1)
         },
-        editFlashcard: (state, action: PayloadAction<{ flashcardIndex: number, flashcard: FlashCardDataType }>) => {
+        editFlashcard: (state, action: PayloadAction<{ flashcardIndex: number, flashcard: FlashCardType }>) => {
             const { flashcardIndex, flashcard } = action.payload
             state.flashcards[flashcardIndex].russian = flashcard.russian
             state.flashcards[flashcardIndex].english = flashcard.english
         },
-        deleteCollection: (state, action: PayloadAction<{ userId: string }>) => {
-            const { userId } = action.payload
+        deleteCollection: (state) => {
             if (state.collectionId) {
-                deleteCollectionDB(state.collectionId, userId)
+                deleteCollectionDB(state.collectionId)
                 state.flashcards = []
                 state.collectionId = null
                 state.title = ''
@@ -75,7 +74,7 @@ const editedCollectionSlice = createSlice({
     }
 })
 
-const deleteCollectionDB = async (collectionId: string, userId: string) => {
+const deleteCollectionDB = async (collectionId: string) => {
 
     try {
         await axios.delete(`/api/collection/${collectionId}`)
@@ -87,10 +86,10 @@ const deleteCollectionDB = async (collectionId: string, userId: string) => {
 
 export const updateCollection = createAsyncThunk(
     'editedCollection/updateCollection',
-    async ({ collectionId, flashcards }: { collectionId: string, flashcards: FlashCardDataType[] }) => {
+    async ({ collectionId, flashcards }: { collectionId: string, flashcards: FlashCardType[] }) => {
         try {
             const request = { flashcards }
-            const { data } = await axios.patch(`/api/collection/${collectionId}`, request)
+            const { data }: { data: WordCollection } = await axios.patch(`/api/collection/${collectionId}`, request)
             return data as WordCollection
         }
         catch (e) {

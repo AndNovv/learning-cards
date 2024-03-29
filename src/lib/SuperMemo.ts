@@ -4,10 +4,13 @@ type NewFlashCardType = {
     repetition: number
     EF: number
     interval: number
+    repetitionTime: number
 }
 
 
 export const SuperMemo = (flashCard: NewFlashCardType, isRemembered: boolean) => {
+
+    const day = 1000 * 60 * 60 * 24
 
     if (isRemembered) {
         if (flashCard.repetition === 0) {
@@ -27,6 +30,8 @@ export const SuperMemo = (flashCard: NewFlashCardType, isRemembered: boolean) =>
         flashCard.interval = 1
         flashCard.EF -= 0.5
     }
+
+    flashCard.repetitionTime = Date.now() + day * flashCard.interval
 
     if (flashCard.EF < 1.3) flashCard.EF = 1.3
 }

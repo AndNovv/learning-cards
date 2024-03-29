@@ -1,4 +1,4 @@
-import { WordCollection, WordCollectionClient } from "@/types/types"
+import { WordCollection, ClientWordCollection } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
 
@@ -101,9 +101,9 @@ const deleteCollectionFromUserDB = async (userId: string, collectionId: string) 
 
 export const createNewCollectionAndAddToUser = createAsyncThunk(
     'user/createNewCollectionAndAddToUser',
-    async ({ userId, collection }: { userId: string, collection: WordCollectionClient }) => {
+    async ({ userId, collection }: { userId: string, collection: ClientWordCollection }) => {
         try {
-            const request = { title: collection.title, author: collection.author, flashcards: collection.flashcards.map((flashcard) => ({ english: flashcard.english, russian: flashcard.russian })) }
+            const request = collection
             const { data } = await axios.post(`/api/collection`, request)
             const newCollection: WordCollection = data
 

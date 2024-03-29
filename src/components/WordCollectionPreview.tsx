@@ -47,13 +47,13 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
 
 
     return (
-        <Card className='w-[350px]'>
+        <Card className='w-[350px] flex flex-col'>
             <CardHeader>
                 <CardTitle>{wordCollection.title}</CardTitle>
                 <CardDescription>Автор: {wordCollection.author}</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div className='relative'>
+            <CardContent className='flex flex-col justify-between flex-1 gap-8'>
+                <div className='relative flex-1'>
                     {previewFlashCards.map((flashcard, index) => {
                         return (
                             <div key={`${wordCollection.title}${index}`} className='flex gap-2'>
@@ -66,15 +66,15 @@ const WordCollectionPreview = ({ wordCollection }: { wordCollection: WordCollect
                     <div className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-transparent to-card to-100%'>
                     </div>
                 </div>
+                <div className='flex justify-between'>
+                    <Button variant={'default'} size={'lg'} onClick={() => router.push(`/learning/${wordCollection._id}`)}>
+                        Смотреть
+                    </Button>
+                    <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
+                        <Star />
+                    </Button>
+                </div>
             </CardContent>
-            <CardFooter className='flex justify-between'>
-                <Button variant={'default'} size={'lg'} onClick={() => router.push(`/learning/${wordCollection._id}`)}>
-                    Смотреть
-                </Button>
-                <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
-                    <Star />
-                </Button>
-            </CardFooter>
         </Card>
     )
 }

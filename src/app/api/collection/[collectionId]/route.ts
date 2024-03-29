@@ -1,20 +1,23 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import Collection from "@/models/Collection";
-import { FlashCardClientType } from "@/types/types";
+import { FlashCardType } from "@/types/types";
 import { NextRequest } from "next/server";
 
 
 // Edit collection
 export async function PATCH(request: NextRequest, { params }: { params: { collectionId: string } }) {
+
     try {
-        const { flashcards }: { flashcards: FlashCardClientType } = await request.json()
+        const { flashcards }: { flashcards: FlashCardType[] } = await request.json()
+        const requestFlashcards = flashcards.map(({ _id, ...rest }) => rest)
+
         await dbConnect()
         const collection = await Collection.findById(params.collectionId)
         if (!collection) {
             return Response.json("Данная коллекция не найдена")
         }
         else {
-            collection.flashcards = flashcards
+            collection.flashcards = requestFlashcards
             const updatedCollection = await collection.save()
             return Response.json(updatedCollection)
         }

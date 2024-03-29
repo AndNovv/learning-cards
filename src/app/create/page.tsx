@@ -39,7 +39,7 @@ const CreateCollectionPage = () => {
     const handleSubmitNewWordCollection = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (titleInputRef.current?.value) {
-            if (flashcards.length >= 5) {
+            if (flashcards.length > 0) {
                 createNewCollection(titleInputRef.current.value)
                 dispatch(resetCollection())
                 titleInputRef.current.value = ''
@@ -47,7 +47,7 @@ const CreateCollectionPage = () => {
             else {
                 toast({
                     title: "Слишком мало карт",
-                    description: "В коллекции должно быть как минимум 5 карточек",
+                    description: "Добавьте хотя бы одну карту в коллекцию",
                 })
             }
         }

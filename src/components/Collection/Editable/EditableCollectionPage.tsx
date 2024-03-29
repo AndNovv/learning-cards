@@ -31,7 +31,7 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
     const handleSaveClick = async () => {
         setEditing(false)
         if (editedCollection.collectionId) {
-            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, flashcards: editedCollection.flashcards.map((flashcard) => ({ english: flashcard.english, russian: flashcard.russian })) }))
+            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, flashcards: editedCollection.flashcards }))
             dispatch(editCollection(updatedCollection.payload))
         }
     }
@@ -39,7 +39,7 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
     const handleDeleteClick = () => {
         if (editedCollection.collectionId) {
             router.push('/')
-            dispatch(deleteCollection({ userId: user._id }))
+            dispatch(deleteCollection())
             dispatch(deleteCollectionFromUser(editedCollection.collectionId))
         }
     }

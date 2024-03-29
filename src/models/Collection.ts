@@ -1,8 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IFlashcard {
-    english: string;
-    russian: string;
+    english: string
+    russian: string
+    repetition: number
+    EF: number
+    interval: number
+    repetitionTime: number
 }
 
 // Define the interface for the collection document
@@ -18,7 +22,11 @@ export const CollectionSchema: Schema = new Schema({
     author: { type: String, required: true },
     flashcards: [{
         english: { type: String, required: true },
-        russian: { type: String, required: true }
+        russian: { type: String, required: true },
+        repetition: { type: Number, required: true, default: 0 },
+        EF: { type: Number, required: true, default: 2.5 },
+        interval: { type: Number, required: true, default: 1 },
+        repetitionTime: { type: Number, requred: true }
     }],
 });
 
