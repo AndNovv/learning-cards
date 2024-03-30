@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FlashCardType } from '@/types/types'
 import { motion } from 'framer-motion'
 
@@ -8,12 +8,31 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
     const [isFlipped, setIsFlipped] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
 
-    const handleCardClick = () => {
+
+    const handleCardClick = useCallback(() => {
         if (!isAnimating) {
             setIsAnimating(true)
             setIsFlipped((prev) => !prev)
         }
-    }
+    }, [isAnimating])
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            switch (event.key) {
+                case " ": // Space key
+                    handleCardClick()
+                    break
+                default:
+                    break
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleCardClick]);
 
     useEffect(() => {
         setIsFlipped(false)
@@ -40,8 +59,8 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
                 onAnimationComplete={() => setIsAnimating(false)}
                 className='flip-card-inner w-full h-full text-2xl'
             >
-                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4'><p>{flashcardInfo.english}</p></div>
-                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4'><p>{flashcardInfo.russian}</p></div>
+                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'><p>{flashcardInfo.english}</p></div>
+                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'><p>{flashcardInfo.russian}</p></div>
             </motion.div>
         </motion.div>
 

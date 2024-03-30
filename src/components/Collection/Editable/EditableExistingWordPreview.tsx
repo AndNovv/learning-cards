@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { EllipsisVertical, Trash } from "lucide-react"
-import { FlashCardDataType, FlashCardType } from "@/types/types"
+import { FlashCardType } from "@/types/types"
 import { useEffect, useRef } from "react"
 import { AppDispatch } from "@/state/store"
 import { useDispatch } from "react-redux"
@@ -80,7 +80,7 @@ const EditableExistingCollectionWordPreview = ({ collectionId, flashcard, flashc
     )
 }
 
-const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardDataType, flashcardIndex: number }) => {
+const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }: { collectionId: string, setOpen: React.Dispatch<React.SetStateAction<boolean>>, flashcard: FlashCardType, flashcardIndex: number }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -97,7 +97,7 @@ const ModalWindowDialog = ({ collectionId, setOpen, flashcard, flashcardIndex }:
                 e.preventDefault()
                 setOpen(false)
                 if (englishModalInputRef.current?.value && russianModalInputRef.current?.value) {
-                    dispatch(editFlashcard({ flashcardIndex, flashcard: { english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value } }))
+                    dispatch(editFlashcard({ flashcardIndex, flashcard: { ...flashcard, english: englishModalInputRef.current.value, russian: russianModalInputRef.current.value } }))
                 }
             }}
             onReset={(e: React.FormEvent) => {

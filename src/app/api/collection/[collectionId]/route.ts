@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/mongo/dbConnect";
-import Collection from "@/models/Collection";
+import Collection, { ICollection } from "@/models/Collection";
+import Flashcard from "@/models/Flashcard";
 import { FlashCardType } from "@/types/types";
 import { NextRequest } from "next/server";
 
@@ -8,18 +9,40 @@ import { NextRequest } from "next/server";
 export async function PATCH(request: NextRequest, { params }: { params: { collectionId: string } }) {
 
     try {
-        const { flashcards }: { flashcards: FlashCardType[] } = await request.json()
-        const requestFlashcards = flashcards.map(({ _id, ...rest }) => rest)
+        const { newCards, deletedCards, updatedCards }: { newCards: FlashCardType[], deletedCards: string[], updatedCards: FlashCardType[] } = await request.json()
 
         await dbConnect()
-        const collection = await Collection.findById(params.collectionId)
-        if (!collection) {
-            return Response.json("Данная коллекция не найдена")
+
+        const collection: ICollection | null = await Collection.findById(params.collectionId).lean()
+
+        if (collection) {
+
+            // Добавление новый карт
+            const newCardsPrepared = newCards.map(({ _id, ...flashcard }) => flashcard)
+            const flashcardsIds: string[] = []
+            newCardsPrepared.forEach(async (flashcard) => {
+                const createdFlashcard: FlashCardType = await Flashcard.create(flashcard)
+                flashcardsIds.push(createdFlashcard._id)
+            })
+
+            // Обновление старых карт
+            updatedCards.forEach(async (flashcard) => {
+                await Flashcard.updateOne({ _id: flashcard._id }, { $set: flashcard })
+            })
+
+            // Удаление карт
+            await Flashcard.deleteMany({ _id: { $in: deletedCards } })
+
+            await Collection.updateOne({ _id: params.collectionId }, { $pull: { flashcards: { $in: deletedCards } } })
+            await Collection.updateOne({ _id: params.collectionId }, { $push: { flashcards: flashcardsIds } })
+
+
+            const result = await Collection.findById(params.collectionId).populate('flashcards')
+
+            return Response.json(result)
         }
         else {
-            collection.flashcards = requestFlashcards
-            const updatedCollection = await collection.save()
-            return Response.json(updatedCollection)
+            console.log('Не удалось найти коллекцию')
         }
     }
     catch (e) {
@@ -32,12 +55,13 @@ export async function PATCH(request: NextRequest, { params }: { params: { collec
 export async function DELETE(_request: NextRequest, { params }: { params: { collectionId: string } }) {
     try {
         await dbConnect()
-        const deletedCollection = await Collection.deleteOne({ _id: params.collectionId }).lean()
-        if (!deletedCollection) {
-            return Response.json("Данная коллекция не найдена")
+        const deletedCollection: ICollection | null = await Collection.findByIdAndDelete(params.collectionId)
+        if (deletedCollection) {
+            await Flashcard.deleteMany({ _id: { $in: deletedCollection.flashcards } })
+            return Response.json(deletedCollection)
         }
         else {
-            return Response.json(deletedCollection)
+            return Response.json("Данная коллекция не найдена")
         }
     }
     catch (e) {

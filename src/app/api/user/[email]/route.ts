@@ -1,24 +1,28 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import User, { IUser } from "@/models/User";
-import Collection, { ICollection } from "@/models/Collection"
+import Collection from "@/models/Collection"
 import { NextRequest } from "next/server";
+import { WordCollection } from "@/types/types";
+import Flashcard from "@/models/Flashcard";
 
 
 // GET all User Data
 export async function GET(_request: NextRequest, { params }: { params: { email: string } }) {
+
     try {
         await dbConnect()
 
-        const user: IUser | null = await User.findOne({ email: params.email }).lean()
+        await Flashcard.findOne({})
+        await Collection.findOne({})
+
+        const user = await User.findOne({ email: params.email })
+            .populate({
+                path: 'collections',
+                populate: { path: 'flashcards' }
+            });
 
         if (user) {
-
-            const collectionIds = user.collections
-            const collections: ICollection[] = await Collection.find({ _id: { $in: collectionIds } }).lean()
-
-            const result = { ...user, collections }
-            return Response.json(result)
-
+            return Response.json(user)
         }
         return Response.json("Пользователь не найден")
     }

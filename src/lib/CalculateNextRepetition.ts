@@ -1,14 +1,6 @@
-type NewFlashCardType = {
-    english: string
-    russian: string
-    repetition: number
-    EF: number
-    interval: number
-    repetitionTime: number
-}
+import { FlashCardType } from "@/types/types"
 
-
-export const SuperMemo = (flashCard: NewFlashCardType, isRemembered: boolean) => {
+export const CalculateNextRepetition = (flashCard: FlashCardType, isRemembered: boolean) => {
 
     const day = 1000 * 60 * 60 * 24
 

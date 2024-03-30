@@ -16,7 +16,6 @@ import DeleteButtonWithAlert from './DeleteButtonWithAlert';
 const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCollection, setEditing: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const dispatch = useDispatch<AppDispatch>()
-    const { user, loading, error } = useSelector((state: RootState) => state.user);
 
     const editedCollection = useSelector((state: RootState) => state.editedCollection)
 
@@ -31,8 +30,10 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
     const handleSaveClick = async () => {
         setEditing(false)
         if (editedCollection.collectionId) {
-            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, flashcards: editedCollection.flashcards }))
-            dispatch(editCollection(updatedCollection.payload))
+            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, newCards: editedCollection.newCards, deletedCards: editedCollection.deletedCards, updatedCards: editedCollection.updatedCards })).unwrap()
+            if (updatedCollection) {
+                dispatch(editCollection(updatedCollection))
+            }
         }
     }
 

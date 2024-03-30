@@ -6,7 +6,7 @@ export async function GET() {
 
     try {
         await dbConnect()
-        const collections = await Collection.find().lean()
+        const collections = await Collection.find().populate('flashcards').lean()
         return Response.json(collections)
     }
     catch (e) {
