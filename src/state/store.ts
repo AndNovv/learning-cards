@@ -3,7 +3,6 @@ import userReducer from "./user/userSlice"
 import newCollectionReducer from "./newCollection/newCollectionSlice"
 import editedCollectionReducer from "./editedCollection/editedCollectionSlice"
 
-
 export const makeStore = () => {
     return configureStore({
         reducer: {

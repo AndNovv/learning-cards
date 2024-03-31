@@ -38,6 +38,15 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
         setIsFlipped(false)
     }, [flashcardInfo])
 
+
+    const date = new Date(flashcardInfo.repetitionTime)
+
+    const monthNames = [
+        'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'
+    ];
+
+    const nextRepetitionDate = `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
     return (
         <motion.div
             key={`flashcard-${flashcardInfo._id}`}
@@ -59,8 +68,13 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
                 onAnimationComplete={() => setIsAnimating(false)}
                 className='flip-card-inner w-full h-full text-2xl'
             >
-                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'><p>{flashcardInfo.english}</p></div>
-                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'><p>{flashcardInfo.russian}</p></div>
+                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'>
+                    <p>{flashcardInfo.english}</p>
+                    <div className='absolute right-4 bottom-2 text-lg'>{nextRepetitionDate}</div>
+                </div>
+                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'>
+                    <p>{flashcardInfo.russian}</p>
+                </div>
             </motion.div>
         </motion.div>
 

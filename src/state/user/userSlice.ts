@@ -1,8 +1,8 @@
-import { WordCollection, ClientWordCollection } from "@/types/types"
+import { WordCollection, ClientWordCollection, FlashCardType } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
 
-interface User {
+export interface User {
     _id: string
     name: string
     email: string
@@ -42,6 +42,20 @@ const userSlice = createSlice({
         editCollection: (state, action: PayloadAction<WordCollection>) => {
             const index = state.user.collections.findIndex((element) => element._id === action.payload._id)
             state.user.collections[index] = action.payload
+        },
+        updateCollections: (state, action: PayloadAction<WordCollection[]>) => {
+            state.user.collections = action.payload
+        },
+        updateFlashcards: (state, action: PayloadAction<FlashCardType[]>) => {
+            const flashcardsMap = new Map(action.payload.map((flashcard) => [flashcard._id, flashcard]))
+            for (let i = 0; i < state.user.collections.length; i++) {
+                for (let j = 0; j < state.user.collections[i].flashcards.length; j++) {
+                    const flashcard = flashcardsMap.get(state.user.collections[i].flashcards[j]._id)
+                    if (flashcard) {
+                        state.user.collections[i].flashcards[j] = flashcard
+                    }
+                }
+            }
         }
     },
     extraReducers: (builder) => {
@@ -132,6 +146,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { addCollectionToUser, deleteCollectionFromUser, editCollection } = userSlice.actions
+export const { addCollectionToUser, deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards } = userSlice.actions
 
 export default userSlice.reducer
