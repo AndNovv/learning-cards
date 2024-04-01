@@ -1,6 +1,7 @@
 import { WordCollection, ClientWordCollection, FlashCardType } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
+import { RootState } from "../store"
 
 export interface User {
     _id: string

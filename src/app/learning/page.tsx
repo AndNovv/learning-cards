@@ -2,32 +2,29 @@
 import FlashCard from '@/components/Learning/FlashCard'
 import ForgetButton from '@/components/Learning/ForgetButton'
 import RememberButton from '@/components/Learning/RememberButton'
-import useAllFlashcards from '@/hooks/useAllFlashcards'
-import { RecalculateFlashcard } from '@/lib/RecalculateFlashcard'
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useEffect, useState } from 'react'
+import useLearningCards from '@/hooks/useLearningCards'
+import { initializeAllFlashcards } from '@/state/allFlashcards/allFlashcardsSlice'
+import { AppDispatch, RootState } from '@/state/store'
+import React, { useCallback, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const Learning = () => {
 
-    const router = useRouter()
+    const user = useSelector((state: RootState) => state.user)
+    const dispatch = useDispatch<AppDispatch>()
 
-    const { flashcards, addUpdatedCard } = useAllFlashcards()
-    const [flashcardIndex, setFlashcardIndex] = useState(0)
-    const currentFlashcard = flashcards[flashcardIndex]
+    const { currentFlashcard, addNewUpdatedCard } = useLearningCards()
 
     const handleButtonClick = useCallback((isRemembered: boolean) => {
-        if (flashcardIndex !== flashcards.length - 1) {
-            const recalculatedFlashcard = RecalculateFlashcard(currentFlashcard, isRemembered)
-            addUpdatedCard(recalculatedFlashcard)
-            setFlashcardIndex((prev) => prev + 1)
-        }
-        else if (flashcardIndex === flashcards.length - 1) {
-            console.log('Повтор закончен')
-            const recalculatedFlashcard = RecalculateFlashcard(currentFlashcard, isRemembered)
-            addUpdatedCard(recalculatedFlashcard)
-            router.push('/')
-        }
-    }, [flashcardIndex, flashcards.length, currentFlashcard, addUpdatedCard, router])
+        addNewUpdatedCard(isRemembered)
+    }, [addNewUpdatedCard])
+
+
+    useEffect(() => {
+        dispatch(initializeAllFlashcards(user.user.collections))
+    }, [user.user.collections]);
+
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -35,7 +32,31 @@ const Learning = () => {
                 case 'ArrowLeft':
                     handleButtonClick(false)
                     break
+                case 'a':
+                    handleButtonClick(false)
+                    break
+                case 'A':
+                    handleButtonClick(false)
+                    break
+                case 'ф':
+                    handleButtonClick(false)
+                    break
+                case 'Ф':
+                    handleButtonClick(false)
+                    break
                 case "ArrowRight":
+                    handleButtonClick(true)
+                    break
+                case 'd':
+                    handleButtonClick(true)
+                    break
+                case 'D':
+                    handleButtonClick(true)
+                    break
+                case 'В':
+                    handleButtonClick(true)
+                    break
+                case 'в':
                     handleButtonClick(true)
                     break
                 default:
@@ -50,6 +71,7 @@ const Learning = () => {
         };
     }, [handleButtonClick]);
 
+    if (!currentFlashcard) return <div>Загрузка</div>
 
     return (
         <div className='flex flex-col gap-10 justify-center items-center h-full'>

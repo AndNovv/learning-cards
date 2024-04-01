@@ -24,11 +24,9 @@ export const RecalculateFlashcard = (flashcard: FlashCardType, isRemembered: boo
         recalculatedFlashcard.interval = 1
         recalculatedFlashcard.EF -= 0.5
     }
-    console.log(recalculatedFlashcard)
 
     recalculatedFlashcard.repetitionTime = Date.now() + day * recalculatedFlashcard.interval
 
-    console.log(recalculatedFlashcard)
     if (recalculatedFlashcard.EF < 1.3) recalculatedFlashcard.EF = 1.3
 
     return recalculatedFlashcard

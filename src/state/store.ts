@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import userReducer from "./user/userSlice"
 import newCollectionReducer from "./newCollection/newCollectionSlice"
 import editedCollectionReducer from "./editedCollection/editedCollectionSlice"
+import allFlashcardsReducer from "./allFlashcards/allFlashcardsSlice"
 
 export const makeStore = () => {
     return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
             user: userReducer,
             newCollection: newCollectionReducer,
             editedCollection: editedCollectionReducer,
+            allFlashcards: allFlashcardsReducer,
         },
     })
 }
