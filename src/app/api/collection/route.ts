@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
         const createdFlashcards: FlashCardType[] = await Flashcard.insertMany(requestFlashcards)
 
         const createdFlashcardsIds = createdFlashcards.map((flashcard) => flashcard._id)
-        const collection = await Collection.create({ title, author, flashcards: createdFlashcardsIds })
+        const collection = await Collection.create({ title, author, flashcards: createdFlashcardsIds, lastUpdateAt: new Date() })
 
         const result = await Collection.findById(collection._id).populate('flashcards')
         return Response.json(result)

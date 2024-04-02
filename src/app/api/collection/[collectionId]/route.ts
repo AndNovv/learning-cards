@@ -13,32 +13,39 @@ export async function PATCH(request: NextRequest, { params }: { params: { collec
 
         await dbConnect()
 
-        const collection: ICollection | null = await Collection.findById(params.collectionId).lean()
+        const collection: ICollection | null = await Collection.findById(params.collectionId)
 
         if (collection) {
 
             // Добавление новый карт
-            const newCardsPrepared = newCards.map(({ _id, ...flashcard }) => flashcard)
-            const flashcardsIds: string[] = []
-            newCardsPrepared.forEach(async (flashcard) => {
-                const createdFlashcard: FlashCardType = await Flashcard.create(flashcard)
-                flashcardsIds.push(createdFlashcard._id)
-            })
+            if (newCards.length > 0) {
+                const newCardsPrepared = newCards.map(({ _id, ...flashcard }) => flashcard)
+                const createdNewFlashCards: FlashCardType[] = await Flashcard.insertMany(newCardsPrepared)
+                const flashcardsIds: string[] = createdNewFlashCards.map((flashcard) => flashcard._id)
+                for (let i = 0; i < flashcardsIds.length; i++) {
+                    collection.flashcards.push(flashcardsIds[i])
+                }
+            }
 
             // Обновление старых карт
-            updatedCards.forEach(async (flashcard) => {
-                await Flashcard.updateOne({ _id: flashcard._id }, { $set: flashcard })
-            })
+            if (updatedCards.length > 0) {
+                await Flashcard.bulkWrite(updatedCards.map((flashcard) => ({
+                    updateOne: {
+                        filter: { _id: flashcard._id },
+                        update: flashcard
+                    }
+                })))
+            }
 
             // Удаление карт
-            await Flashcard.deleteMany({ _id: { $in: deletedCards } })
+            if (deletedCards.length > 0) {
+                await Flashcard.deleteMany({ _id: { $in: deletedCards } })
+                await Collection.updateOne({ _id: params.collectionId }, { $pull: { flashcards: { $in: deletedCards } } })
+            }
+            collection.lastUpdateAt = new Date()
 
-            await Collection.updateOne({ _id: params.collectionId }, { $pull: { flashcards: { $in: deletedCards } } })
-            await Collection.updateOne({ _id: params.collectionId }, { $push: { flashcards: flashcardsIds } })
-
-
-            const result = await Collection.findById(params.collectionId).populate('flashcards')
-
+            const updatedCollection = await collection.save()
+            const result = await updatedCollection.populate('flashcards')
             return Response.json(result)
         }
         else {

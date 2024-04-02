@@ -3,6 +3,7 @@ export type WordCollection = {
     title: string
     author: string
     flashcards: FlashCardType[]
+    lastUpdateAt: Date
 }
 
 export type FlashCardType = {

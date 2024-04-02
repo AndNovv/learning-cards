@@ -5,7 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { User } from 'lucide-react';
 
-const AsideProfileIcon = ({ description, href }: { description: string, href: string }) => {
+const AsideProfileIcon = () => {
 
     const { status, data } = useSession()
 
@@ -14,30 +14,27 @@ const AsideProfileIcon = ({ description, href }: { description: string, href: st
 
     if (status !== 'authenticated') {
         return (
-            <div onClick={() => signIn("google", { callbackUrl: '/profile' })} className='group relative flex items-center justify-center w-14 h-14 rounded-full hover:rounded-3xl bg-accent hover:bg-primary hover:text-primary-foreground cursor-pointer transition-all'>
-                <User />
-                <div className='absolute left-20 min-h-fit bg-secondary text-secondary-foreground border p-2 rounded-xl invisible group-hover:visible'>
-                    <p className='text-nowrap'>{description}</p>
+            <div onClick={() => signIn("google", { callbackUrl: '/profile' })} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-accent bg-background text-left cursor-pointer transition-all text-nowrap'>
+                <div className='flex items-center justify-center size-10 rounded-full bg-secondary'>
+                    <User className='size-5' />
                 </div>
+                <p>Войти</p>
             </div>
         )
     }
 
     return (
-        <div onClick={() => router.push(href)} className='group relative flex items-center justify-center w-14 h-14 rounded-full hover:rounded-3xl bg-accent hover:bg-primary hover:text-primary-foreground cursor-pointer transition-all'>
-            <div className='w-14 h-14 rounded-full hover:rounded-3xl overflow-hidden transition-all'>
-                {data?.user?.image &&
-                    <Image
-                        src={data.user.image}
-                        priority={false}
-                        alt="Profile Image"
-                        width={60}
-                        height={60}
-                    />}
-            </div>
-            <div className='absolute left-20 min-h-fit bg-secondary text-secondary-foreground border p-2 rounded-xl invisible group-hover:visible'>
-                <p className='text-nowrap'>{description}</p>
-            </div>
+        <div onClick={() => router.push('/profile')} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-accent bg-background text-left cursor-pointer transition-all text-nowrap'>
+            {data?.user?.image &&
+                <Image
+                    src={data.user.image}
+                    priority={false}
+                    alt="Profile Image"
+                    width={40}
+                    height={40}
+                    className='rounded-full'
+                />}
+            <p>{data.user?.name}</p>
         </div>
     )
 }
