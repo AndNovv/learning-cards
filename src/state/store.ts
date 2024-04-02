@@ -4,6 +4,7 @@ import newCollectionReducer from "./newCollection/newCollectionSlice"
 import editedCollectionReducer from "./editedCollection/editedCollectionSlice"
 import allFlashcardsReducer from "./allFlashcards/allFlashcardsSlice"
 import activeCollectionReducer from "./activeCollection/activeCollectionSlice"
+import asideMenuReducer from "./asideMenu/asideMenuSlice"
 
 export const makeStore = () => {
     return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
             editedCollection: editedCollectionReducer,
             allFlashcards: allFlashcardsReducer,
             activeCollection: activeCollectionReducer,
+            asideMenu: asideMenuReducer,
         },
     })
 }

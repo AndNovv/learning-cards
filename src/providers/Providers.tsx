@@ -3,6 +3,7 @@ import { NextAuthProvider } from './NextAuthProvider'
 import StoreProvider from './StoreProvider'
 import { ThemeProvider } from './ThemeProvider'
 import UserProvider from './UserProvider'
+import UserDeviceProvider from './UserDeviceProvider'
 
 const Providers = ({ children }: { children: JSX.Element }) => {
     return (
@@ -12,13 +13,15 @@ const Providers = ({ children }: { children: JSX.Element }) => {
             enableSystem
             disableTransitionOnChange
         >
-            <NextAuthProvider>
-                <StoreProvider>
-                    <UserProvider>
-                        {children}
-                    </UserProvider>
-                </StoreProvider>
-            </NextAuthProvider>
+            <StoreProvider>
+                <UserDeviceProvider>
+                    <NextAuthProvider>
+                        <UserProvider>
+                            {children}
+                        </UserProvider>
+                    </NextAuthProvider>
+                </UserDeviceProvider>
+            </StoreProvider>
         </ThemeProvider>
     )
 }

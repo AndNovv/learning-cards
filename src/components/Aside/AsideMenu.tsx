@@ -3,35 +3,71 @@ import React from 'react'
 import CardsCollectionAsideIcon from './CardsCollectionAsideIcon'
 import AsideProfileIcon from './AsideProfileIcon'
 import { useSelector } from 'react-redux'
-import { RootState } from '@/state/store'
+import { AppDispatch, RootState } from '@/state/store'
 import { motion } from "framer-motion"
 import CreateNewCollection from './CreateNewCollection'
 import { groupCollectionsByTime } from '@/lib/GroupCollectionsByTime'
+import { cn } from '@/lib/utils'
+import { ArrowLeft } from 'lucide-react'
+import { setVisibility } from '@/state/asideMenu/asideMenuSlice'
+import { useDispatch } from 'react-redux'
+import { useOutsideClick } from '@/hooks/useOutsideClick'
 
 const AsideMenu = () => {
 
     const user = useSelector((state: RootState) => state.user);
     const activeCollection = useSelector((state: RootState) => state.activeCollection);
+    const asideMenu = useSelector((state: RootState) => state.asideMenu);
 
-    if (user.user.collections.length === 0) {
-        return (
-            <aside className="flex flex-col justify-between w-[350px] items-center z-20 h-screen sticky top-0 p-4 border-r">
-                <div className='w-full h-full flex flex-col justify-between'>
-                    <CreateNewCollection />
-                    <AsideProfileIcon />
-                </div>
-            </aside>
-        )
-    }
+    const dispatch = useDispatch<AppDispatch>()
+
     const favouriteCollections = user.user.collections
     const activeCollectionId = activeCollection.activeCollection
 
     const groupedCollection = groupCollectionsByTime(favouriteCollections)
 
+    const isDesktop = asideMenu.isDesktop !== null ? asideMenu.isDesktop : true
+
+    const ref = useOutsideClick(() => {
+        if (asideMenu.visible && !isDesktop) {
+            dispatch(setVisibility(false))
+        }
+    });
+
     return (
-        <aside className="flex flex-col justify-between w-[350px] items-center z-20 h-screen sticky top-0 p-4 border-r">
-            <div className='w-full'>
-                <CreateNewCollection />
+        <motion.aside
+            ref={ref}
+            initial={"visible"}
+            animate={asideMenu.visible ? 'visible' : 'hidden'}
+            variants={
+                {
+                    hidden: { translateX: '-300px' },
+                    visible: { translateX: '0px' },
+                }
+            }
+            transition={{
+                ease: "linear",
+                duration: 0.2,
+            }}
+            className={cn(asideMenu.isDesktop ? null : 'absolute', "bg-background z-10 flex flex-col shrink-0 justify-between w-[300px] items-center h-screen p-4 border-r")}
+        >
+            <div className='w-full relative'>
+                <CreateNewCollection isDesktop={isDesktop} />
+                <motion.div
+                    initial={"visible"}
+                    animate={!isDesktop ? (asideMenu.visible ? 'visible' : 'hidden') : 'hidden'}
+                    variants={
+                        {
+                            hidden: { scale: 0 },
+                            visible: { scale: 1 },
+                        }
+                    }
+                    transition={{
+                        ease: "linear",
+                        duration: 0.2,
+                    }}
+                    onClick={() => dispatch(setVisibility(false))}
+                    className='absolute cursor-pointer -right-20 top-2 size-12 bg-accent border border-card rounded-xl flex items-center justify-center'><ArrowLeft /></motion.div>
                 <motion.ol
                     layout
                     transition={{
@@ -51,7 +87,7 @@ const AsideMenu = () => {
                                     }}
                                         key={`AsideIcon${collection._id}`}
                                         className='w-full'>
-                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} />
+                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} isDesktop={isDesktop} />
                                     </motion.li>
                                 )
                             })}
@@ -66,7 +102,7 @@ const AsideMenu = () => {
                                         ease: "linear",
                                         duration: 0.2,
                                     }} key={`AsideIcon${collection._id}`} className='w-full'>
-                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} />
+                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} isDesktop={isDesktop} />
                                     </motion.li>
                                 )
                             })}
@@ -81,7 +117,7 @@ const AsideMenu = () => {
                                         ease: "linear",
                                         duration: 0.2,
                                     }} key={`AsideIcon${collection._id}`} className='w-full'>
-                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} />
+                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} isDesktop={isDesktop} />
                                     </motion.li>
                                 )
                             })}
@@ -96,7 +132,7 @@ const AsideMenu = () => {
                                         ease: "linear",
                                         duration: 0.2,
                                     }} key={`AsideIcon${collection._id}`} className='w-full'>
-                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} />
+                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} isDesktop={isDesktop} />
                                     </motion.li>
                                 )
                             })}
@@ -111,7 +147,7 @@ const AsideMenu = () => {
                                         ease: "linear",
                                         duration: 0.2,
                                     }} key={`AsideIcon${collection._id}`} className='w-full'>
-                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} />
+                                        <CardsCollectionAsideIcon collection={collection} active={activeCollectionId === collection._id} isDesktop={isDesktop} />
                                     </motion.li>
                                 )
                             })}
@@ -120,8 +156,8 @@ const AsideMenu = () => {
                 </motion.ol>
 
             </div>
-            <AsideProfileIcon />
-        </aside>
+            <AsideProfileIcon isDesktop={isDesktop} />
+        </motion.aside>
     )
 }
 

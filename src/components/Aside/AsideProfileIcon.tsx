@@ -4,17 +4,35 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { User } from 'lucide-react';
+import { setVisibility } from '@/state/asideMenu/asideMenuSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/state/store';
 
-const AsideProfileIcon = () => {
+const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
 
     const { status, data } = useSession()
 
     const router = useRouter()
+    const dispatch = useDispatch<AppDispatch>()
+
+    const handleSignInClick = () => {
+        if (!isDesktop) {
+            dispatch(setVisibility(false))
+        }
+        signIn("google", { callbackUrl: '/profile' })
+    }
+
+    const handleUserClick = () => {
+        if (!isDesktop) {
+            dispatch(setVisibility(false))
+        }
+        router.push('/profile')
+    }
 
 
     if (status !== 'authenticated') {
         return (
-            <div onClick={() => signIn("google", { callbackUrl: '/profile' })} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-accent bg-background text-left cursor-pointer transition-all text-nowrap'>
+            <div onClick={handleSignInClick} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-hover bg-background text-left cursor-pointer transition-all text-nowrap'>
                 <div className='flex items-center justify-center size-10 rounded-full bg-secondary'>
                     <User className='size-5' />
                 </div>
@@ -24,7 +42,7 @@ const AsideProfileIcon = () => {
     }
 
     return (
-        <div onClick={() => router.push('/profile')} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-accent bg-background text-left cursor-pointer transition-all text-nowrap'>
+        <div onClick={handleUserClick} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-hover bg-background text-left cursor-pointer transition-all text-nowrap'>
             {data?.user?.image &&
                 <Image
                     src={data.user.image}
