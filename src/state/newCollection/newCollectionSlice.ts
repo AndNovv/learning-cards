@@ -1,4 +1,4 @@
-import { ClientFlashCardType, ClientWordCollection, FlashCardType } from "@/types/types"
+import { ClientFlashCardType, ClientWordCollection } from "@/types/types"
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 const initialState: ClientWordCollection = {

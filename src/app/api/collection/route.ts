@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/mongo/dbConnect";
-import Collection, { ICollection } from "@/models/Collection";
+import Collection from "@/models/Collection";
 import Flashcard from "@/models/Flashcard";
 import { ClientFlashCardType, FlashCardType } from "@/types/types";
 import { NextRequest } from "next/server";

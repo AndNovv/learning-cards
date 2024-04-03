@@ -12,11 +12,14 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import CancelButtonWithAlert from './CancelButtonWithAlert';
 import DeleteButtonWithAlert from './DeleteButtonWithAlert';
+import axios from 'axios';
 
 const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCollection, setEditing: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
+
+    const { user } = useSelector((state: RootState) => state.user)
     const editedCollection = useSelector((state: RootState) => state.editedCollection)
 
     const router = useRouter()
@@ -50,6 +53,11 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
         setEditing(false)
     }
 
+    const handlePublishClick = async () => {
+        const request = { userId: user._id }
+        await axios.post(`/api/collection/${collection._id}/publish`, request)
+    }
+
     return (
         <div className='relative flex flex-col xl:px-60 lg:px-40 md:px-20 px-1 h-full'>
             <div className='flex flex-col bg-background'>
@@ -60,6 +68,7 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
                     </div>
 
                     <div className='flex flex-row gap-2 items-center'>
+                        <Button className='bg-violet-600 hover:bg-violet-700' onClick={handlePublishClick}>Опубликовать</Button>
                         <CancelButtonWithAlert handleResetClick={handleResetClick} />
                         <Button className='bg-emerald-600 hover:bg-emerald-700' onClick={handleSaveClick}>Сохранить</Button>
                         <DeleteButtonWithAlert handleDeleteClick={handleDeleteClick} />

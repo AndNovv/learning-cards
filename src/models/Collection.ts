@@ -4,8 +4,9 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface ICollection extends Document {
     title: string;
     author: string;
-    flashcards: string[];
+    flashcards: string[]
     lastUpdateAt: Date
+    publishedCollectionRef: string | null
 }
 
 // Define the mongoose schema
@@ -13,7 +14,8 @@ export const CollectionSchema: Schema = new Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     flashcards: [{ type: Schema.Types.ObjectId, ref: 'Flashcard' }],
-    lastUpdateAt: { type: Date, required: true, default: Date.now }
+    lastUpdateAt: { type: Date, required: true, default: Date.now },
+    publishedCollectionRef: { type: Schema.Types.ObjectId, ref: 'PublishedCollection', default: null }
 });
 
 const Collection = mongoose.models.Collection || mongoose.model<ICollection>("Collection", CollectionSchema)

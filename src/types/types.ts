@@ -4,6 +4,7 @@ export type WordCollection = {
     author: string
     flashcards: FlashCardType[]
     lastUpdateAt: Date
+    publishedCollectionRef: string | null
 }
 
 export type FlashCardType = {
@@ -14,6 +15,16 @@ export type FlashCardType = {
     EF: number
     interval: number
     repetitionTime: number
+}
+
+export type PublishedCOllectionType = {
+    _id: string
+    title: string
+    authorId: string
+    authorName: string
+    flashcards: { english: string, russian: string }[]
+    favouriteCount: number
+    publishedAt: Date
 }
 
 

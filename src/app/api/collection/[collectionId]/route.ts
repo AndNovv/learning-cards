@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import Collection, { ICollection } from "@/models/Collection";
 import Flashcard from "@/models/Flashcard";
+import PublishedCollection from "@/models/PublishedCollection";
 import { FlashCardType } from "@/types/types";
 import { NextRequest } from "next/server";
 
@@ -63,7 +64,12 @@ export async function DELETE(_request: NextRequest, { params }: { params: { coll
     try {
         await dbConnect()
         const deletedCollection: ICollection | null = await Collection.findByIdAndDelete(params.collectionId)
+
         if (deletedCollection) {
+            if (deletedCollection.publishedCollectionRef) {
+                await PublishedCollection.findByIdAndUpdate(deletedCollection.publishedCollectionRef, { $inc: { favouriteCount: -1 } })
+            }
+
             await Flashcard.deleteMany({ _id: { $in: deletedCollection.flashcards } })
             return Response.json(deletedCollection)
         }

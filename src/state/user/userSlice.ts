@@ -1,7 +1,6 @@
-import { WordCollection, ClientWordCollection, FlashCardType } from "@/types/types"
+import { WordCollection, ClientWordCollection, FlashCardType, PublishedCOllectionType } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
-import { RootState } from "../store"
 
 export interface User {
     _id: string
@@ -31,10 +30,6 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        addCollectionToUser: (state, action: PayloadAction<WordCollection>) => {
-            state.user.collections.push(action.payload)
-            addCollectionToUserDB(state.user._id, action.payload._id)
-        },
         deleteCollectionFromUser: (state, action: PayloadAction<string>) => {
             const index = state.user.collections.findIndex((element) => element._id === action.payload)
             state.user.collections.splice(index, 1)
@@ -63,7 +58,6 @@ const userSlice = createSlice({
         builder
             .addCase(fetchUser.pending, (state) => {
                 state.loading = true
-                console.log('fetchingUser pending')
             })
             .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User | undefined>) => {
                 if (action.payload) {
@@ -79,7 +73,6 @@ const userSlice = createSlice({
             })
             .addCase(createNewCollectionAndAddToUser.pending, (state) => {
                 state.loading = true
-                console.log('createNewCollectionAndAddToUser pending')
             })
             .addCase(createNewCollectionAndAddToUser.fulfilled, (state, action: PayloadAction<WordCollection | undefined>) => {
                 if (action.payload) {
@@ -89,6 +82,23 @@ const userSlice = createSlice({
                     state.error = "Ошибка добавления Коллекции"
                 }
                 state.loading = false
+            })
+            .addCase(likePublishedCollection.fulfilled, (state, action: PayloadAction<WordCollection | undefined>) => {
+                if (action.payload) {
+                    state.user.collections.push(action.payload)
+                }
+                else {
+                    state.error = "Ошибка добавления Коллекции"
+                }
+            })
+            .addCase(dislikePublishedCollection.fulfilled, (state, action: PayloadAction<string | undefined>) => {
+                if (action.payload) {
+                    const index = state.user.collections.findIndex((element) => element._id === action.payload)
+                    state.user.collections.splice(index, 1)
+                }
+                else {
+                    state.error = "Ошибка добавления Коллекции"
+                }
             })
     }
 })
@@ -113,6 +123,34 @@ const deleteCollectionFromUserDB = async (userId: string, collectionId: string) 
     }
 }
 
+export const dislikePublishedCollection = createAsyncThunk(
+    'user/dislikePublishedCollection',
+    async ({ userId, collectionId }: { userId: string, collectionId: string }) => {
+        try {
+            const request = { userId }
+            const { data }: { data: WordCollection } = await axios.post(`/api/publishedcollection/${collectionId}/dislike`, request)
+            await deleteCollectionFromUserDB(userId, data._id)
+            return data._id
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+)
+export const likePublishedCollection = createAsyncThunk(
+    'user/likePublishedCollection',
+    async ({ userId, collectionId }: { userId: string, collectionId: string }) => {
+        try {
+            const createdCollectionResponse = await axios.post(`/api/publishedcollection/${collectionId}/like`)
+            const createdCollection = createdCollectionResponse.data
+            await addCollectionToUserDB(userId, createdCollection._id)
+            return createdCollection as WordCollection
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+)
 
 export const createNewCollectionAndAddToUser = createAsyncThunk(
     'user/createNewCollectionAndAddToUser',
@@ -147,6 +185,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { addCollectionToUser, deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards } = userSlice.actions
+export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards } = userSlice.actions
 
 export default userSlice.reducer

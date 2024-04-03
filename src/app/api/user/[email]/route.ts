@@ -1,8 +1,7 @@
 import dbConnect from "@/lib/mongo/dbConnect";
-import User, { IUser } from "@/models/User";
+import User from "@/models/User";
 import Collection from "@/models/Collection"
 import { NextRequest } from "next/server";
-import { WordCollection } from "@/types/types";
 import Flashcard from "@/models/Flashcard";
 
 
