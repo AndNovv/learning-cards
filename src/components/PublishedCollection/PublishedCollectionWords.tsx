@@ -1,10 +1,10 @@
+"use client"
 import React from 'react'
-import { FlashCardType } from '@/types/types'
-import ExistingCollectionWordPreview from './ExistingCollectionWordPreview'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea } from '../ui/scroll-area'
 import { motion } from 'framer-motion'
+import PublishedCollectionWord from './PublishedCollectionWord'
 
-const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
+const PublishedCollectionWords = ({ flashcards }: { flashcards: { english: string, russian: string }[] }) => {
 
     return (
         <ScrollArea className='h-full'>
@@ -18,7 +18,7 @@ const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
                 className='flex flex-col divide-y-2'>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
-                        <ExistingCollectionWordPreview key={`flashcardPreview${index}`} flashcard={flashcard} />
+                        <PublishedCollectionWord key={`flashcardPreview${index}`} flashcard={flashcard} />
                     )
                 })}
             </motion.div>
@@ -26,4 +26,4 @@ const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
     )
 }
 
-export default CollectionWord
+export default PublishedCollectionWords

@@ -1,4 +1,4 @@
-import { WordCollection, ClientWordCollection, FlashCardType, PublishedCOllectionType } from "@/types/types"
+import { WordCollection, ClientWordCollection, FlashCardType } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
 

@@ -4,13 +4,15 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IUser extends Document {
     name: string;
     email: string;
-    collections: string[]; // Array of ObjectIds referencing Collections
+    collections: string[] // Array of ObjectIds referencing Collections
+    publishedCollections: string[]
 }
 
 export const UserSchema: Schema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    collections: [{ type: Schema.Types.ObjectId, ref: 'Collection' }] // Array of ObjectIds referencing Collections
+    collections: [{ type: Schema.Types.ObjectId, ref: 'Collection' }], // Array of ObjectIds referencing Collections
+    publishedCollections: [{ type: Schema.Types.ObjectId, ref: 'PublishedCollection' }] // Array of ObjectIds referencing PublishedCollections
 });
 
 const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

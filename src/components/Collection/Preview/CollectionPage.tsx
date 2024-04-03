@@ -30,7 +30,7 @@ const CollectionPage = ({ collection, setEditing }: { collection: WordCollection
                 </div>
 
             </div>
-            <CollectionWords collection={collection} />
+            <CollectionWords flashcards={collection.flashcards} />
         </div>
     )
 }

@@ -28,8 +28,6 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
     const previewFlashCards = [...wordCollection.flashcards]
     previewFlashCards.length = 7
 
-
-
     const handleFavoutiteButtonClick = () => {
         if (isFavourite) {
             if (wordCollection.favouriteCount > 0) {
@@ -65,7 +63,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                     </div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <Button variant={'default'} size={'lg'} onClick={() => router.push(`/learning/${wordCollection._id}`)}>
+                    <Button variant={'default'} size={'lg'} onClick={() => router.push(`/publishedcollection/${wordCollection._id}`)}>
                         Смотреть
                     </Button>
                     <div>{`${wordCollection.favouriteCount} лайков`}</div>

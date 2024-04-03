@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import Collection from "@/models/Collection";
 import PublishedCollection from "@/models/PublishedCollection";
+import User from "@/models/User";
 import { FlashCardType } from "@/types/types";
 
 import { NextRequest } from "next/server";
@@ -10,16 +11,15 @@ export async function POST(request: NextRequest, { params }: { params: { collect
     try {
 
         const { userId }: { userId: string } = await request.json()
-        console.log(userId)
 
         await dbConnect()
         const collection = await Collection.findById(params.collectionId).populate('flashcards')
-        console.log(collection)
 
         if (collection) {
             const flashcards = collection.flashcards.map((flashcard: FlashCardType) => ({ english: flashcard.english, russian: flashcard.russian }))
-            console.log(flashcards)
             const res = await PublishedCollection.create({ title: collection.title, authorId: userId, authorName: collection.author, flashcards })
+
+            await User.findByIdAndUpdate(userId, { $push: { publishedCollections: res._id } })
             return Response.json(res)
         }
         else {

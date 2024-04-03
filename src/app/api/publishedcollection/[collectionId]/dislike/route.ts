@@ -20,16 +20,11 @@ export async function POST(request: NextRequest, { params }: { params: { collect
 
             for (let i = 0; i < userCollections.length; i++) {
 
-                console.log(userCollections[i].publishedCollectionRef)
-                console.log(publishedCollection._id)
 
                 if (userCollections[i].publishedCollectionRef?.toString() == publishedCollection._id.toString()) {
 
-                    console.log(userCollections[i])
                     // Удаление нужной локальной 
                     const deletedCollection = await Collection.findByIdAndDelete(userCollections[i]._id)
-
-                    console.log(deletedCollection)
                     if (deletedCollection) {
                         await Flashcard.deleteMany({ _id: { $in: deletedCollection.flashcards } })
                         return Response.json(userCollections[i])

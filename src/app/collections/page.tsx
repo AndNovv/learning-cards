@@ -1,35 +1,17 @@
 "use client"
 import WordCollectionPreview from '@/components/PublishedCollection/WordCollectionPreview'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { RootState } from '@/state/store'
+import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
 import { PublishedCOllectionType } from '@/types/types'
 import axios from 'axios'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 
 
 const AllCollectionsPage = () => {
 
     const [collections, setCollections] = useState<PublishedCOllectionType[] | null>(null)
 
-    const [favouritePublishedCollections, setFavouritePublishedCollections] = useState<string[]>([]);
-
-    const { user } = useSelector((state: RootState) => state.user)
-
-    const getFavouritePublishedCollections = useCallback(() => {
-        const favCollections: string[] = [];
-        for (let i = 0; i < user.collections.length; i++) {
-            const ref = user.collections[i].publishedCollectionRef;
-            if (ref) {
-                favCollections.push(ref);
-            }
-        }
-        setFavouritePublishedCollections(favCollections);
-    }, [user.collections]);
-
-    useEffect(() => {
-        getFavouritePublishedCollections();
-    }, [getFavouritePublishedCollections]);
+    const favouritePublishedCollections = useFavoritePublishedCollections()
 
     async function fetchCollections() {
         try {
