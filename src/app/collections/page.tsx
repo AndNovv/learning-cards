@@ -2,20 +2,20 @@
 import WordCollectionPreview from '@/components/PublishedCollection/WordCollectionPreview'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
-import { PublishedCOllectionType } from '@/types/types'
+import { PublishedCollectionType } from '@/types/types'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 
 const AllCollectionsPage = () => {
 
-    const [collections, setCollections] = useState<PublishedCOllectionType[] | null>(null)
+    const [collections, setCollections] = useState<PublishedCollectionType[] | null>(null)
 
     const favouritePublishedCollections = useFavoritePublishedCollections()
 
     async function fetchCollections() {
         try {
-            const { data }: { data: PublishedCOllectionType[] } = await axios.get(`/api/publishedcollection/all`)
+            const { data }: { data: PublishedCollectionType[] } = await axios.get(`/api/publishedcollection/all`)
             setCollections(data)
         }
         catch (e) {

@@ -73,18 +73,18 @@ const editedCollectionSlice = createSlice({
             state.flashcards[flashcardIndex].russian = flashcard.russian
             state.flashcards[flashcardIndex].english = flashcard.english
         },
-        deleteCollection: (state) => {
-            if (state.collectionId) {
-                deleteCollectionDB(state.collectionId)
-                state.flashcards = []
-                state.collectionId = null
-                state.title = ''
-                state.author = ''
-                state.deletedCards = []
-                state.newCards = []
-                state.updatedCards = []
-            }
-        },
+        // deleteCollection: (state) => {
+        //     if (state.collectionId) {
+        //         deleteCollectionDB(state.collectionId)
+        //         state.flashcards = []
+        //         state.collectionId = null
+        //         state.title = ''
+        //         state.author = ''
+        //         state.deletedCards = []
+        //         state.newCards = []
+        //         state.updatedCards = []
+        //     }
+        // },
         resetCollection: () => {
             return {
                 collectionId: null,
@@ -108,6 +108,9 @@ const editedCollectionSlice = createSlice({
                     state.author = action.payload.author
                     state.title = action.payload.title
                     state.flashcards = action.payload.flashcards
+                    state.updatedCards = []
+                    state.newCards = []
+                    state.deletedCards = []
                 }
                 else {
                     console.log('Ошибка добавления новой коллекции')
@@ -115,16 +118,6 @@ const editedCollectionSlice = createSlice({
             })
     }
 })
-
-const deleteCollectionDB = async (collectionId: string) => {
-
-    try {
-        await axios.delete(`/api/collection/${collectionId}`)
-    }
-    catch (e) {
-        console.log("Ошибка удаления коллекции")
-    }
-}
 
 export const updateCollection = createAsyncThunk(
     'editedCollection/updateCollection',
@@ -140,6 +133,6 @@ export const updateCollection = createAsyncThunk(
     }
 )
 
-export const { initEditedCollection, addFlashcard, deleteFlashcard, editFlashcard, deleteCollection, resetCollection } = editedCollectionSlice.actions
+export const { initEditedCollection, addFlashcard, deleteFlashcard, editFlashcard, resetCollection } = editedCollectionSlice.actions
 
 export default editedCollectionSlice.reducer

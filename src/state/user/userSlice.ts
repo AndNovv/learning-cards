@@ -1,12 +1,14 @@
-import { WordCollection, ClientWordCollection, FlashCardType } from "@/types/types"
+import { WordCollection, ClientWordCollection, FlashCardType, PublishedCollectionType } from "@/types/types"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
+import { RootState } from "../store"
 
 export interface User {
     _id: string
     name: string
     email: string
     collections: WordCollection[]
+    publishedCollections: string[]
 }
 
 interface UserDataState {
@@ -20,7 +22,8 @@ const initialState: UserDataState = {
         _id: '',
         name: '',
         email: '',
-        collections: []
+        collections: [],
+        publishedCollections: []
     },
     loading: false,
     error: null
@@ -52,7 +55,12 @@ const userSlice = createSlice({
                     }
                 }
             }
-        }
+        },
+        changeCollectionName: (state, action: PayloadAction<{ collectionId: string, collectionName: string }>) => {
+            const index = state.user.collections.findIndex((collection) => collection._id === action.payload.collectionId)
+            state.user.collections[index].title = action.payload.collectionName
+            changeCollectionNameDB(action.payload.collectionId, action.payload.collectionName)
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -97,11 +105,34 @@ const userSlice = createSlice({
                     state.user.collections.splice(index, 1)
                 }
                 else {
+                    state.error = "Ошибка удаления Коллекции"
+                }
+            })
+            .addCase(publishCollection.fulfilled, (state, action: PayloadAction<{ collectionId: string, publishedCollectionId: string } | undefined>) => {
+                const data = action.payload
+                if (data) {
+                    const index = state.user.collections.findIndex((collection) => collection._id === data.collectionId)
+                    if (index !== -1) {
+                        state.user.collections[index].publishedCollectionRef = data.publishedCollectionId
+                        state.user.publishedCollections.push(data.publishedCollectionId)
+                    }
+                }
+                else {
                     state.error = "Ошибка добавления Коллекции"
                 }
             })
     }
 })
+
+const changeCollectionNameDB = async (collectionId: string, collectionName: string) => {
+    try {
+        const request = { collectionName }
+        await axios.patch(`/api/collection/${collectionId}/rename`, request)
+    }
+    catch (e) {
+        console.log("Ошибка добавления коллекции")
+    }
+}
 
 const addCollectionToUserDB = async (userId: string, collectionId: string) => {
     try {
@@ -137,6 +168,7 @@ export const dislikePublishedCollection = createAsyncThunk(
         }
     }
 )
+
 export const likePublishedCollection = createAsyncThunk(
     'user/likePublishedCollection',
     async ({ userId, collectionId }: { userId: string, collectionId: string }) => {
@@ -145,6 +177,22 @@ export const likePublishedCollection = createAsyncThunk(
             const createdCollection = createdCollectionResponse.data
             await addCollectionToUserDB(userId, createdCollection._id)
             return createdCollection as WordCollection
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+)
+
+export const publishCollection = createAsyncThunk(
+    'user/publishCollection',
+    async (collectionId: string, { getState }) => {
+        try {
+            const { user } = getState() as RootState
+            const request = { userId: user.user._id }
+            const { data }: { data: PublishedCollectionType } = await axios.post(`/api/collection/${collectionId}/publish`, request)
+
+            return { collectionId, publishedCollectionId: data._id }
         }
         catch (e) {
             console.log(e)
@@ -185,6 +233,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards } = userSlice.actions
+export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards, changeCollectionName } = userSlice.actions
 
 export default userSlice.reducer

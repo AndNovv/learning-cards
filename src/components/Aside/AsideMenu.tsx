@@ -1,6 +1,5 @@
 "use client"
 import React from 'react'
-import CardsCollectionAsideIcon from './CardsCollectionAsideIcon'
 import AsideProfileIcon from './AsideProfileIcon'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/state/store'
@@ -8,13 +7,12 @@ import { motion } from "framer-motion"
 import CreateNewCollection from './CreateNewCollection'
 import { groupCollectionsByTime } from '@/lib/GroupCollectionsByTime'
 import { cn } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-react'
 import { setVisibility } from '@/state/asideMenu/asideMenuSlice'
 import { useDispatch } from 'react-redux'
 import { useOutsideClick } from '@/hooks/useOutsideClick'
 import { ScrollArea } from '../ui/scroll-area'
 import TimeGroupSection from './TimeGroupSection'
-import AsideMenuCloseIcon from './ASideMenuCloseIcon'
+import AsideMenuCloseIcon from './AsideMenuCloseIcon'
 
 const AsideMenu = () => {
 

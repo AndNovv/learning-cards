@@ -10,18 +10,17 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Button } from '@/components/ui/button'
 import { Trash } from 'lucide-react'
 
-const CancelButtonWithAlert = ({ handleDeleteClick }: { handleDeleteClick: () => void }) => {
-
+const DeleteButtonWithAlert = ({ handleDeleteClick }: { handleDeleteClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void }) => {
 
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant={'destructive'} size={'smallIcon'}>
+                <div className="flex items-center px-2 py-3 gap-4 text-red-500 hover:bg-accent transition-all cursor-pointer rounded-xl">
                     <Trash className='size-5' />
-                </Button>
+                    <p>Удалить</p>
+                </div>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -40,4 +39,4 @@ const CancelButtonWithAlert = ({ handleDeleteClick }: { handleDeleteClick: () =>
     )
 }
 
-export default CancelButtonWithAlert
+export default DeleteButtonWithAlert

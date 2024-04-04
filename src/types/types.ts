@@ -17,7 +17,7 @@ export type FlashCardType = {
     repetitionTime: number
 }
 
-export type PublishedCOllectionType = {
+export type PublishedCollectionType = {
     _id: string
     title: string
     authorId: string

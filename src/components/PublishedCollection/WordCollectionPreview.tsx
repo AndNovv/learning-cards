@@ -1,5 +1,5 @@
 "use client"
-import { PublishedCOllectionType } from '@/types/types'
+import { PublishedCollectionType } from '@/types/types'
 import React from 'react'
 import {
     Card,
@@ -16,12 +16,15 @@ import { AppDispatch, RootState } from '@/state/store'
 import { useDispatch } from 'react-redux'
 import { likePublishedCollection, dislikePublishedCollection } from '@/state/user/userSlice'
 import { useRouter } from 'next/navigation'
+import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
 
-const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection: PublishedCOllectionType, isFavourite: boolean }) => {
+const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection: PublishedCollectionType, isFavourite: boolean }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
     const router = useRouter()
+
+    const favouritePublishedCollections = useFavoritePublishedCollections()
 
     const { user, loading, error } = useSelector((state: RootState) => state.user);
 
@@ -67,9 +70,10 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                         Смотреть
                     </Button>
                     <div>{`${wordCollection.favouriteCount} лайков`}</div>
-                    <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
-                        <Star />
-                    </Button>
+                    {!favouritePublishedCollections.includes(wordCollection._id) &&
+                        <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
+                            <Star />
+                        </Button>}
                 </div>
             </CardContent>
         </Card>

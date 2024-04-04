@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
 import { AppDispatch, RootState } from '@/state/store'
 import { dislikePublishedCollection, likePublishedCollection } from '@/state/user/userSlice'
-import { PublishedCOllectionType } from '@/types/types'
+import { PublishedCollectionType } from '@/types/types'
 import axios from 'axios'
 import { Star } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
 
     const { user } = useSelector((state: RootState) => state.user)
 
-    const [publishedCollection, setPublishedCollection] = useState<PublishedCOllectionType | null>(null)
+    const [publishedCollection, setPublishedCollection] = useState<PublishedCollectionType | null>(null)
     const [error, setError] = useState<boolean>(false)
 
     const favouritePublishedCollections = useFavoritePublishedCollections()
