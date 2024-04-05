@@ -99,7 +99,7 @@ const CardsCollectionAsideIcon = ({ collection, active, isDesktop }: { collectio
             <Popover open={optionsOpen} onOpenChange={setOptionsOpen}>
                 <PopoverTrigger onClick={handleOptionsClick}>
                     <div className='h-full'>
-                        <Ellipsis className={cn('group-hover:visible transition-all size-5', active ? 'visible' : (optionsOpen ? 'visible' : 'invisible'))} />
+                        <Ellipsis className={cn('group-hover:visible transition-all size-5 h-full', active ? 'visible' : (optionsOpen ? 'visible' : 'invisible'))} />
                     </div>
                 </PopoverTrigger>
                 <PopoverContent className='w-[200px]'>
