@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params }: { params: { collect
         if (collection) {
 
             const flashcards = collection.flashcards.map((flashcard: FlashCardType) => ({ english: flashcard.english, russian: flashcard.russian }))
-            const res: PublishedCollectionType | null = await PublishedCollection.create({ title: collection.title, authorId: userId, authorName: collection.author, flashcards })
+            const res: PublishedCollectionType | null = await PublishedCollection.create({ title: collection.title, authorId: userId, authorName: collection.author, flashcards, originCollection: params.collectionId })
 
             if (res) {
                 await Collection.findByIdAndUpdate(params.collectionId, { $set: { publishedCollectionRef: res._id } })

@@ -8,7 +8,7 @@ export interface User {
     name: string
     email: string
     collections: WordCollection[]
-    publishedCollections: string[]
+    publishedCollections: PublishedCollectionType[]
 }
 
 interface UserDataState {
@@ -61,6 +61,17 @@ const userSlice = createSlice({
             state.user.collections[index].title = action.payload.collectionName
             changeCollectionNameDB(action.payload.collectionId, action.payload.collectionName)
         },
+        deletePublishedCollection: (state, action: PayloadAction<string>) => {
+            const index = state.user.publishedCollections.findIndex((collection) => collection._id === action.payload)
+            if (index !== -1) {
+                state.user.publishedCollections.splice(index, 1)
+                deletePublishedCollectionDB(action.payload)
+                const collectionIndex = state.user.collections.findIndex((collection) => collection.publishedCollectionRef === action.payload)
+                if (collectionIndex !== -1) {
+                    state.user.collections[collectionIndex].publishedCollectionRef = null
+                }
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -73,6 +84,7 @@ const userSlice = createSlice({
                     state.user.name = action.payload.name
                     state.user.email = action.payload.email
                     state.user.collections = action.payload.collections
+                    state.user.publishedCollections = action.payload.publishedCollections
                 }
                 else {
                     state.error = "Ошибка получения информации о пользователе"
@@ -108,13 +120,13 @@ const userSlice = createSlice({
                     state.error = "Ошибка удаления Коллекции"
                 }
             })
-            .addCase(publishCollection.fulfilled, (state, action: PayloadAction<{ collectionId: string, publishedCollectionId: string } | undefined>) => {
+            .addCase(publishCollection.fulfilled, (state, action: PayloadAction<{ collectionId: string, publishedCollection: PublishedCollectionType } | undefined>) => {
                 const data = action.payload
                 if (data) {
                     const index = state.user.collections.findIndex((collection) => collection._id === data.collectionId)
                     if (index !== -1) {
-                        state.user.collections[index].publishedCollectionRef = data.publishedCollectionId
-                        state.user.publishedCollections.push(data.publishedCollectionId)
+                        state.user.collections[index].publishedCollectionRef = data.publishedCollection._id
+                        state.user.publishedCollections.push(data.publishedCollection)
                     }
                 }
                 else {
@@ -123,6 +135,15 @@ const userSlice = createSlice({
             })
     }
 })
+
+const deletePublishedCollectionDB = async (collectionId: string) => {
+    try {
+        await axios.delete(`/api/publishedcollection/${collectionId}`)
+    }
+    catch (e) {
+        console.log("Ошибка удаления коллекции")
+    }
+}
 
 const changeCollectionNameDB = async (collectionId: string, collectionName: string) => {
     try {
@@ -192,7 +213,7 @@ export const publishCollection = createAsyncThunk(
             const request = { userId: user.user._id }
             const { data }: { data: PublishedCollectionType } = await axios.post(`/api/collection/${collectionId}/publish`, request)
 
-            return { collectionId, publishedCollectionId: data._id }
+            return { collectionId, publishedCollection: data }
         }
         catch (e) {
             console.log(e)
@@ -233,6 +254,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards, changeCollectionName } = userSlice.actions
+export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards, changeCollectionName, deletePublishedCollection } = userSlice.actions
 
 export default userSlice.reducer

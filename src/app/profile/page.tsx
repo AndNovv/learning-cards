@@ -16,7 +16,7 @@ const ProfilePage = () => {
     if (status !== 'authenticated') return null
 
     return (
-        <div className='flex flex-col gap-2 items-start lg:px-40 px-10'>
+        <div className='flex flex-col gap-2 items-start lg:px-40 md:px-5 px-5'>
 
             {!loading && (
                 <div className='flex w-full gap-4 justify-between mb-10 border-b pb-6'>
@@ -31,8 +31,8 @@ const ProfilePage = () => {
                                 className='rounded-full'
                             />}
                         <div>
-                            <p className='text-xl'>{user.name}</p>
-                            <p className='text-lg text-white opacity-60'>{user.email}</p>
+                            <p className='text-lg'>{user.name}</p>
+                            <p className='text-white opacity-60'>{user.email}</p>
                         </div>
                     </div>
                     <Button variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}>Выйти</Button>

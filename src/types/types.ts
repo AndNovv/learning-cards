@@ -25,6 +25,7 @@ export type PublishedCollectionType = {
     flashcards: { english: string, russian: string }[]
     favouriteCount: number
     publishedAt: Date
+    originCollection: string
 }
 
 
