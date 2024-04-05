@@ -48,7 +48,7 @@ const NewWordCardInput = () => {
 
     return (
         <div className='mb-6'>
-            <h2 className='text-xl mb-4'>Добавьте слова в Коллекцию</h2>
+            {/* <h2 className='text-xl mb-4'>Добавьте слова в Коллекцию</h2> */}
             <form onSubmit={handleSubmitNewWordCard} className='flex flex-row gap-4'>
                 <div className='flex flex-row gap-4 flex-1'>
                     <Input className={wordsOrderReversed ? 'order-first' : 'order-last'} placeholder='Русский' ref={russianWordInputRef} />

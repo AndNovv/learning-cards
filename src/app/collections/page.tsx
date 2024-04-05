@@ -1,7 +1,9 @@
 "use client"
 import WordCollectionPreview from '@/components/PublishedCollection/WordCollectionPreview'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
 import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
+import useMediaQuery from '@/hooks/useMediaQuery'
 import { PublishedCollectionType } from '@/types/types'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -27,7 +29,16 @@ const AllCollectionsPage = () => {
         fetchCollections()
     }, [])
 
-    if (!collections) return <div>Данные не найдены</div>
+    if (!collections) return (
+        <div className='flex flex-row flex-wrap gap-6 justify-center'>
+            <Skeleton className='w-[350px] h-[370px]' />
+            <Skeleton className='w-[350px] h-[370px]' />
+            <Skeleton className='w-[350px] h-[370px]' />
+            <Skeleton className='w-[350px] h-[370px]' />
+            <Skeleton className='w-[350px] h-[370px]' />
+            <Skeleton className='w-[350px] h-[370px]' />
+        </div>
+    )
 
     return (
         <ScrollArea className='h-full'>

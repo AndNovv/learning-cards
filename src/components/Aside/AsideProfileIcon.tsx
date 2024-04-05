@@ -7,6 +7,7 @@ import { User } from 'lucide-react';
 import { setVisibility } from '@/state/asideMenu/asideMenuSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/state/store';
+import { Skeleton } from '../ui/skeleton';
 
 const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
 
@@ -29,6 +30,14 @@ const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
         router.push('/profile')
     }
 
+    if (status === 'loading') {
+        return (
+            <div className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-hover bg-background text-left cursor-pointer transition-all text-nowrap'>
+                <Skeleton className='size-10 rounded-full' />
+                <Skeleton className='w-40 h-4' />
+            </div>
+        )
+    }
 
     if (status !== 'authenticated') {
         return (

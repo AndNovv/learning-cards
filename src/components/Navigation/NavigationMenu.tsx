@@ -1,11 +1,10 @@
 "use client"
 import { setVisibility } from '@/state/asideMenu/asideMenuSlice'
-import { AppDispatch, RootState } from '@/state/store'
+import { AppDispatch } from '@/state/store'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
 
 const navLinks = [
     {
@@ -20,21 +19,15 @@ const navLinks = [
         href: '/collections',
         title: 'Коллекции карточек'
     },
-    {
-        href: '/statistics',
-        title: 'Статистика'
-    },
 ] as const
 
 const NavigationMenu = () => {
-
-    const asideMenu = useSelector((state: RootState) => state.asideMenu)
 
     const dispatch = useDispatch<AppDispatch>()
 
     return (
         <header className='flex flex-row justify-between items-center px-10 py-6 bg-gradient-to-b from-background from-70% to-transparent'>
-            {!asideMenu.isDesktop && <div className='p-2 cursor-pointer' onClick={() => dispatch(setVisibility(true))}><Menu /></div>}
+            <div className='p-2 cursor-pointer block md:hidden' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
             <nav>
                 <ul className="flex flex-row gap-4 items-center">
                     {navLinks.map((link, index) => {

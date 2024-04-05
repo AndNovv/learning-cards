@@ -25,7 +25,7 @@ const initialState: UserDataState = {
         collections: [],
         publishedCollections: []
     },
-    loading: false,
+    loading: true,
     error: null
 }
 
@@ -91,9 +91,6 @@ const userSlice = createSlice({
                 }
                 state.loading = false
             })
-            .addCase(createNewCollectionAndAddToUser.pending, (state) => {
-                state.loading = true
-            })
             .addCase(createNewCollectionAndAddToUser.fulfilled, (state, action: PayloadAction<WordCollection | undefined>) => {
                 if (action.payload) {
                     state.user.collections.push(action.payload)
@@ -101,7 +98,6 @@ const userSlice = createSlice({
                 else {
                     state.error = "Ошибка добавления Коллекции"
                 }
-                state.loading = false
             })
             .addCase(likePublishedCollection.fulfilled, (state, action: PayloadAction<WordCollection | undefined>) => {
                 if (action.payload) {

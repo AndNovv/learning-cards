@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/state/store';
 import { useDispatch } from 'react-redux';
 import { changeActiveCollection, resetActiveCollection } from '@/state/activeCollection/activeCollectionSlice';
+import LoadingCollectionPage from '@/components/Collection/Preview/LoadingCollectionPage';
 
 const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) => {
 
@@ -23,18 +24,11 @@ const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) 
         }
     }, [])
 
-    const findCollection = () => {
-        for (let i = 0; i < favouriteCollections.length; i++) {
-            if (favouriteCollections[i]._id === params.collectionId) {
-                return favouriteCollections[i]
-            }
-        }
-        return null
-    }
+    const collection = favouriteCollections.find((element) => element._id === params.collectionId)
 
-    const collection = findCollection()
 
-    if (!collection) return <div>Такой коллекции не существует</div>
+    if (loading) return <LoadingCollectionPage />
+    if (!collection) return <div>Такой коллекции не существует...</div>
 
 
     return (

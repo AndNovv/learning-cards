@@ -1,4 +1,5 @@
 "use client"
+import LoadingPublishedCollectionPage from '@/components/PublishedCollection/LoadingPublishCollectionPage'
 import PublishedCollectionWords from '@/components/PublishedCollection/PublishedCollectionWords'
 import { Button } from '@/components/ui/button'
 import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
@@ -39,7 +40,7 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
 
     if (error) return <div>Ошибка... Страница недоступна</div>
 
-    if (!publishedCollection) return <div>Загрузка...</div>
+    if (!publishedCollection) return <LoadingPublishedCollectionPage />
 
     const handleFavoutiteButtonClick = () => {
         if (isFavourite) {
