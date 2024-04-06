@@ -27,7 +27,7 @@ const NavigationMenu = () => {
 
     return (
         <header className='flex flex-row justify-between items-center px-10 py-6 bg-gradient-to-b from-background from-70% to-transparent'>
-            <div className='p-2 cursor-pointer block md:hidden' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
+            <div className='p-2 cursor-pointer block md:hidden hover:bg-hover hover:outline outline-1 outline-accent rounded-xl' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
             <nav>
                 <ul className="flex flex-row gap-4 items-center">
                     {navLinks.map((link, index) => {

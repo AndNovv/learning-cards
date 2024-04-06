@@ -23,12 +23,13 @@ const AsideMenuCloseIcon = () => {
                     visible: { scale: 1 },
                 }
             }
+            whileTap={{ scale: 0.9, transition: { duration: 0.1 } }}
             transition={{
                 ease: "linear",
                 duration: 0.2,
             }}
             onClick={() => dispatch(setVisibility(false))}
-            className='absolute cursor-pointer -right-20 top-2 size-12 bg-accent border border-card rounded-xl flex items-center justify-center'>
+            className='absolute cursor-pointer -right-20 top-2 size-12 bg-hover border border-card hover:outline outline-1 outline-border rounded-xl flex items-center justify-center'>
             <ArrowLeft />
         </motion.div>
     )

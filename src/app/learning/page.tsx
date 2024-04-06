@@ -1,6 +1,7 @@
 "use client"
 import FlashCard from '@/components/Learning/FlashCard'
 import ForgetButton from '@/components/Learning/ForgetButton'
+import LoadingLearningPage from '@/components/Learning/LoadingLearningPage'
 import RememberButton from '@/components/Learning/RememberButton'
 import useLearningCards from '@/hooks/useLearningCards'
 import { initializeAllFlashcards } from '@/state/allFlashcards/allFlashcardsSlice'
@@ -11,19 +12,24 @@ import { useSelector } from 'react-redux'
 
 const Learning = () => {
 
-    const user = useSelector((state: RootState) => state.user)
+    const { user, loading } = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch<AppDispatch>()
 
-    const { currentFlashcard, addNewUpdatedCard } = useLearningCards()
+    const { currentFlashcard, addNewUpdatedCard, flashcardsLoading } = useLearningCards()
+
 
     const handleButtonClick = useCallback((isRemembered: boolean) => {
-        addNewUpdatedCard(isRemembered)
+        if (!flashcardsLoading) {
+            addNewUpdatedCard(isRemembered)
+        }
     }, [addNewUpdatedCard])
 
 
     useEffect(() => {
-        dispatch(initializeAllFlashcards(user.user.collections))
-    }, [user.user.collections]);
+        if (!loading) {
+            dispatch(initializeAllFlashcards(user.collections))
+        }
+    }, [user.collections, dispatch, loading]);
 
 
     useEffect(() => {
@@ -71,7 +77,9 @@ const Learning = () => {
         };
     }, [handleButtonClick]);
 
-    if (!currentFlashcard) return <div>Загрузка</div>
+    if (flashcardsLoading) return <LoadingLearningPage />
+
+    if (!currentFlashcard) return <div>Больше нечего повторять</div>
 
     return (
         <div className='flex flex-col gap-10 justify-center items-center h-full'>

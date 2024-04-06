@@ -5,12 +5,12 @@ import { updateFlashcards } from '@/state/user/userSlice'
 import { RootState } from "../store"
 
 interface AllFlashcards {
-    flashcards: FlashCardType[],
+    flashcards: FlashCardType[] | null,
     updatedCards: FlashCardType[]
 }
 
 const initialState: AllFlashcards = {
-    flashcards: [],
+    flashcards: null,
     updatedCards: []
 }
 
@@ -24,12 +24,34 @@ const allFlashcardsSlice = createSlice({
                 allFlashcards = [...allFlashcards, ...collection.flashcards]
             });
             allFlashcards.sort((a, b) => a.repetitionTime - b.repetitionTime)
-            state.flashcards = allFlashcards
+
+            if (allFlashcards.length > 0) {
+                let index = 0
+                while (allFlashcards[index].repetitionTime < Date.now()) {
+                    index++
+                    if (index >= allFlashcards.length) {
+                        break
+                    }
+                }
+                if (index === 0) {
+                    state.flashcards = []
+                }
+                else if (index < allFlashcards.length) {
+                    allFlashcards.splice(index)
+                    state.flashcards = allFlashcards
+                }
+            }
             state.updatedCards = []
         },
         addUpdatedCard: (state, action: PayloadAction<FlashCardType>) => {
             state.updatedCards.push(action.payload)
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(applyUpdatedCards.pending, (state) => {
+                state.flashcards = null
+            })
     }
 })
 

@@ -1,33 +1,14 @@
-import FlashCard from "@/components/Learning/FlashCard";
-import { WordCollection } from "@/types/types";
-
+import LinkNavigationCard from "@/components/Main/LinkNavigationCard";
 
 export default async function Home() {
 
-  let collections: WordCollection[]
-  try {
-    collections = []
-  }
-  catch (e) {
-    return <div>Данные не найдены</div>
-  }
-
-  if (!collections.length) return <div>Данные не найдены</div>
-
-  const collection = collections[1]
-
-
   return (
-    <main className="flex flex-col px-10 py-4">
+    <div className="flex flex-col gap-4 justify-center items-center h-full px-10 md:px-5 lg:px-10 xl:px-40">
 
-      <section className="flex flex-row flex-wrap gap-4">
-        {collection.flashcards.map((flashcardInfo, index) => {
-          return (
-            <FlashCard flashcardInfo={flashcardInfo} key={`flashcard${index}`} />
-          )
-        })}
+      <section className="grid grid-cols-2 gap-4 w-full">
+        <LinkNavigationCard title={'Повторять слова'} href={'/learning'} image={'/bg-images/3.jpg'} />
+        <LinkNavigationCard title={'Найти новые коллекции'} href={'/collections'} image={'/bg-images/2.jpg'} />
       </section>
-
-    </main>
+    </div>
   );
 }

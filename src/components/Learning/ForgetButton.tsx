@@ -9,7 +9,7 @@ const ForgetButton = ({ handleButtonClick }: { handleButtonClick: () => void }) 
 
     return (
         <motion.div
-            initial={'hovered'}
+            initial={'notHovered'}
             animate={hovered ? 'hovered' : 'notHovered'}
             whileTap={{ scale: 1.1, transition: { duration: 0.1 } }}
             variants={{
