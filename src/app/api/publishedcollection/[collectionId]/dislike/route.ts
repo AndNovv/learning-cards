@@ -3,7 +3,7 @@ import Collection from "@/models/Collection";
 import Flashcard from "@/models/Flashcard";
 import PublishedCollection from "@/models/PublishedCollection";
 import User from "@/models/User";
-import { PublishedCOllectionType, WordCollection } from "@/types/types";
+import { PublishedCollectionType, WordCollection } from "@/types/types";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest, { params }: { params: { collectionId: string } }) {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest, { params }: { params: { collect
         const { userId }: { userId: string } = await request.json()
 
         await dbConnect()
-        const publishedCollection: PublishedCOllectionType | null = await PublishedCollection.findByIdAndUpdate(params.collectionId, { $inc: { favouriteCount: -1 } })
+        const publishedCollection: PublishedCollectionType | null = await PublishedCollection.findByIdAndUpdate(params.collectionId, { $inc: { favouriteCount: -1 } })
 
         if (publishedCollection) {
             const user = await User.findById(userId).populate('collections')

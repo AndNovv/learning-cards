@@ -54,7 +54,7 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
             animate={{ translateY: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
             onClick={handleCardClick}
-            className='flip-card cursor-pointer h-40 w-1/2'
+            className='flip-card cursor-pointer h-40 w-full max-w-[500px]'
         >
             <motion.div
                 key={`flashcardInner-${flashcardInfo._id}`}

@@ -6,14 +6,20 @@ import NavigationMenu from "@/components/Navigation/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
 import Providers from "@/providers/Providers";
-import { motion } from "framer-motion";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Learning Cards",
-  description: "Level up your skills",
+  icons: {
+    icon: [
+      {
+        url: "/images/muskot-logo.svg", // /public path
+        href: "/images/muskot-logo.svg", // /public path
+      },
+    ],
+  },
+  title: "Plexicon",
+  description: "Изучение иностранных языков",
 };
 
 export default function RootLayout({
@@ -27,10 +33,10 @@ export default function RootLayout({
         <Providers>
           <>
             <AsideMenu />
-            <main className="flex flex-col w-full h-screen">
+            <main className="flex flex-col w-full h-screen xl:px-60 lg:px-32 md:px-10 px-5">
 
               <NavigationMenu />
-              <div className="relative flex-1 px-10 py-2 overflow-hidden">
+              <div className="relative flex-1 overflow-hidden pb-10 p-1">
                 {children}
               </div>
             </main>

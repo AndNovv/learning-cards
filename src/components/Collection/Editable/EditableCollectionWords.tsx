@@ -17,7 +17,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
     }
 
     return (
-        <ScrollArea className='h-full'>
+        <ScrollArea className='h-full overflow-hidden'>
             <motion.div
                 layout
                 transition={{

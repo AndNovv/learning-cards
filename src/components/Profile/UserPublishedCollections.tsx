@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import OptionsMenu from './OptionsMenu'
+import { ScrollArea } from '../ui/scroll-area'
 
 const UserPublishedCollections = () => {
 
@@ -16,7 +17,7 @@ const UserPublishedCollections = () => {
     ];
 
     return (
-        <div className='w-full'>
+        <ScrollArea className='h-full w-full'>
             <h2 className='text-2xl mb-4'>Ваши публикации</h2>
             {publishedCollections.length === 0 && <div className='text-white opacity-60'>Вы еще не опубликовали ни одной коллекции...</div>}
             {publishedCollections.length > 0 &&
@@ -44,7 +45,7 @@ const UserPublishedCollections = () => {
                     </div>
                 </div>
             }
-        </div>
+        </ScrollArea>
     )
 }
 

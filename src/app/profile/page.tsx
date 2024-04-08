@@ -18,7 +18,7 @@ const ProfilePage = () => {
     if (loading) return <LoadingProfilePage />
 
     return (
-        <div className='flex flex-col gap-2 items-start lg:px-40 md:px-5 px-5'>
+        <div className='flex flex-col gap-2 items-start'>
             <div className='flex w-full gap-4 justify-between mb-10 border-b pb-6'>
                 <div className='flex gap-4 shrink-0'>
                     <motion.div

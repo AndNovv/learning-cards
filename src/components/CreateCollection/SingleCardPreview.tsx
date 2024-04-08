@@ -32,7 +32,7 @@ const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard
         return (
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <div className='flex flex-row hover:bg-secondary transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
+                    <div className='flex flex-row hover:bg-hover transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
                         <div className='flex flex-row gap-2 w-full'>
                             <p>{flashcard.english}</p>
                             <p>-</p>
@@ -58,7 +58,7 @@ const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <div className='flex flex-row hover:bg-secondary transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
-                    <div className='flex flex-row gap-2 w-full'>
+                    <div className='flex flex-row gap-2 w-full items-center'>
                         <p>{flashcard.english}</p>
                         <p>-</p>
                         <p>{flashcard.russian}</p>

@@ -2,44 +2,29 @@
 import { setVisibility } from '@/state/asideMenu/asideMenuSlice'
 import { AppDispatch } from '@/state/store'
 import { Menu } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-
-const navLinks = [
-    {
-        href: '/',
-        title: 'Главная'
-    },
-    {
-        href: '/learning',
-        title: 'Изучение'
-    },
-    {
-        href: '/collections',
-        title: 'Коллекции карточек'
-    },
-] as const
 
 const NavigationMenu = () => {
 
     const dispatch = useDispatch<AppDispatch>()
 
     return (
-        <header className='flex flex-row justify-between items-center px-10 py-6 bg-gradient-to-b from-background from-70% to-transparent'>
-            <div className='p-2 cursor-pointer block md:hidden hover:bg-hover hover:outline outline-1 outline-accent rounded-xl' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
-            <nav>
-                <ul className="flex flex-row gap-4 items-center">
-                    {navLinks.map((link, index) => {
-                        return (
-                            <li className="hover:text-primary underline-offset-4 hover:underline rounded-md font-medium transition-all" key={`NavLink${index}`}>
-                                <Link href={link.href}>{link.title}</Link>
-                            </li>
-                        )
-                    })
-                    }
-                </ul>
-            </nav>
+        <header className='relative flex flex-row justify-between items-center py-4 bg-gradient-to-b from-background from-70% to-transparent'>
+            <div className='p-2 cursor-pointer block md:invisible hover:bg-hover hover:outline outline-1 outline-accent rounded-xl' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
+            <div className='text-2xl absolute left-1/2 -translate-x-1/2'>
+                <Link href={'/'}>
+                    <Image
+                        src={'/images/plexicon.svg'}
+                        alt='PLEXICON'
+                        height={10}
+                        width={150}
+                    />
+                </Link>
+            </div>
+            <div></div>
         </header>
     )
 }

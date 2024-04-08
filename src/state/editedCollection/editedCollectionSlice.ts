@@ -73,18 +73,6 @@ const editedCollectionSlice = createSlice({
             state.flashcards[flashcardIndex].russian = flashcard.russian
             state.flashcards[flashcardIndex].english = flashcard.english
         },
-        // deleteCollection: (state) => {
-        //     if (state.collectionId) {
-        //         deleteCollectionDB(state.collectionId)
-        //         state.flashcards = []
-        //         state.collectionId = null
-        //         state.title = ''
-        //         state.author = ''
-        //         state.deletedCards = []
-        //         state.newCards = []
-        //         state.updatedCards = []
-        //     }
-        // },
         resetCollection: () => {
             return {
                 collectionId: null,

@@ -82,11 +82,13 @@ const Learning = () => {
     if (!currentFlashcard) return <div>Больше нечего повторять</div>
 
     return (
-        <div className='flex flex-col gap-10 justify-center items-center h-full'>
-            <FlashCard flashcardInfo={currentFlashcard} />
-            <div className='flex flex-row w-1/2 justify-between'>
-                <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
-                <RememberButton handleButtonClick={() => handleButtonClick(true)} />
+        <div className='flex justify-center items-center h-full'>
+            <div className='flex flex-col w-full max-w-[500px] gap-10'>
+                <FlashCard flashcardInfo={currentFlashcard} />
+                <div className='flex flex-row w-full justify-between'>
+                    <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
+                    <RememberButton handleButtonClick={() => handleButtonClick(true)} />
+                </div>
             </div>
         </div>
     )
