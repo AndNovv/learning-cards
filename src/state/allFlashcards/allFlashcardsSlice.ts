@@ -20,10 +20,14 @@ const allFlashcardsSlice = createSlice({
     reducers: {
         initializeAllFlashcards: (state, action: PayloadAction<WordCollection[]>) => {
             let allFlashcards: FlashCardType[] = []
+            console.log('initializeAllFlashcards')
+            console.log(allFlashcards)
             action.payload.forEach((collection) => {
                 allFlashcards = [...allFlashcards, ...collection.flashcards]
             });
+            console.log(allFlashcards)
             allFlashcards.sort((a, b) => a.repetitionTime - b.repetitionTime)
+            console.log(allFlashcards)
 
             if (allFlashcards.length > 0) {
                 let index = 0
@@ -41,6 +45,8 @@ const allFlashcardsSlice = createSlice({
                     state.flashcards = allFlashcards
                 }
             }
+            console.log(allFlashcards)
+            console.log(state.flashcards)
             state.updatedCards = []
         },
         addUpdatedCard: (state, action: PayloadAction<FlashCardType>) => {

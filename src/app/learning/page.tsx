@@ -2,6 +2,7 @@
 import FlashCard from '@/components/Learning/FlashCard'
 import ForgetButton from '@/components/Learning/ForgetButton'
 import LoadingLearningPage from '@/components/Learning/LoadingLearningPage'
+import NothingToRepeatPage from '@/components/Learning/NothingToRepeatPage'
 import RememberButton from '@/components/Learning/RememberButton'
 import useLearningCards from '@/hooks/useLearningCards'
 import { initializeAllFlashcards } from '@/state/allFlashcards/allFlashcardsSlice'
@@ -22,11 +23,13 @@ const Learning = () => {
         if (!flashcardsLoading) {
             addNewUpdatedCard(isRemembered)
         }
-    }, [addNewUpdatedCard])
+    }, [addNewUpdatedCard, flashcardsLoading])
 
 
     useEffect(() => {
         if (!loading) {
+            console.log('init cards')
+            console.log(user.collections)
             dispatch(initializeAllFlashcards(user.collections))
         }
     }, [user.collections, dispatch, loading]);
@@ -79,7 +82,7 @@ const Learning = () => {
 
     if (flashcardsLoading) return <LoadingLearningPage />
 
-    if (!currentFlashcard) return <div>Больше нечего повторять</div>
+    if (!currentFlashcard) return <NothingToRepeatPage />
 
     return (
         <div className='flex justify-center items-center h-full'>

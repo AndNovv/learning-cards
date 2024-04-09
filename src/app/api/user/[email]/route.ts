@@ -26,7 +26,12 @@ export async function GET(_request: NextRequest, { params }: { params: { email: 
         if (user) {
             return Response.json(user)
         }
-        return Response.json("Пользователь не найден")
+        return Response.json("Пользователь не найден", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 400,
+        })
     }
     catch (e) {
         return new Response(JSON.stringify(e), {

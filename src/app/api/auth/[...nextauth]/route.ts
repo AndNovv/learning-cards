@@ -1,6 +1,7 @@
 import axios from "axios";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google"
+axios.defaults.baseURL = 'http://localhost:3000';
 
 const authOptions = {
     providers: [

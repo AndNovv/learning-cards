@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import textLogo from '../../../public/images/plexicon.svg'
 
 const NavigationMenu = () => {
 
@@ -17,7 +18,7 @@ const NavigationMenu = () => {
             <div className='text-2xl absolute left-1/2 -translate-x-1/2'>
                 <Link href={'/'}>
                     <Image
-                        src={'/images/plexicon.svg'}
+                        src={textLogo}
                         alt='PLEXICON'
                         height={10}
                         width={150}
