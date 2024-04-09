@@ -20,14 +20,10 @@ const allFlashcardsSlice = createSlice({
     reducers: {
         initializeAllFlashcards: (state, action: PayloadAction<WordCollection[]>) => {
             let allFlashcards: FlashCardType[] = []
-            console.log('initializeAllFlashcards')
-            console.log(allFlashcards)
             action.payload.forEach((collection) => {
                 allFlashcards = [...allFlashcards, ...collection.flashcards]
             });
-            console.log(allFlashcards)
             allFlashcards.sort((a, b) => a.repetitionTime - b.repetitionTime)
-            console.log(allFlashcards)
 
             if (allFlashcards.length > 0) {
                 let index = 0
@@ -38,16 +34,23 @@ const allFlashcardsSlice = createSlice({
                     }
                 }
                 if (index === 0) {
-                    state.flashcards = []
+                    return {
+                        flashcards: [],
+                        updatedCards: []
+                    }
                 }
                 else if (index < allFlashcards.length) {
                     allFlashcards.splice(index)
-                    state.flashcards = allFlashcards
+                    return {
+                        flashcards: allFlashcards,
+                        updatedCards: []
+                    }
                 }
             }
-            console.log(allFlashcards)
-            console.log(state.flashcards)
-            state.updatedCards = []
+            return {
+                flashcards: allFlashcards,
+                updatedCards: []
+            }
         },
         addUpdatedCard: (state, action: PayloadAction<FlashCardType>) => {
             state.updatedCards.push(action.payload)
@@ -66,6 +69,7 @@ export const applyUpdatedCards = createAsyncThunk(
     async (_, { getState, dispatch }) => {
         const { allFlashcards } = getState() as RootState
         const updatedCards = allFlashcards.updatedCards
+        console.log(updatedCards)
         if (updatedCards.length > 0) {
 
             // Обновляем карты на клиенте

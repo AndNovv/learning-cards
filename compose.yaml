@@ -11,12 +11,8 @@ services:
   server:
     build:
       context: .
-    environment:
-      MONGODB_URI: mongodb://user:user@mongo:27017/appdb
-      GOOGLE_CLIENT_ID: 571356364668-7d494fb6c757et7qd4a86p8uikrfe1jp.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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
-      NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: lkdjsafjhcbjakhdfe
+    env_file:
+      - variables.env
     ports:
       - 3000:3000
     depends_on:

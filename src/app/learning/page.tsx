@@ -2,7 +2,6 @@
 import FlashCard from '@/components/Learning/FlashCard'
 import ForgetButton from '@/components/Learning/ForgetButton'
 import LoadingLearningPage from '@/components/Learning/LoadingLearningPage'
-import NothingToRepeatPage from '@/components/Learning/NothingToRepeatPage'
 import RememberButton from '@/components/Learning/RememberButton'
 import useLearningCards from '@/hooks/useLearningCards'
 import { initializeAllFlashcards } from '@/state/allFlashcards/allFlashcardsSlice'
@@ -10,29 +9,27 @@ import { AppDispatch, RootState } from '@/state/store'
 import React, { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/navigation'
 
 const Learning = () => {
 
+    const router = useRouter()
     const { user, loading } = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch<AppDispatch>()
 
-    const { currentFlashcard, addNewUpdatedCard, flashcardsLoading } = useLearningCards()
+    useEffect(() => {
+        if (!loading) {
+            dispatch(initializeAllFlashcards(user.collections))
+        }
+    }, [user, dispatch, loading]);
 
+    const { currentFlashcard, addNewUpdatedCard, flashcardsLoading } = useLearningCards()
 
     const handleButtonClick = useCallback((isRemembered: boolean) => {
         if (!flashcardsLoading) {
             addNewUpdatedCard(isRemembered)
         }
     }, [addNewUpdatedCard, flashcardsLoading])
-
-
-    useEffect(() => {
-        if (!loading) {
-            console.log('init cards')
-            console.log(user.collections)
-            dispatch(initializeAllFlashcards(user.collections))
-        }
-    }, [user.collections, dispatch, loading]);
 
 
     useEffect(() => {
@@ -82,7 +79,10 @@ const Learning = () => {
 
     if (flashcardsLoading) return <LoadingLearningPage />
 
-    if (!currentFlashcard) return <NothingToRepeatPage />
+    if (!currentFlashcard) {
+        router.push('/finishedlearning')
+        return null
+    }
 
     return (
         <div className='flex justify-center items-center h-full'>

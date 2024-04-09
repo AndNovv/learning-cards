@@ -1,9 +1,9 @@
 import React from 'react'
-import LinkNavigationCard from '../Main/LinkNavigationCard'
 import create from '../../../public/images/create.svg'
 import library from '../../../public/images/library.svg'
+import LinkNavigationCard from '@/components/Main/LinkNavigationCard'
 
-const NothingToRepeatPage = () => {
+const FinishedLearningPage = () => {
     return (
         <div className="flex flex-col gap-10 justify-center items-center h-full w-full">
 
@@ -18,4 +18,4 @@ const NothingToRepeatPage = () => {
     )
 }
 
-export default NothingToRepeatPage
+export default FinishedLearningPage

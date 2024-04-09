@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Providers from "@/providers/Providers";
 import NavigationMenu from "@/components/Navigation/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
-import Providers from "@/providers/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +34,6 @@ export default function RootLayout({
           <>
             <AsideMenu />
             <main className="flex flex-col w-full h-screen xl:px-60 lg:px-32 md:px-10 px-5">
-
               <NavigationMenu />
               <div className="relative flex-1 overflow-hidden pb-10 p-1">
                 {children}

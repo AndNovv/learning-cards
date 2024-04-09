@@ -14,14 +14,22 @@ import { ScrollArea } from '../ui/scroll-area'
 import TimeGroupSection from './TimeGroupSection'
 import AsideMenuCloseIcon from './AsideMenuCloseIcon'
 import { Skeleton } from '../ui/skeleton'
+import { useSession } from 'next-auth/react'
 
 const AsideMenu = () => {
+
+    const { status, data } = useSession()
 
     const user = useSelector((state: RootState) => state.user)
     const activeCollection = useSelector((state: RootState) => state.activeCollection)
     const asideMenu = useSelector((state: RootState) => state.asideMenu)
 
     const dispatch = useDispatch<AppDispatch>()
+    const ref = useOutsideClick(() => {
+        if (asideMenu.visible && !isDesktop) {
+            dispatch(setVisibility(false))
+        }
+    });
 
     const favouriteCollections = user.user.collections
     const activeCollectionId = activeCollection.activeCollection
@@ -30,11 +38,6 @@ const AsideMenu = () => {
 
     const isDesktop = asideMenu.isDesktop !== null ? asideMenu.isDesktop : true
 
-    const ref = useOutsideClick(() => {
-        if (asideMenu.visible && !isDesktop) {
-            dispatch(setVisibility(false))
-        }
-    });
 
     return (
         <motion.aside
@@ -46,40 +49,42 @@ const AsideMenu = () => {
         >
             <div className='w-full h-full flex flex-col justify-between relative'>
                 <div className='flex flex-col w-full overflow-hidden'>
-                    <CreateNewCollection isDesktop={isDesktop} />
+                    <CreateNewCollection isDesktop={isDesktop} disabled={user.loading} />
                     <AsideMenuCloseIcon />
 
-                    {user.loading ? (
-                        <div className='le text-sm'>
-                            <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                    {status === 'unauthenticated' ? null :
+                        user.loading ? (
+                            <div className='le text-sm'>
+                                <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
 
-                            <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
-                            <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
-                        </div>
-                    ) : (
-                        <>
+                                <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                                <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
+                            </div>
+                        ) : (
+                            <>
 
-                            <ScrollArea className='flex-1'>
-                                <motion.ol
-                                    layout
-                                    transition={{ ease: "linear", duration: 0.2, }}
-                                    className='flex flex-col items-start'
-                                >
-                                    {groupedCollection.Today.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Today} groupName={'Сегодня'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                    {groupedCollection.Yesterday.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Yesterday} groupName={'Вчера'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                    {groupedCollection.Week.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Week} groupName={'Последняя неделя'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                    {groupedCollection.Month.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Month} groupName={'Последний месяц'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                    {groupedCollection.Later.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Later} groupName={'Больше месяца назад'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                </motion.ol>
-                            </ScrollArea>
-                        </>
-                    )
+                                <ScrollArea className='flex-1'>
+                                    <motion.ol
+                                        layout
+                                        transition={{ ease: "linear", duration: 0.2, }}
+                                        className='flex flex-col items-start'
+                                    >
+                                        {groupedCollection.Today.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Today} groupName={'Сегодня'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
+                                        {groupedCollection.Yesterday.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Yesterday} groupName={'Вчера'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
+                                        {groupedCollection.Week.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Week} groupName={'Последняя неделя'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
+                                        {groupedCollection.Month.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Month} groupName={'Последний месяц'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
+                                        {groupedCollection.Later.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Later} groupName={'Больше месяца назад'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
+                                    </motion.ol>
+                                </ScrollArea>
+                            </>
+                        )
                     }
+
                 </div>
                 <AsideProfileIcon isDesktop={isDesktop} />
 

@@ -20,10 +20,10 @@ type useLearningCardsReturnType = {
 
 const useLearningCards = () => {
 
+    const router = useRouter()
+
     const { flashcards } = useSelector((state: RootState) => state.allFlashcards)
     const dispatch = useDispatch<AppDispatch>()
-
-    console.log(flashcards)
 
     const [flashcardIndex, setFlashcardIndex] = useState(0)
 
@@ -48,6 +48,7 @@ const useLearningCards = () => {
             const recalculatedFlashcard = RecalculateFlashcard(currentFlashcard, isRemembered)
             dispatch(addUpdatedCard(recalculatedFlashcard))
             setFlashcardIndex((prev) => prev + 1)
+            router.push('/finishedlearning')
         }
     }
 

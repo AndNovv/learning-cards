@@ -17,6 +17,8 @@ const ProfilePage = () => {
 
     if (loading) return <LoadingProfilePage />
 
+    const image = data?.user?.image
+
     return (
         <div className='flex flex-col gap-2 items-start'>
             <div className='flex w-full gap-4 justify-between mb-10 border-b pb-6'>
@@ -26,9 +28,10 @@ const ProfilePage = () => {
                         animate={{ scale: 1 }}
                         transition={{ ease: 'easeInOut', duration: 0.2 }}
                     >
-                        {data?.user?.image &&
+                        {image &&
                             <Image
-                                src={data.user.image}
+                                loader={() => image}
+                                src={'/images/google.png'}
                                 priority={false}
                                 alt="Profile Image"
                                 width={60}

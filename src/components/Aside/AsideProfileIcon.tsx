@@ -20,7 +20,7 @@ const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
         if (!isDesktop) {
             dispatch(setVisibility(false))
         }
-        signIn("google", { callbackUrl: '/profile' })
+        signIn("google", { callbackUrl: '/' })
     }
 
     const handleUserClick = () => {
@@ -50,11 +50,14 @@ const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
         )
     }
 
+    const image = data.user?.image
+
     return (
         <div onClick={handleUserClick} className='flex flex-row gap-2 items-center p-2 w-full rounded-xl hover:bg-hover bg-background text-left cursor-pointer transition-all text-nowrap'>
-            {data?.user?.image &&
+            {image &&
                 <Image
-                    src={data.user.image}
+                    loader={() => image}
+                    src={'/images/google.png'}
                     priority={false}
                     alt="Profile Image"
                     width={40}
