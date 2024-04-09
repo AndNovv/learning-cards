@@ -74,7 +74,7 @@ export const applyUpdatedCards = createAsyncThunk(
             // Обновляем карты на сервере
             try {
                 const request = { updatedCards }
-                const { data } = await axios.patch('api/flashcard', request)
+                const { data } = await axios.patch('/api/flashcard', request)
                 return data
             }
             catch (e) {
