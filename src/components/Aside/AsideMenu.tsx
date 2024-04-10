@@ -25,6 +25,7 @@ const AsideMenu = () => {
     const asideMenu = useSelector((state: RootState) => state.asideMenu)
 
     const dispatch = useDispatch<AppDispatch>()
+
     const ref = useOutsideClick(() => {
         if (asideMenu.visible && !isDesktop) {
             dispatch(setVisibility(false))
@@ -37,7 +38,6 @@ const AsideMenu = () => {
     const groupedCollection = groupCollectionsByTime(favouriteCollections)
 
     const isDesktop = asideMenu.isDesktop !== null ? asideMenu.isDesktop : true
-
 
     return (
         <motion.aside

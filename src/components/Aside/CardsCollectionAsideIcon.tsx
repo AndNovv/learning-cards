@@ -102,17 +102,17 @@ const CardsCollectionAsideIcon = ({ collection, active, isDesktop }: { collectio
                         <Ellipsis className={cn('group-hover:visible transition-all size-5 h-full', active ? 'visible' : (optionsOpen ? 'visible' : 'invisible'))} />
                     </div>
                 </PopoverTrigger>
-                <PopoverContent className='w-[200px]'>
+                <PopoverContent className='w-[200px]' onClick={(e) => e.stopPropagation()}>
 
                     <div className="grid text-sm">
-                        <div className="flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handleRenameClick}>
-                            <PenLine className='size-5' />
-                            <p>Переименовать</p>
+                        <div className="inside flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handleRenameClick}>
+                            <PenLine className='size-5 inside' />
+                            <p className='inside'>Переименовать</p>
                         </div>
                         {!collection.publishedCollectionRef &&
-                            <div className="flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handlePublishClick}>
-                                <Share className='size-5' />
-                                <p>Опубликовать</p>
+                            <div className="inside flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handlePublishClick}>
+                                <Share className='size-5 inside' />
+                                <p className='inside'>Опубликовать</p>
                             </div>
                         }
                         <DeleteButtonWithAlert handleDeleteClick={handleDeleteClick} />

@@ -69,7 +69,6 @@ export const applyUpdatedCards = createAsyncThunk(
     async (_, { getState, dispatch }) => {
         const { allFlashcards } = getState() as RootState
         const updatedCards = allFlashcards.updatedCards
-        console.log(updatedCards)
         if (updatedCards.length > 0) {
 
             // Обновляем карты на клиенте

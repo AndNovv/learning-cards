@@ -24,9 +24,9 @@ const DeleteButtonWithAlert = ({ handleDeleteClick }: { handleDeleteClick: (e: R
     return (
         <AlertDialog open={opened} onOpenChange={setOpened}>
             <AlertDialogTrigger asChild>
-                <div onClick={handleOpenClick} className="flex items-center px-2 py-3 gap-4 text-red-500 hover:bg-accent transition-all cursor-pointer rounded-xl">
-                    <Trash className='size-5' />
-                    <p>Удалить</p>
+                <div onClick={handleOpenClick} className="inside flex items-center px-2 py-3 gap-4 text-red-500 hover:bg-accent transition-all cursor-pointer rounded-xl">
+                    <Trash className='size-5 inside' />
+                    <p className='inside'>Удалить</p>
                 </div>
             </AlertDialogTrigger>
             <AlertDialogContent>

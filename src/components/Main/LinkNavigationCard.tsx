@@ -27,6 +27,7 @@ const LinkNavigationCard = ({ title, description, href, image }: { title: string
                 <Image
                     src={image}
                     alt={'cardIconImage'}
+                    priority={true}
                     width={150}
                     height={150}
                     className='w-full'

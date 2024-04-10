@@ -28,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-dvh">
-      <body className={cn(inter.className, 'flex flex-row h-full')}>
+    <html lang="en" className="h-dvh" suppressHydrationWarning >
+      <body className={cn(inter.className, 'flex flex-row h-full overflow-hidden')}>
         <Providers>
           <>
             <AsideMenu />

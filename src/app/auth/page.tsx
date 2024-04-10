@@ -16,7 +16,7 @@ const AuthPage = () => {
                         width={50}
                         height={50}
                     />
-                    <p>Войти через Google.com</p>
+                    <p className='select-none'>Войти через Google.com</p>
                 </div>
             </div>
         </div>

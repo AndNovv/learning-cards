@@ -4,12 +4,15 @@ import ForgetButton from '@/components/Learning/ForgetButton'
 import RememberButton from '@/components/Learning/RememberButton'
 import { RootState } from '@/state/store'
 import { FlashCardType } from '@/types/types'
-import React, { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const LearnCollectionCardsPage = ({ params }: { params: { collectionId: string } }) => {
 
     const { user, loading, error } = useSelector((state: RootState) => state.user)
+
+    const router = useRouter()
 
     const shuffleArray = (array: FlashCardType[]) => {
         const shuffledArray = array.slice()
@@ -20,22 +23,74 @@ const LearnCollectionCardsPage = ({ params }: { params: { collectionId: string }
         return shuffledArray;
     }
 
-    const collection = useMemo(() => user.collections.find((element) => element._id === params.collectionId), [user.collections, params.collectionId]);
-    const shuffledFlashcards = useMemo(() => collection ? shuffleArray(collection.flashcards) : undefined, [collection]);
-
     const [flashcardIndex, setFlashcardIndex] = useState(0)
 
+    const [shuffledFlashcards, setShuffledFlashcards] = useState<FlashCardType[] | null>(null)
+
+    useEffect(() => {
+        const collection = user.collections.find((element) => element._id === params.collectionId)
+        if (collection) {
+            setShuffledFlashcards(shuffleArray(collection.flashcards))
+        }
+    }, [user.collections])
+
+    const handleButtonClick = useCallback(() => {
+        if (shuffledFlashcards) {
+            if (flashcardIndex !== shuffledFlashcards.length - 1) {
+                setFlashcardIndex((prev) => prev + 1)
+            }
+            else {
+                router.push(`/collection/${params.collectionId}`)
+            }
+        }
+    }, [shuffledFlashcards, flashcardIndex])
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            switch (event.key) {
+                case 'ArrowLeft':
+                    handleButtonClick()
+                    break
+                case 'a':
+                    handleButtonClick()
+                    break
+                case 'A':
+                    handleButtonClick()
+                    break
+                case 'ф':
+                    handleButtonClick()
+                    break
+                case 'Ф':
+                    handleButtonClick()
+                    break
+                case "ArrowRight":
+                    handleButtonClick()
+                    break
+                case 'd':
+                    handleButtonClick()
+                    break
+                case 'D':
+                    handleButtonClick()
+                    break
+                case 'В':
+                    handleButtonClick()
+                    break
+                case 'в':
+                    handleButtonClick()
+                    break
+                default:
+                    break
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleButtonClick]);
 
     if (!shuffledFlashcards) return <div>Коллекция не найдена</div>
-
-    const handleButtonClick = () => {
-        if (flashcardIndex !== shuffledFlashcards.length - 1) {
-            setFlashcardIndex((prev) => prev + 1)
-        }
-        else {
-            console.log('Конец коллекции')
-        }
-    }
 
     return (
         <div className='flex justify-center items-center h-full'>

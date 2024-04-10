@@ -20,8 +20,11 @@ const NavigationMenu = () => {
                     <Image
                         src={textLogo}
                         alt='PLEXICON'
-                        height={10}
-                        width={150}
+                        priority={true}
+                        width="0"
+                        height="0"
+                        sizes="100vw"
+                        className="w-[150px] h-auto"
                     />
                 </Link>
             </div>
