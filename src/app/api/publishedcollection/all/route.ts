@@ -6,7 +6,9 @@ export async function GET() {
 
     try {
         await dbConnect()
-        const publishedCollections = await PublishedCollection.find()
+        const publishedCollections = await PublishedCollection.aggregate([
+            { $sample: { size: 10 } },
+        ]);
         return Response.json(publishedCollections)
     }
     catch (e) {
