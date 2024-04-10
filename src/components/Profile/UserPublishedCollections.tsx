@@ -18,10 +18,10 @@ const UserPublishedCollections = () => {
 
     return (
         <ScrollArea className='h-full w-full'>
-            <h2 className='text-2xl mb-4'>Ваши публикации</h2>
+            <h2 className='text-2xl mb-5'>Ваши публикации</h2>
             {publishedCollections.length === 0 && <div className='text-white opacity-60'>Вы еще не опубликовали ни одной коллекции...</div>}
             {publishedCollections.length > 0 &&
-                <div className='flex flex-col divide-y w-full border rounded-xl overflow-hidden'>
+                <div className='flex flex-col bg-card divide-y w-full border rounded-xl overflow-hidden'>
                     <div key={`collectionColumns`} className='grid grid-cols-12 leading-8 gap-2 text-nowrap w-full px-4 py-1 text-white opacity-60'>
                         <p className='col-span-5'>Название</p>
                         <p className='col-span-2 flex justify-center'>Лайки</p>

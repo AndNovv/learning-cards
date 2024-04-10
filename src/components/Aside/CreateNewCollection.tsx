@@ -23,7 +23,7 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
     const [muskotAnimate, setMuskotAnimate] = useState(false)
 
     return (
-        <div onClick={disabled ? () => { } : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-hover bg-background text-left cursor-pointer transition-all text-nowrap'>
+        <div onClick={disabled ? () => { } : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-asidehover bg-aside text-left cursor-pointer transition-all text-nowrap'>
             <motion.div
                 initial={"initial"}
                 animate={muskotAnimate ? 'rotated' : 'initial'}
@@ -41,8 +41,8 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
                     height={40}
                 />
             </motion.div>
-            <p className='flex-1 font-medium'>Новая Коллекция</p>
-            <ClipboardPlus size={20} />
+            <p className='flex-1'>Новая коллекция</p>
+            <ClipboardPlus strokeWidth={1.2} size={20} />
         </div>
     )
 }

@@ -68,11 +68,11 @@ const FlashCard = ({ flashcardInfo }: { flashcardInfo: FlashCardType }) => {
                 onAnimationComplete={() => setIsAnimating(false)}
                 className='flip-card-inner w-full h-full text-2xl'
             >
-                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'>
+                <div className='flip-card-front flex w-full h-full bg-card rounded-lg border shadow-md justify-center items-center p-4 select-none'>
                     <p>{flashcardInfo.english}</p>
                     {/* <div className='absolute right-4 bottom-2 text-lg'>{nextRepetitionDate}</div> */}
                 </div>
-                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md shadow-card justify-center items-center p-4 select-none'>
+                <div className='flip-card-back flex w-full h-full bg-card rounded-lg border shadow-md justify-center items-center p-4 select-none'>
                     <p>{flashcardInfo.russian}</p>
                 </div>
             </motion.div>

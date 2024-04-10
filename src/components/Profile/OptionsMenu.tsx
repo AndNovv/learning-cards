@@ -37,7 +37,7 @@ const OptionsMenu = ({ collectionId }: { collectionId: string }) => {
     return (
         <Popover open={optionsOpen} onOpenChange={setOptionsOpen}>
             <PopoverTrigger onClick={handleOptionsClick}>
-                <div className='p-2 flex justify-center items-center rounded-sm hover:bg-accent'>
+                <div className='p-2 flex justify-center items-center rounded-sm hover:bg-[#393939]'>
                     <Ellipsis className='size-5' />
                 </div>
             </PopoverTrigger>

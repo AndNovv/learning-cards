@@ -6,7 +6,6 @@ import Providers from "@/providers/Providers";
 import NavigationMenu from "@/components/Navigation/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
-import muskot from "../../public/images/muskot-logo.svg"
 
 const inter = Inter({ subsets: ["latin"] });
 

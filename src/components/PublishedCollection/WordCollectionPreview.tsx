@@ -66,7 +66,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                     </div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <Button variant={'default'} size={'lg'} onClick={() => router.push(`/publishedcollection/${wordCollection._id}`)}>
+                    <Button variant={'outline'} size={'lg'} onClick={() => router.push(`/publishedcollection/${wordCollection._id}`)}>
                         Смотреть
                     </Button>
                     <div>{`${wordCollection.favouriteCount} лайков`}</div>

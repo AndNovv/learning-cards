@@ -25,6 +25,9 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         hover: "hsl(var(--hover))",
+        aside: "hsl(var(--aside))",
+        asidehover: "hsl(var(--aside-hover))",
+        asideactive: "hsl(var(--aside-active))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

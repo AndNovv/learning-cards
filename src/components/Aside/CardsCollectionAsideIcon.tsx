@@ -80,7 +80,7 @@ const CardsCollectionAsideIcon = ({ collection, active, isDesktop }: { collectio
     }
 
     return (
-        <div onClick={handleClick} className={cn('group flex flex-row justify-between gap-2 p-2 text-sm w-full rounded-xl text-left cursor-pointer transition-all', active ? 'bg-accent' : (optionsOpen ? 'bg-hover' : 'bg-background hover:bg-hover'))}>
+        <div onClick={handleClick} className={cn('group flex flex-row justify-between gap-2 p-2 text-sm w-full rounded-xl text-left cursor-pointer transition-all', active ? 'bg-asideactive' : (optionsOpen ? 'bg-asidehover' : 'bg-aside hover:bg-asidehover'))}>
             {isRenaming ?
                 <form ref={formRef} onSubmit={handleSubmit} className='w-full'>
                     <label>

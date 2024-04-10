@@ -29,7 +29,7 @@ const AsideMenuCloseIcon = () => {
                 duration: 0.2,
             }}
             onClick={() => dispatch(setVisibility(false))}
-            className='absolute cursor-pointer -right-20 top-2 size-12 bg-hover border border-card hover:outline outline-1 outline-border rounded-xl flex items-center justify-center'>
+            className='absolute cursor-pointer -right-20 top-2 size-12 bg-aside border border-asideactive hover:outline outline-1 outline-border rounded-xl flex items-center justify-center'>
             <ArrowLeft />
         </motion.div>
     )

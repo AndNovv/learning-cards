@@ -45,7 +45,7 @@ const AsideMenu = () => {
             animate={asideMenu.visible ? 'visible' : 'hidden'}
             variants={{ hidden: { transform: "translateX(-300px)" }, visible: { transform: "translateX(0px)" } }}
             transition={{ ease: "linear", duration: 0.2 }}
-            className={cn("md:relative md:translate-x-0 -translate-x-[300px] absolute bg-background z-50 flex flex-col shrink-0 w-[300px] items-center h-screen p-4 border-r")}
+            className={cn("md:relative md:translate-x-0 -translate-x-[300px] absolute bg-aside z-50 flex flex-col shrink-0 w-[300px] shadow-xl items-center h-full p-4")}
         >
             <div className='w-full h-full flex flex-col justify-between relative'>
                 <div className='flex flex-col w-full overflow-hidden'>
