@@ -15,18 +15,18 @@ services:
       - variables.env
     ports:
       - 3000:3000
-    depends_on:
-      - mongo
+    # depends_on:
+    #   - mongo
 
-  mongo:
-    container_name: mongo
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: appdb
-    ports:
-      - 27017:27017
-    volumes:
-      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    # mongo:
+    #   container_name: mongo
+    #   image: mongo
+    #   restart: always
+    #   environment:
+    #     MONGO_INITDB_ROOT_USERNAME: admin
+    #     MONGO_INITDB_ROOT_PASSWORD: password
+    #     MONGO_INITDB_DATABASE: appdb
+    #   ports:
+    #     - 27017:27017
+    #   volumes:
+    #     - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
