@@ -66,29 +66,27 @@ const CreateCollectionPage = () => {
     const [isCreating, setIsCreating] = useState(false)
 
     return (
-        <div className='flex flex-col h-full'>
-            {/* <h2 className='text-2xl text-center mb-4'>Создание новой Коллекции</h2> */}
-            <form onSubmit={handleSubmitNewWordCollection} className='flex flex-row gap-4 mb-6'>
-                <Input ref={titleInputRef} placeholder='Введите название Коллекции' />
-                <Button type={'submit'} variant={'outline'}>Создать</Button>
-            </form>
-            <NewWordCardInput />
-            <div className='relative h-full w-full overflow-hidden'>
-
-                <CollectionWordsPreview flashcards={flashcards} />
-                <div className={cn(isCreating ? 'visible' : 'invisible', 'flex flex-col gap-2 justify-center items-center h-full w-full absolute top-0')}>
-                    <TailSpin
-                        visible={isCreating}
-                        height="80"
-                        width="80"
-                        color="#f0f0f0"
-                        ariaLabel="tail-spin-loading"
-                        radius="1"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
-                    <p className='text-xl'>Создаем коллекцию</p>
-                </div>
+        <div className='relative flex flex-col h-full pt-6 md:pt-1 overflow-hidden'>
+            <div className='sticky top-0 bg-background z-10 paddings'>
+                <form onSubmit={handleSubmitNewWordCollection} className='flex flex-row gap-3 mb-6'>
+                    <Input ref={titleInputRef} placeholder='Введите название Коллекции' />
+                    <Button type={'submit'} variant={'outline'}>Создать</Button>
+                </form>
+                <NewWordCardInput />
+            </div>
+            <CollectionWordsPreview flashcards={flashcards} />
+            <div className={cn(isCreating ? 'visible' : 'invisible', 'flex flex-col gap-2 justify-center items-center h-full w-full absolute top-0 left-0')}>
+                <TailSpin
+                    visible={isCreating}
+                    height="80"
+                    width="80"
+                    color="#f0f0f0"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                />
+                <p className='text-xl'>Создаем коллекцию</p>
             </div>
         </div>
     )

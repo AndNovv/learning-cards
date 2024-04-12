@@ -46,7 +46,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
 
 
     return (
-        <Card className='w-[350px] flex flex-col'>
+        <Card className='w-full max-w-[350px] flex flex-col shadow-xl'>
             <CardHeader>
                 <CardTitle>{wordCollection.title}</CardTitle>
                 <CardDescription>Автор: {wordCollection.authorName}</CardDescription>

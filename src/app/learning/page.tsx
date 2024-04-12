@@ -85,7 +85,7 @@ const Learning = () => {
     }
 
     return (
-        <div className='flex justify-center items-center h-full'>
+        <div className='flex justify-center items-center flex-1 paddings'>
             <div className='flex flex-col w-full max-w-[500px] gap-10'>
                 <FlashCard flashcardInfo={currentFlashcard} />
                 <div className='flex flex-row w-full justify-between'>

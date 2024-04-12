@@ -62,8 +62,8 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
     }
 
     return (
-        <div className='relative flex flex-col h-full'>
-            <div className='flex flex-col bg-background'>
+        <div className='relative flex flex-col h-full overflow-hidden'>
+            <div className='flex flex-col bg-background paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
                         <h1 className='text-xl mt-2'>{publishedCollection.title}</h1>

@@ -5,7 +5,7 @@ import React from 'react'
 
 const LoadingCollectionPage = () => {
     return (
-        <div className='relative flex flex-col h-full'>
+        <div className='relative flex flex-col h-full pt-6 md:pt-1 paddings'>
             <div className='flex flex-col bg-background'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>

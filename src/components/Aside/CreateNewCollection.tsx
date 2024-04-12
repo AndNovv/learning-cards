@@ -23,26 +23,28 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
     const [muskotAnimate, setMuskotAnimate] = useState(false)
 
     return (
-        <div onClick={disabled ? () => { } : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-asidehover bg-aside text-left cursor-pointer transition-all text-nowrap'>
-            <motion.div
-                initial={"initial"}
-                animate={muskotAnimate ? 'rotated' : 'initial'}
-                variants={{
-                    initial: { rotate: 0 },
-                    rotated: { rotate: 360 },
-                }}
-                onMouseEnter={e => setMuskotAnimate((prev) => !prev)}
-                transition={{ type: "spring", stiffness: 100, duration: 1 }}
-            >
-                <Image
-                    src={muskot}
-                    alt={'muskot-logo'}
-                    width={40}
-                    height={40}
-                />
-            </motion.div>
-            <p className='flex-1'>Новая коллекция</p>
-            <ClipboardPlus strokeWidth={1.2} size={20} />
+        <div className='px-4'>
+            <div onClick={disabled ? () => { } : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-asidehover bg-aside text-left cursor-pointer transition-all text-nowrap'>
+                <motion.div
+                    initial={"initial"}
+                    animate={muskotAnimate ? 'rotated' : 'initial'}
+                    variants={{
+                        initial: { rotate: 0 },
+                        rotated: { rotate: 360 },
+                    }}
+                    onMouseEnter={e => setMuskotAnimate((prev) => !prev)}
+                    transition={{ type: "spring", stiffness: 100, duration: 1 }}
+                >
+                    <Image
+                        src={muskot}
+                        alt={'muskot-logo'}
+                        width={40}
+                        height={40}
+                    />
+                </motion.div>
+                <p className='flex-1'>Новая коллекция</p>
+                <ClipboardPlus strokeWidth={1.2} size={20} />
+            </div>
         </div>
     )
 }

@@ -13,7 +13,7 @@ const NavigationMenu = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     return (
-        <header className='relative flex flex-row justify-between items-center py-4 bg-gradient-to-b from-background from-70% to-transparent'>
+        <header className='relative flex flex-row justify-between items-center paddings border md:border-none py-4 bg-gradient'>
             <div className='p-2 cursor-pointer block md:invisible hover:bg-hover hover:outline outline-1 outline-accent rounded-xl' onClick={() => dispatch(setVisibility(true))}><Menu /></div>
             <div className='text-2xl absolute left-1/2 -translate-x-1/2'>
                 <Link href={'/'}>

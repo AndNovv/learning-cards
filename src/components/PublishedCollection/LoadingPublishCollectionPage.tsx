@@ -3,7 +3,7 @@ import React from 'react'
 
 const LoadingPublishedCollectionPage = () => {
     return (
-        <div className='relative flex flex-col h-full'>
+        <div className='relative flex flex-col h-full paddings'>
             <div className='flex flex-col bg-background'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>

@@ -44,8 +44,8 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
     }
 
     return (
-        <div className='relative flex flex-col h-full'>
-            <div className='flex flex-col bg-background'>
+        <div className='relative flex flex-col h-full pt-6 md:pt-0 overflow-hidden'>
+            <div className='flex flex-col bg-background sticky top-0 z-10 paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
                         <h1 className='text-xl mt-2'>{collection.title}</h1>

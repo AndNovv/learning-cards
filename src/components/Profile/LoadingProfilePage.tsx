@@ -4,10 +4,10 @@ import { Button } from '../ui/button'
 
 const LoadingProfilePage = () => {
     return (
-        <div className='flex flex-col gap-2 items-start'>
-            <div className='flex w-full gap-4 justify-between mb-10 border-b pb-6'>
-                <div className='flex gap-4'>
-                    <Skeleton className='size-[60px] rounded-full' />
+        <div className='flex flex-col gap-2 pt-6 items-start paddings'>
+            <div className='flex w-full gap-4 justify-between mb-8'>
+                <div className='flex gap-2 md:gap-4'>
+                    <Skeleton className='size-12 md:size-14 rounded-full' />
                     <div>
                         <Skeleton className='h-4 w-52 mt-3' />
                         <Skeleton className='h-4 w-52 mt-2' />

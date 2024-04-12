@@ -6,6 +6,7 @@ import Providers from "@/providers/Providers";
 import NavigationMenu from "@/components/Navigation/NavigationMenu";
 import AsideMenu from "@/components/Aside/AsideMenu";
 import { Toaster } from "@/components/ui/toaster"
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,11 +34,9 @@ export default function RootLayout({
         <Providers>
           <>
             <AsideMenu />
-            <main className="flex flex-col w-full h-full xl:px-60 lg:px-32 md:px-10 px-5">
+            <main className="flex flex-col w-full h-full flex-1">
               <NavigationMenu />
-              <div className="relative flex-1 overflow-hidden pb-10 p-1">
-                {children}
-              </div>
+              {children}
             </main>
             <Toaster />
           </>

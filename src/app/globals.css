@@ -100,6 +100,15 @@
   transform: rotateY(180deg)
 }
 
+@layer components {
+  .paddings {
+    @apply xl:px-60 lg:px-32 md:px-10 px-5;
+  }
+
+  .aside-paddings {
+    @apply px-4;
+  }
+}
 
 @layer base {
   * {

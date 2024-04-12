@@ -1,15 +1,13 @@
 import React from 'react'
 import { Skeleton } from '../ui/skeleton'
-import RememberButton from './RememberButton'
-import ForgetButton from './ForgetButton'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const LoadingLearningPage = () => {
     return (
-        <div className='flex flex-col gap-10 justify-center items-center h-full'>
-            <Skeleton className="h-40 w-1/2" />
-            <div className='flex flex-row w-1/2 justify-between'>
+        <div className='flex flex-col gap-10 justify-center items-center h-full paddings'>
+            <Skeleton className="h-40 w-full max-w-[500px]" />
+            <div className='flex flex-row w-full max-w-[500px] justify-between'>
                 <motion.div
                     initial={'notHovered'}
                     variants={{

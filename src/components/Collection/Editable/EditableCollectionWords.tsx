@@ -2,9 +2,9 @@
 import useMediaQuery from '@/hooks/useMediaQuery'
 import React from 'react'
 import EditableExistingCollectionWordPreview from './EditableExistingWordPreview'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { EditedWordCollection } from '@/state/editedCollection/editedCollectionSlice'
 import { motion } from 'framer-motion'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const EditableCollectionWords = ({ collection }: { collection: EditedWordCollection }) => {
 
@@ -17,7 +17,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
     }
 
     return (
-        <ScrollArea className='h-full overflow-hidden'>
+        <ScrollArea className='h-full paddings'>
             <motion.div
                 layout
                 transition={{
@@ -25,7 +25,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
                     duration: 2,
                     x: { duration: 1 }
                 }}
-                className='flex flex-col divide-y-2'
+                className='flex flex-col divide-y-2 pb-10'
             >
                 {collection.flashcards.slice().reverse().map((flashcard, index) => {
                     return (

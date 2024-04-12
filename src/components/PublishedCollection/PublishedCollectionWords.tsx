@@ -7,7 +7,7 @@ import PublishedCollectionWord from './PublishedCollectionWord'
 const PublishedCollectionWords = ({ flashcards }: { flashcards: { english: string, russian: string }[] }) => {
 
     return (
-        <ScrollArea className='h-full'>
+        <ScrollArea className='h-full paddings'>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -15,7 +15,7 @@ const PublishedCollectionWords = ({ flashcards }: { flashcards: { english: strin
                     ease: "linear",
                     duration: 0.2,
                 }}
-                className='flex flex-col divide-y-2'>
+                className='flex flex-col divide-y-2 pb-10'>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
                         <PublishedCollectionWord key={`flashcardPreview${index}`} flashcard={flashcard} />

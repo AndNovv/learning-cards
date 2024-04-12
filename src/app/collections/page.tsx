@@ -30,7 +30,7 @@ const AllCollectionsPage = () => {
     }, [])
 
     if (!collections) return (
-        <div className='flex flex-row flex-wrap gap-6 justify-center'>
+        <div className='flex flex-row flex-wrap gap-6 justify-center paddings pt-6 md:pt-0'>
             <Skeleton className='w-[350px] h-[370px]' />
             <Skeleton className='w-[350px] h-[370px]' />
             <Skeleton className='w-[350px] h-[370px]' />
@@ -41,8 +41,8 @@ const AllCollectionsPage = () => {
     )
 
     return (
-        <ScrollArea className='h-full'>
-            <div className='flex flex-row flex-wrap gap-6 justify-center'>
+        <ScrollArea className='h-full paddings'>
+            <div className='flex flex-row flex-wrap gap-6 justify-center pb-6 pt-6 md:pt-0'>
                 {collections.map((wordCollection, index) => {
                     return (
                         <WordCollectionPreview key={`wordCollection${index}`} wordCollection={wordCollection} isFavourite={favouritePublishedCollections.includes(wordCollection._id)} />

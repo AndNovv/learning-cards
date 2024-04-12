@@ -11,7 +11,7 @@ const CollectionWordsPreview = ({ flashcards }: { flashcards: ClientFlashCardTyp
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     return (
-        <ScrollArea className='h-full'>
+        <ScrollArea className='h-full paddings'>
             <motion.div
                 layout
                 initial={{ opacity: 0 }}
@@ -20,7 +20,7 @@ const CollectionWordsPreview = ({ flashcards }: { flashcards: ClientFlashCardTyp
                     ease: "linear",
                     duration: 0.2,
                 }}
-                className='flex flex-col divide-y-2'>
+                className='flex flex-col divide-y-2 pb-10'>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
                         <motion.div

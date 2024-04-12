@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import Image from 'next/image';
 import LoadingProfilePage from '@/components/Profile/LoadingProfilePage'
 import { motion } from 'framer-motion'
+import { LogOut } from 'lucide-react'
 
 const ProfilePage = () => {
 
@@ -20,9 +21,9 @@ const ProfilePage = () => {
     const image = data?.user?.image
 
     return (
-        <div className='flex flex-col gap-2 items-start'>
-            <div className='flex w-full gap-4 justify-between mb-10 border-b pb-6'>
-                <div className='flex gap-4 shrink-0'>
+        <div className='flex flex-col gap-2 items-start pt-6 md:pt-0 overflow-hidden'>
+            <div className='flex w-full gap-4 justify-between mb-8 paddings'>
+                <div className='flex gap-2 md:gap-4 shrink-0'>
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -36,7 +37,7 @@ const ProfilePage = () => {
                                 alt="Profile Image"
                                 width={60}
                                 height={60}
-                                className='rounded-full'
+                                className='rounded-full size-12 md:size-14'
                             />}
                     </motion.div>
                     <motion.div
@@ -44,11 +45,13 @@ const ProfilePage = () => {
                         animate={{ x: 0 }}
                         transition={{ ease: 'easeInOut', duration: 0.2 }}
                     >
-                        <p className='text-lg'>{user.name}</p>
-                        <p className='text-white opacity-60'>{user.email}</p>
+                        <p className='text-base md:text-lg'>{user.name}</p>
+                        <p className='opacity-60 text-xs md:text-base'>{user.email}</p>
                     </motion.div>
                 </div>
-                <Button variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}>Выйти</Button>
+                <div>
+                    <Button className='flex gap-2 justify-center items-center size-15 p-3 md:size-auto md:px-4 md:py-3' variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}><LogOut size={20} /><p className='hidden md:block'>Выйти</p></Button>
+                </div>
             </div>
             <UserPublishedCollections />
         </div>
