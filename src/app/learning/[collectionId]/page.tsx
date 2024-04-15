@@ -5,7 +5,7 @@ import RememberButton from '@/components/Learning/RememberButton'
 import { RootState } from '@/state/store'
 import { FlashCardType } from '@/types/types'
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const LearnCollectionCardsPage = ({ params }: { params: { collectionId: string } }) => {
@@ -93,7 +93,7 @@ const LearnCollectionCardsPage = ({ params }: { params: { collectionId: string }
     if (!shuffledFlashcards) return <div>Коллекция не найдена</div>
 
     return (
-        <div className='flex justify-center items-center h-full'>
+        <div className='flex justify-center items-center h-full paddings'>
             <div className='flex flex-col w-full max-w-[500px] gap-10'>
                 <FlashCard flashcardInfo={shuffledFlashcards[flashcardIndex]} />
                 <div className='flex flex-row w-full justify-between'>

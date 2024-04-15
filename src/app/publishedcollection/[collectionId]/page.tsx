@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '@/state/store'
 import { dislikePublishedCollection, likePublishedCollection } from '@/state/user/userSlice'
 import { PublishedCollectionType } from '@/types/types'
 import axios from 'axios'
-import { Star } from 'lucide-react'
+import { Heart, Star } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -62,7 +62,7 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
     }
 
     return (
-        <div className='relative flex flex-col h-full overflow-hidden'>
+        <div className='relative flex flex-col h-full overflow-hidden pt-6 md:pt-0'>
             <div className='flex flex-col bg-background paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
@@ -70,11 +70,14 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
                         <p className='text-muted-foreground mt-2 mb-4'>{`Автор: ${publishedCollection.authorName}`}</p>
                     </div>
 
-                    <div className='flex gap-2 items-center'>
-                        <p>{publishedCollection.favouriteCount} лайков</p>
+                    <div className='flex gap-5 items-center'>
+                        <div className='flex gap-2 items-center opacity-70'>
+                            <p>{publishedCollection.favouriteCount}</p>
+                            <Heart size={18} />
+                        </div>
                         {user._id !== publishedCollection.authorId &&
-                            <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
-                                <Star />
+                            <Button variant={isFavourite ? 'default' : 'secondary'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
+                                <Star size={20} className={!isFavourite ? 'opacity-70 transition-all' : 'transition-all'} />
                             </Button>
                         }
                     </div>

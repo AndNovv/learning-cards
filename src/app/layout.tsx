@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/muskot-logo.svg", // /public path
-        href: "/images/muskot-logo.svg", // /public path
+        url: "/images/logo.svg", // /public path
+        href: "/images/logo.svg", // /public path
       },
     ],
   },
@@ -34,7 +34,7 @@ export default function RootLayout({
         <Providers>
           <>
             <AsideMenu />
-            <main className="flex flex-col w-full h-full flex-1">
+            <main className="relative flex flex-col flex-1 overflow-hidden">
               <NavigationMenu />
               {children}
             </main>

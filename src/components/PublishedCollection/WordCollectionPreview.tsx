@@ -9,7 +9,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Star } from 'lucide-react'
+import { Gauge, Heart, MessageCircleMore, Star } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/state/store'
@@ -31,7 +31,8 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
     const previewFlashCards = [...wordCollection.flashcards]
     previewFlashCards.length = 7
 
-    const handleFavoutiteButtonClick = () => {
+    const handleFavoutiteButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation()
         if (isFavourite) {
             if (wordCollection.favouriteCount > 0) {
                 wordCollection.favouriteCount -= 1
@@ -46,7 +47,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
 
 
     return (
-        <Card className='w-full max-w-[350px] flex flex-col shadow-xl'>
+        <Card className='w-full flex flex-col shadow-xl cursor-pointer' onClick={() => router.push(`/publishedcollection/${wordCollection._id}`)}>
             <CardHeader>
                 <CardTitle>{wordCollection.title}</CardTitle>
                 <CardDescription>Автор: {wordCollection.authorName}</CardDescription>
@@ -66,14 +67,27 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                     </div>
                 </div>
                 <div className='flex justify-between items-center'>
-                    <Button variant={'outline'} size={'lg'} onClick={() => router.push(`/publishedcollection/${wordCollection._id}`)}>
-                        Смотреть
-                    </Button>
-                    <div>{`${wordCollection.favouriteCount} лайков`}</div>
-                    {!favouritePublishedCollections.includes(wordCollection._id) &&
-                        <Button variant={isFavourite ? 'default' : 'secondary'} size={'icon'} onClick={handleFavoutiteButtonClick}>
-                            <Star />
-                        </Button>}
+                    <div className='flex gap-5'>
+                        <div className='flex gap-2 items-center justify-center opacity-70'>
+                            <p>{wordCollection.favouriteCount}</p>
+                            <Heart size={18} />
+                        </div>
+                        <div className='flex gap-2 items-center justify-center opacity-70'>
+                            <p>0</p>
+                            <MessageCircleMore size={18} />
+                        </div>
+
+                    </div>
+                    {/* !favouritePublishedCollections.includes(wordCollection._id) */}
+                    {/* isFavourite */}
+                    {!favouritePublishedCollections.includes(wordCollection._id) ? isFavourite ? (
+                        <Button variant={'default'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
+                            <Star size={20} />
+                        </Button>) :
+                        <Button variant={'secondary'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
+                            <Star size={20} className='opacity-70' />
+                        </Button> : null
+                    }
                 </div>
             </CardContent>
         </Card>

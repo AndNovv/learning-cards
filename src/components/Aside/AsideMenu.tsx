@@ -54,7 +54,7 @@ const AsideMenu = () => {
 
                     {status === 'unauthenticated' ? null :
                         user.loading ? (
-                            <div className='le text-sm'>
+                            <div className='text-sm aside-paddings'>
                                 <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
                                 <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
                                 <Skeleton className='w-2/3 h-4 mt-4 ml-2' />
@@ -72,7 +72,7 @@ const AsideMenu = () => {
                                     <motion.ol
                                         layout
                                         transition={{ ease: "linear", duration: 0.2, }}
-                                        className='flex flex-col items-start px-4'
+                                        className='flex flex-col items-start px-4 pb-4'
                                     >
                                         {groupedCollection.Today.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Today} groupName={'Сегодня'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
                                         {groupedCollection.Yesterday.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Yesterday} groupName={'Вчера'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}

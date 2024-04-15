@@ -15,7 +15,7 @@ const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
                     ease: "linear",
                     duration: 0.2,
                 }}
-                className='flex flex-col divide-y-2 pb-10'>
+                className='flex flex-col divide-y-2 pb-10 overflow-hidden'>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
                         <ExistingCollectionWordPreview key={`flashcardPreview${index}`} flashcard={flashcard} />

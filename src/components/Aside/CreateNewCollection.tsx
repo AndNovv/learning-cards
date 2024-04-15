@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import muskot from '../../../public/images/muskot-logo.svg'
+import logo from '../../../public/images/logo.svg'
 
 const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disabled: boolean }) => {
 
@@ -36,7 +36,7 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
                     transition={{ type: "spring", stiffness: 100, duration: 1 }}
                 >
                     <Image
-                        src={muskot}
+                        src={logo}
                         alt={'muskot-logo'}
                         width={40}
                         height={40}

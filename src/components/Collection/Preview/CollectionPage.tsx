@@ -11,7 +11,7 @@ const CollectionPage = ({ collection, setEditing }: { collection: WordCollection
     const router = useRouter()
 
     return (
-        <div className='relative flex flex-col h-full pt-6 md:pt-1 overflow-hidden'>
+        <div className='relative flex flex-col h-full w-full pt-6 md:pt-1 overflow-hidden'>
             <div className='flex flex-col bg-background sticky top-0 z-10 paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
