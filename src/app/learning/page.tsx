@@ -10,6 +10,8 @@ import React, { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
+import FlashCardNew from '@/components/Learning/FlashCards'
+import FlashCards from '@/components/Learning/FlashCards'
 
 const Learning = () => {
 
@@ -23,7 +25,7 @@ const Learning = () => {
         }
     }, [user, dispatch, loading]);
 
-    const { currentFlashcard, addNewUpdatedCard, flashcardsLoading } = useLearningCards()
+    const { flashcards, addNewUpdatedCard, flashcardsLoading } = useLearningCards()
 
     const handleButtonClick = useCallback((isRemembered: boolean) => {
         if (!flashcardsLoading) {
@@ -79,15 +81,15 @@ const Learning = () => {
 
     if (flashcardsLoading) return <LoadingLearningPage />
 
-    if (!currentFlashcard) {
-        router.push('/finishedlearning')
-        return null
-    }
+    // if (!currentFlashcard) {
+    //     router.push('/finishedlearning')
+    //     return null
+    // }
 
     return (
         <div className='flex justify-center items-center flex-1 paddings'>
-            <div className='flex flex-col w-full max-w-[500px] gap-10'>
-                <FlashCard flashcardInfo={currentFlashcard} />
+            <div className='flex flex-col w-full max-w-[500px] gap-16'>
+                <FlashCards flashcards={flashcards} />
                 <div className='flex flex-row w-full justify-between'>
                     <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
                     <RememberButton handleButtonClick={() => handleButtonClick(true)} />

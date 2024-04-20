@@ -9,11 +9,11 @@ import { useDispatch } from "react-redux"
 
 
 type useLearningCardsReturnType = {
-    currentFlashcard: FlashCardType,
+    flashcards: FlashCardType[],
     addNewUpdatedCard: (isRemembered: boolean) => void,
     flashcardsLoading: false
 } | {
-    currentFlashcard: null,
+    flashcards: null,
     addNewUpdatedCard: null,
     flashcardsLoading: true
 }
@@ -34,7 +34,7 @@ const useLearningCards = () => {
         }
     }, [])
 
-    if (!flashcards) return { currentFlashcard: null, addNewUpdatedCard: null, flashcardsLoading: true } as useLearningCardsReturnType
+    if (!flashcards) return { flashcards: null, addNewUpdatedCard: null, flashcardsLoading: true } as useLearningCardsReturnType
 
     const currentFlashcard = flashcards[flashcardIndex]
 
@@ -53,7 +53,7 @@ const useLearningCards = () => {
     }
 
 
-    return { currentFlashcard, addNewUpdatedCard, flashcardsLoading: false } as useLearningCardsReturnType
+    return { flashcards, addNewUpdatedCard, flashcardsLoading: false } as useLearningCardsReturnType
 }
 
 export default useLearningCards

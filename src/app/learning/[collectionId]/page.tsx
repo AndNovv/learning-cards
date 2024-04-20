@@ -1,5 +1,6 @@
 "use client"
 import FlashCard from '@/components/Learning/FlashCard'
+import FlashCardNew from '@/components/Learning/FlashCards'
 import ForgetButton from '@/components/Learning/ForgetButton'
 import RememberButton from '@/components/Learning/RememberButton'
 import { RootState } from '@/state/store'
@@ -95,7 +96,7 @@ const LearnCollectionCardsPage = ({ params }: { params: { collectionId: string }
     return (
         <div className='flex justify-center items-center h-full paddings'>
             <div className='flex flex-col w-full max-w-[500px] gap-10'>
-                <FlashCard flashcardInfo={shuffledFlashcards[flashcardIndex]} />
+                <FlashCardNew flashcardInfo={shuffledFlashcards[flashcardIndex]} />
                 <div className='flex flex-row w-full justify-between'>
                     <ForgetButton handleButtonClick={handleButtonClick} />
                     <RememberButton handleButtonClick={handleButtonClick} />

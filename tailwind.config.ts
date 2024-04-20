@@ -28,6 +28,8 @@ const config = {
         aside: "hsl(var(--aside))",
         asidehover: "hsl(var(--aside-hover))",
         asideactive: "hsl(var(--aside-active))",
+        darkerCard: "hsl(var(--darker-card))",
+        darkestCard: "hsl(var(--darkest-card))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
