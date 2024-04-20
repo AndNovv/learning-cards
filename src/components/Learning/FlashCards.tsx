@@ -1,42 +1,124 @@
 "use client"
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { FlashCardType } from '@/types/types'
-import { MotionValue, motion, useAnimationControls, useMotionValue, useTransform } from 'framer-motion'
+import { AnimationControls, MotionValue, motion, useAnimationControls, useMotionValue, useTransform } from 'framer-motion'
 import { Progress } from "@/components/ui/progress"
+import ForgetButton from './ForgetButton'
+import RememberButton from './RememberButton'
+import { cn } from '@/lib/utils'
 
-type FlashcardStateType = 'front' | 'middle' | 'back' | 'prepared'
 
-const FlashCards = ({ flashcards }: { flashcards: FlashCardType[] }) => {
+const FlashCards = ({ flashcards, handleFlashcard }: { flashcards: FlashCardType[], handleFlashcard: (isRemembered: boolean) => void }) => {
 
     const [isAnimating, setIsAnimating] = useState(false)
     const [flashcardIndex, setFlashcardIndex] = useState(0)
 
-    const flashcardStates = ['front', 'middle', 'back', 'prepared'] as const
     const [order, setOrder] = useState(0)
 
     const cardOffset = useMotionValue(0)
 
+    const controlsOne = useAnimationControls()
+    const controlsTwo = useAnimationControls()
+    const controlsThree = useAnimationControls()
+    const controlsFour = useAnimationControls()
 
-    const handleNextCard = () => {
+    const allControls = useMemo(() => [controlsOne, controlsTwo, controlsThree, controlsFour], [controlsOne, controlsTwo, controlsThree, controlsFour])
+
+    const handleNextCard = useCallback(((isRemembered: boolean) => {
+        cardOffset.set(0)
+        handleFlashcard(isRemembered)
         setOrder((prev) => prev - 1 >= 0 ? prev - 1 : 3)
         setFlashcardIndex((prev) => prev + 1)
-        cardOffset.setWithVelocity(0, 0, 1)
-    }
+    }), [cardOffset, handleFlashcard])
+
+    const handleButtonClick = useCallback(((isRemembered: boolean) => {
+        setIsAnimating(true)
+        if (isRemembered) {
+            allControls[(4 - order) % 4].start("moveRight").finally(() => {
+                allControls[(4 - order) % 4].start('shrink').finally(() => {
+                    setIsAnimating(false)
+                    handleNextCard(true)
+                })
+            })
+        }
+        else {
+            allControls[(4 - order) % 4].start("moveLeft").finally(() => {
+                allControls[(4 - order) % 4].start('shrink').finally(() => {
+                    setIsAnimating(false)
+                    handleNextCard(false)
+                })
+            })
+        }
+    }), [order, handleNextCard, allControls])
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (!isAnimating) {
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        handleButtonClick(false)
+                        break
+                    case 'a':
+                        handleButtonClick(false)
+                        break
+                    case 'A':
+                        handleButtonClick(false)
+                        break
+                    case 'ф':
+                        handleButtonClick(false)
+                        break
+                    case 'Ф':
+                        handleButtonClick(false)
+                        break
+                    case "ArrowRight":
+                        handleButtonClick(true)
+                        break
+                    case 'd':
+                        handleButtonClick(true)
+                        break
+                    case 'D':
+                        handleButtonClick(true)
+                        break
+                    case 'В':
+                        handleButtonClick(true)
+                        break
+                    case 'в':
+                        handleButtonClick(true)
+                        break
+                    default:
+                        break
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleButtonClick, isAnimating]);
+
 
     return (
-        <div className='relative h-80 w-full max-w-[500px]'>
-            <SingleFlashCard startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 0) % 4]} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 1) % 4]} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 2) % 4]} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 3) % 4]} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-        </div >
+        <>
+            <div className='relative h-80 w-full max-w-[500px]'>
+                <SingleFlashCard key={'flashcard1'} controls={controlsOne} startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <SingleFlashCard key={'flashcard2'} controls={controlsTwo} startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <SingleFlashCard key={'flashcard3'} controls={controlsThree} startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <SingleFlashCard key={'flashcard4'} controls={controlsFour} startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            </div >
+            <div className='flex flex-row w-full justify-between'>
+                <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
+                <RememberButton handleButtonClick={() => handleButtonClick(true)} />
+            </div>
+        </>
 
     )
 }
 
 export default FlashCards
 
-export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNextCard, flashcardState, flashcard, cardOffset, isAnimating, setIsAnimating }: { startingPosition: number, hidden: boolean, progress: number, handleNextCard: () => void, flashcardState: FlashcardStateType, flashcard: FlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const SingleFlashCard = ({ controls, startingPosition, hidden, progress, handleNextCard, flashcard, cardOffset, isAnimating, setIsAnimating }: { controls: AnimationControls, startingPosition: number, hidden: boolean, progress: number, handleNextCard: (isRemembered: boolean) => void, flashcard: FlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const CARD_MAX_OFFESET = 150
     const CARD_SENSITIVITY = 50
@@ -44,9 +126,7 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
     const [currentPosition, setCurrentPosition] = useState(startingPosition)
     const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>('left')
 
-    const [flipAllowed, setFlipAllowed] = useState(true)
     const [isFlipped, setIsFlipped] = useState(false)
-
 
     useEffect(() => {
         setCurrentPosition(startingPosition)
@@ -100,7 +180,7 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
     const scale = useTransform(
         position,
         [-1, 0, 1, 2, 3],
-        [1, 1, 0.9, 0.8, 0.7]
+        [1, 1, 0.9, 0.8, 0]
     )
 
     const background = useTransform(
@@ -115,21 +195,24 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
         [5, 4, 3, 2, 1]
     )
 
-    const controls = useAnimationControls()
     const handlePanEnd = (offset: number) => {
-        if (flashcardState === 'front') {
+        if (currentPosition === 0) {
             if (offset > CARD_SENSITIVITY) {
                 setIsAnimating(true)
                 controls.start("moveRight").finally(() => {
-                    setIsAnimating(false)
-                    handleNextCard()
+                    controls.start('shrink').finally(() => {
+                        setIsAnimating(false)
+                        handleNextCard(true)
+                    })
                 })
             }
             else if (offset < -CARD_SENSITIVITY) {
                 setIsAnimating(true)
                 controls.start("moveLeft").finally(() => {
-                    setIsAnimating(false)
-                    handleNextCard()
+                    controls.start('shrink').finally(() => {
+                        setIsAnimating(false)
+                        handleNextCard(false)
+                    })
                 })
             }
             else {
@@ -141,7 +224,7 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (flashcardState === 'front') {
+            if (currentPosition === 0 && !isAnimating) {
                 switch (event.key) {
                     case " ": // Space key
                         setIsFlipped((prev) => !prev)
@@ -157,7 +240,24 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [setIsFlipped, currentPosition, isAnimating]);
+
+
+    const [clickStartTime, setClickStartTime] = useState<number | null>(null)
+
+    const handleMouseDown = () => {
+        setClickStartTime(Date.now())
+    }
+
+    const handleMouseUp = () => {
+        if (clickStartTime !== null) {
+            const clickDuration = Date.now() - clickStartTime;
+            if (clickDuration < 150) {
+                setIsFlipped((prev) => !prev)
+            }
+            setClickStartTime(null);
+        }
+    }
 
     if (hidden) return null
 
@@ -171,25 +271,20 @@ export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNext
                 scale,
                 top,
                 translateX: transform,
-                transition: "all 0.4s ease-out, opacity 0s ease-out",
+                transition: "all 0.5s ease-out, opacity 0.01s linear",
             }}
             variants={{
-                moveRight: { opacity: 0, rotate: 70, translateX: 300 },
-                moveLeft: { opacity: 0, rotate: -70, translateX: -300 },
+                moveRight: { opacity: 0, rotate: 70, translateX: 450, background: 'hsl(114 20 60)' },
+                moveLeft: { opacity: 0, rotate: -70, translateX: -450, background: "hsl(0, 50, 60)" },
+                shrink: { scale: 0, top: 96, transition: { duration: 0.1 } }
             }}
-            key={flashcard._id}
             animate={controls}
-            transition={{ duration: 0.4 }}
-            onClick={() => { if (flipAllowed) setIsFlipped((prev) => !prev) }}
-            onPanStart={(_e, _pointinfo) => setFlipAllowed(false)}
-            onPan={(_e, pointInfo) => {
-                !isAnimating ? cardOffset.set(pointInfo.offset.x > CARD_MAX_OFFESET ? CARD_MAX_OFFESET : pointInfo.offset.x < -CARD_MAX_OFFESET ? -CARD_MAX_OFFESET : pointInfo.offset.x) : null
-            }}
-            onPanEnd={(_e, info) => {
-                setFlipAllowed(true)
-                handlePanEnd(info.offset.x)
-            }}
-            className='absolute flex flex-col p-8 px-10 shadow-md cursor-pointer rounded-2xl w-full h-full text-2xl transition-all'
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            onMouseDown={!isAnimating ? handleMouseDown : () => { }}
+            onMouseUp={!isAnimating ? handleMouseUp : () => { }}
+            onPan={(_e, pointInfo) => { (!isAnimating && currentPosition === 0) ? cardOffset.set(pointInfo.offset.x > CARD_MAX_OFFESET ? CARD_MAX_OFFESET : pointInfo.offset.x < -CARD_MAX_OFFESET ? -CARD_MAX_OFFESET : pointInfo.offset.x) : null }}
+            onPanEnd={(_e, info) => { handlePanEnd(info.offset.x) }}
+            className={cn(currentPosition === 0 ? 'cursor-pointer' : '', 'absolute flex flex-col p-8 px-10 shadow-md rounded-2xl w-full h-full text-2xl transition-opacity duration-0 ease-out')}
         >
             <Progress value={progress} className='h-2' />
             <div className='relative flex flex-col flex-1 h-full justify-center items-center p-4 select-none'>

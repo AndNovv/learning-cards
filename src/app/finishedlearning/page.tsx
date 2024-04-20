@@ -5,7 +5,7 @@ import LinkNavigationCard from '@/components/Main/LinkNavigationCard'
 
 const FinishedLearningPage = () => {
     return (
-        <div className="flex flex-col gap-10 justify-center items-center h-full w-full">
+        <div className="flex flex-col gap-10 justify-center items-center h-full w-full paddings">
 
             <div className='px-6'>
                 <h2 className='text-xl text-center opacity-60'>Вы уже повторили все слова. Cоздайте новую коллекцию или найдите подходящую в библиотеке!</h2>
