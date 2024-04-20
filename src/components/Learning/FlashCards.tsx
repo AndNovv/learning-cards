@@ -9,39 +9,26 @@ type FlashcardStateType = 'front' | 'middle' | 'back' | 'prepared'
 const FlashCards = ({ flashcards }: { flashcards: FlashCardType[] }) => {
 
     const [isAnimating, setIsAnimating] = useState(false)
-
     const [flashcardIndex, setFlashcardIndex] = useState(0)
-
-    // const handleCardClick = useCallback(() => {
-    //     if (!isAnimating) {
-    //         setIsAnimating(true)
-    //         setIsFlipped((prev) => !prev)
-    //     }
-    // }, [isAnimating])
-
-
-    // useEffect(() => {
-    //     setIsFlipped(false)
-    // }, [flashcards])
 
     const flashcardStates = ['front', 'middle', 'back', 'prepared'] as const
     const [order, setOrder] = useState(0)
 
     const cardOffset = useMotionValue(0)
 
+
     const handleNextCard = () => {
         setOrder((prev) => prev - 1 >= 0 ? prev - 1 : 3)
         setFlashcardIndex((prev) => prev + 1)
-        cardOffset.set(0)
+        cardOffset.setWithVelocity(0, 0, 1)
     }
-
 
     return (
         <div className='relative h-80 w-full max-w-[500px]'>
-            <SingleFlashCard hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} key={`${flashcards[0]._id}${flashcardStates[(order + 0) % 4]}`} flashcardState={flashcardStates[(order + 0) % 4]} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} key={`${flashcards[1]._id}${flashcardStates[(order + 1) % 4]}`} flashcardState={flashcardStates[(order + 1) % 4]} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} key={`${flashcards[2]._id}${flashcardStates[(order + 2) % 4]}`} flashcardState={flashcardStates[(order + 2) % 4]} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-            <SingleFlashCard hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} key={`${flashcards[3]._id}${flashcardStates[(order + 3) % 4]}`} flashcardState={flashcardStates[(order + 3) % 4]} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            <SingleFlashCard startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 0) % 4]} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            <SingleFlashCard startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 1) % 4]} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            <SingleFlashCard startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 2) % 4]} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            <SingleFlashCard startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcardState={flashcardStates[(order + 3) % 4]} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
         </div >
 
     )
@@ -49,66 +36,83 @@ const FlashCards = ({ flashcards }: { flashcards: FlashCardType[] }) => {
 
 export default FlashCards
 
-export const SingleFlashCard = ({ hidden, progress, handleNextCard, flashcardState, flashcard, cardOffset, isAnimating, setIsAnimating }: { hidden: boolean, progress: number, handleNextCard: () => void, flashcardState: FlashcardStateType, flashcard: FlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const SingleFlashCard = ({ startingPosition, hidden, progress, handleNextCard, flashcardState, flashcard, cardOffset, isAnimating, setIsAnimating }: { startingPosition: number, hidden: boolean, progress: number, handleNextCard: () => void, flashcardState: FlashcardStateType, flashcard: FlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
-    const CARD_MAX_OFFESET = 100
+    const CARD_MAX_OFFESET = 150
     const CARD_SENSITIVITY = 50
 
-    const opacity = useTransform(
+    const [currentPosition, setCurrentPosition] = useState(startingPosition)
+    const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>('left')
+
+    const [flipAllowed, setFlipAllowed] = useState(true)
+    const [isFlipped, setIsFlipped] = useState(false)
+
+
+    useEffect(() => {
+        setCurrentPosition(startingPosition)
+    }, [startingPosition])
+
+    const position = useTransform(
         cardOffset,
         [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        [0.7, 1, 0.7]
+        [currentPosition - 1, currentPosition, currentPosition - 1]
     )
 
-    const frontCardBackground = useTransform(
-        cardOffset,
-        [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        ['hsl(0, 50, 60)', "hsl(246 4 16)", 'hsl(114 20 60)']
+    useEffect(() => {
+        const updateSwipeDirection = (value: number) => {
+            if (swipeDirection === 'left' && value > 0 || swipeDirection === 'right' && value < 0) {
+                setSwipeDirection((prev) => prev === 'left' ? 'right' : 'left')
+            }
+        }
+        const updateDirection = cardOffset.on("change", (value) => {
+            updateSwipeDirection(value)
+        })
+
+        return () => {
+            updateDirection()
+        }
+    }, [swipeDirection])
+
+    const opacity = useTransform(
+        position,
+        [-1, 0, 1, 2, 3],
+        [0.7, 1, 1, 1, 0]
     )
 
     const rotation = useTransform(
         cardOffset,
         [-CARD_MAX_OFFESET, CARD_MAX_OFFESET],
-        [-15, 15]
+        [currentPosition === 0 ? -15 : 0, currentPosition === 0 ? 15 : 0]
     )
 
     const transform = useTransform(
         cardOffset,
         [-CARD_MAX_OFFESET, CARD_MAX_OFFESET],
-        [-60, 60]
+        [currentPosition === 0 ? -60 : 0, currentPosition === 0 ? 60 : 0]
     )
-
-    const baseTopValues = new Map<FlashcardStateType, number>([['front', 0], ['middle', 32], ['back', 64], ['prepared', 96]])
-    const baseTop = baseTopValues.get(flashcardState) || 0
 
     const top = useTransform(
-        cardOffset,
-        [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        [-32 + baseTop, baseTop, -32 + baseTop]
+        position,
+        [-1, 0, 1, 2, 3],
+        [0, 0, 32, 64, 96]
     )
-
-    const preparedOpacity = useTransform(
-        cardOffset,
-        [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        [1, 0, 1]
-    )
-
-    const baseScaleValues = new Map<FlashcardStateType, number>([['front', 1], ['middle', 0.9], ['back', 0.8], ['prepared', 0.7]])
-    const baseScale = baseScaleValues.get(flashcardState) || 0
 
     const scale = useTransform(
-        cardOffset,
-        [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        [0.1 + baseScale, baseScale, 0.1 + baseScale]
+        position,
+        [-1, 0, 1, 2, 3],
+        [1, 1, 0.9, 0.8, 0.7]
     )
 
-    const baseBackgroundValues = new Map<FlashcardStateType, string[]>([['middle', ["hsl(246 4 16)", "hsl(246 4 14)", "hsl(246 4 16)"]], ['back', ["hsl(246 4 14)", "hsl(246 4 12)", "hsl(246 4 14)"]], ['prepared', ["hsl(246 4 12)", "hsl(246 4 10)", "hsl(246 4 12)"]]])
-    const baseBackground = baseBackgroundValues.get(flashcardState) || ["hsl(246 4 16)", "hsl(246 4 14)", "hsl(246 4 16)"]
-
     const background = useTransform(
-        cardOffset,
-        [-CARD_MAX_OFFESET, 0, CARD_MAX_OFFESET],
-        baseBackground
+        position,
+        [-1, 0, 1, 2, 3],
+        [swipeDirection === 'left' ? "hsl(0, 50, 60)" : 'hsl(114 20 60)', "hsl(246 4 16)", "hsl(246 4 14)", "hsl(246 4 12)", "hsl(246 4 10)"]
+    )
+
+    const zIndex = useTransform(
+        position,
+        [-1, 0, 1, 2, 3],
+        [5, 4, 3, 2, 1]
     )
 
     const controls = useAnimationControls()
@@ -135,23 +139,6 @@ export const SingleFlashCard = ({ hidden, progress, handleNextCard, flashcardSta
 
     }
 
-    const [isFlipped, setIsFlipped] = useState(false)
-    const [startTime, setStartTime] = useState<number | null>(null);
-
-    const handleMouseDown = () => {
-        setStartTime(Date.now());
-    };
-
-    const handleMouseUp = () => {
-        if (startTime !== null) {
-            const clickDuration = Date.now() - startTime;
-            if (clickDuration < 200) {
-                setIsFlipped((prev) => !prev)
-            }
-            setStartTime(null);
-        }
-    };
-
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (flashcardState === 'front') {
@@ -176,58 +163,33 @@ export const SingleFlashCard = ({ hidden, progress, handleNextCard, flashcardSta
 
     return (
         <motion.div
-            style={flashcardState === 'front' ? {
-                background: frontCardBackground,
+            style={{
                 opacity,
                 rotate: rotation,
+                background,
+                zIndex,
+                scale,
+                top,
                 translateX: transform,
-                zIndex: 0,
-            } : flashcardState === 'middle' ? {
-                rotate: 0,
-                opacity: 1,
-                background,
-                translateX: 0,
-                top: top,
-                scale: scale,
-                zIndex: -5.
-            } : flashcardState === 'back' ? {
-                opacity: 1,
-                rotate: 0,
-                background,
-                translateX: 0,
-                top: top,
-                scale: scale,
-                zIndex: -10,
-            } : {
-                opacity: preparedOpacity,
-                rotate: 0,
-                background,
-                top: top,
-                translateX: 0,
-                scale: scale,
-                zIndex: -15
+                transition: "all 0.4s ease-out, opacity 0s ease-out",
             }}
             variants={{
                 moveRight: { opacity: 0, rotate: 70, translateX: 300 },
                 moveLeft: { opacity: 0, rotate: -70, translateX: -300 },
-                front: { top: 0, scale: 1 },
-                middle: { top: 32, scale: 0.9 },
-                back: { top: 64, scale: 0.8 },
-                prepared: { top: 96, scale: 0.7 },
             }}
             key={flashcard._id}
-            initial={flashcardState}
             animate={controls}
             transition={{ duration: 0.4 }}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
+            onClick={() => { if (flipAllowed) setIsFlipped((prev) => !prev) }}
+            onPanStart={(_e, _pointinfo) => setFlipAllowed(false)}
             onPan={(_e, pointInfo) => {
                 !isAnimating ? cardOffset.set(pointInfo.offset.x > CARD_MAX_OFFESET ? CARD_MAX_OFFESET : pointInfo.offset.x < -CARD_MAX_OFFESET ? -CARD_MAX_OFFESET : pointInfo.offset.x) : null
             }}
             onPanEnd={(_e, info) => {
+                setFlipAllowed(true)
                 handlePanEnd(info.offset.x)
             }}
-            className='absolute flex flex-col p-8 px-10 shadow-md cursor-pointer rounded-2xl w-full h-full text-2xl'
+            className='absolute flex flex-col p-8 px-10 shadow-md cursor-pointer rounded-2xl w-full h-full text-2xl transition-all'
         >
             <Progress value={progress} className='h-2' />
             <div className='relative flex flex-col flex-1 h-full justify-center items-center p-4 select-none'>
@@ -242,6 +204,6 @@ export const SingleFlashCard = ({ hidden, progress, handleNextCard, flashcardSta
                     animate={{ opacity: isFlipped ? 1 : 0, transition: { ease: 'easeOut', duration: 0.25 } }}
                 >{flashcard.russian}</motion.p>
             </div>
-        </motion.div>
+        </motion.div >
     )
 }
