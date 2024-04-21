@@ -118,7 +118,6 @@
 @layer base {
   * {
     @apply border-border;
-    touch-action: none;
   }
 
   body {

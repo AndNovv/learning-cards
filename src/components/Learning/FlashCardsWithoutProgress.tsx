@@ -7,6 +7,7 @@ import RememberButton from './RememberButton'
 import { cn } from '@/lib/utils'
 import { FlashCardType } from '@/types/types'
 import { useRouter } from 'next/navigation'
+import FlashCard from './FlashCard'
 
 
 const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: FlashCardType[], collectionId: string }) => {
@@ -40,24 +41,26 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
     }), [cardOffset])
 
     const handleButtonClick = useCallback(((isRemembered: boolean) => {
-        setIsAnimating(true)
-        if (isRemembered) {
-            allControls[(4 - order) % 4].start("moveRight").finally(() => {
-                allControls[(4 - order) % 4].start('shrink').finally(() => {
-                    setIsAnimating(false)
-                    handleNextCard()
+        if (!isAnimating) {
+            setIsAnimating(true)
+            if (isRemembered) {
+                allControls[(4 - order) % 4].start("moveRight").finally(() => {
+                    allControls[(4 - order) % 4].start('shrink').finally(() => {
+                        setIsAnimating(false)
+                        handleNextCard()
+                    })
                 })
-            })
-        }
-        else {
-            allControls[(4 - order) % 4].start("moveLeft").finally(() => {
-                allControls[(4 - order) % 4].start('shrink').finally(() => {
-                    setIsAnimating(false)
-                    handleNextCard()
+            }
+            else {
+                allControls[(4 - order) % 4].start("moveLeft").finally(() => {
+                    allControls[(4 - order) % 4].start('shrink').finally(() => {
+                        setIsAnimating(false)
+                        handleNextCard()
+                    })
                 })
-            })
+            }
         }
-    }), [order, handleNextCard, allControls])
+    }), [order, handleNextCard, allControls, isAnimating])
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -109,11 +112,11 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
 
     return (
         <>
-            <div className='relative h-80 w-full max-w-[500px]'>
-                <SingleFlashCard key={'flashcard1'} controls={controlsOne} startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <SingleFlashCard key={'flashcard2'} controls={controlsTwo} startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <SingleFlashCard key={'flashcard3'} controls={controlsThree} startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <SingleFlashCard key={'flashcard4'} controls={controlsFour} startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+            <div className='relative h-80 w-full max-w-[500px] touch-none'>
+                <FlashCard key={'flashcard1'} controls={controlsOne} startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard2'} controls={controlsTwo} startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard3'} controls={controlsThree} startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard4'} controls={controlsFour} startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
             </div >
             <div className='flex flex-row w-full justify-between'>
                 <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
