@@ -5,11 +5,10 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Gauge, Heart, MessageCircleMore, Star } from 'lucide-react'
+import { Heart, MessageCircleMore, Star } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/state/store'
@@ -26,7 +25,10 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
 
     const favouritePublishedCollections = useFavoritePublishedCollections()
 
+
     const { user, loading, error } = useSelector((state: RootState) => state.user);
+
+    const publishedCollectionsId = user.publishedCollections.map((el) => el._id)
 
     const previewFlashCards = [...wordCollection.flashcards]
     previewFlashCards.length = 7
@@ -53,7 +55,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                 <CardDescription>Автор: {wordCollection.authorName}</CardDescription>
             </CardHeader>
             <CardContent className='flex flex-col justify-between flex-1 gap-8'>
-                <div className='relative flex-1'>
+                <div className='relative flex-1 overflow-hidden'>
                     {previewFlashCards.map((flashcard, index) => {
                         return (
                             <div key={`${wordCollection.title}${index}`} className='flex gap-2'>
@@ -66,7 +68,7 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                     <div className='absolute top-0 left-0 h-full w-full bg-gradient-to-b from-transparent to-card to-100%'>
                     </div>
                 </div>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center h-10'>
                     <div className='flex gap-5'>
                         <div className='flex gap-2 items-center justify-center opacity-70'>
                             <p>{wordCollection.favouriteCount}</p>
@@ -78,9 +80,8 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                         </div>
 
                     </div>
-                    {/* !favouritePublishedCollections.includes(wordCollection._id) */}
-                    {/* isFavourite */}
-                    {!favouritePublishedCollections.includes(wordCollection._id) ? isFavourite ? (
+
+                    {!publishedCollectionsId.includes(wordCollection._id) ? isFavourite ? (
                         <Button variant={'default'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
                             <Star size={20} />
                         </Button>) :

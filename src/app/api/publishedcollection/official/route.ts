@@ -6,7 +6,7 @@ export async function GET() {
 
     try {
         await dbConnect()
-        const publishedCollections = await PublishedCollection.find({ authorId: "Plexicon" }).limit(20)
+        const publishedCollections = await PublishedCollection.find({ authorId: process.env.OFFICIAL_AUTHOR_ID }).limit(20)
         return Response.json(publishedCollections)
     }
     catch (e) {

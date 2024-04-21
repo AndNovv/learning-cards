@@ -29,7 +29,6 @@ const useLearningCards = () => {
 
     useEffect(() => {
         return () => {
-            console.log('apply updated cards')
             dispatch(applyUpdatedCards())
         }
     }, [])
