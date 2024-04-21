@@ -59,9 +59,9 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                     {previewFlashCards.map((flashcard, index) => {
                         return (
                             <div key={`${wordCollection.title}${index}`} className='flex gap-2'>
-                                <p>{flashcard.english}</p>
+                                <p className='text-center'>{flashcard.english}</p>
                                 <p>-</p>
-                                <p>{flashcard.russian}</p>
+                                <p className='text-center'>{flashcard.russian}</p>
                             </div>
                         )
                     })}
