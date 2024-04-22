@@ -20,7 +20,11 @@ export const metadata: Metadata = {
   },
   title: "Plexicon",
   description: "Изучение иностранных языков",
+  verification: {
+    google: "VEMp4KvADQ9FUviZuVeemP0fRh4I2E97rSdbrw_pIV8",
+  },
 };
+
 
 export default function RootLayout({
   children,
