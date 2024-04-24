@@ -28,7 +28,7 @@ export async function GET(_request: NextRequest, { params }: { params: { collect
             headers: {
                 "Content-Type": "application/json",
             },
-            status: 400,
+            status: 404,
         })
     }
 }

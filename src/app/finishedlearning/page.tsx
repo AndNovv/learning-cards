@@ -11,8 +11,8 @@ const FinishedLearningPage = () => {
                 <h2 className='text-xl text-center opacity-60'>Вы уже повторили все слова. Cоздайте новую коллекцию или найдите подходящую в библиотеке!</h2>
             </div>
             <section className="flex flex-wrap justify-center items-center gap-4 w-full">
-                <LinkNavigationCard title={'Создать коллекцию'} description={"С чистого листа"} href={'/create'} image={create} />
-                <LinkNavigationCard title={'Библиотека'} description={'Поиск новых коллекций'} href={'/collections'} image={library} />
+                <LinkNavigationCard navigatingForbidden={false} title={'Создать коллекцию'} description={"С чистого листа"} href={'/create'} image={create} />
+                <LinkNavigationCard navigatingForbidden={false} title={'Библиотека'} description={'Поиск новых коллекций'} href={'/collections'} image={library} />
             </section>
         </div>
     )

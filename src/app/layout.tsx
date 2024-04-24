@@ -10,18 +10,15 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  icons: {
-    icon: [
-      {
-        url: "/images/logo.svg", // /public path
-        href: "/images/logo.svg", // /public path
-      },
-    ],
+
+  title: "Plexicon: Флешкарты - ключ к языкам",
+  openGraph: {
+    description: 'Добро пожаловать в Plexicon – вашу онлайн-платформу для эффективного изучения иностранных языков! Усовершенствуйте свой словарный запас с помощью нашей уникальной системы флешкарточек, изучайте слова и фразы на английском и других языках, применяйте эффективные методы запоминания слов.',
   },
-  title: "Plexicon",
-  description: "Изучение иностранных языков",
+  keywords: ['Plexicon', 'Плексикон', 'Онлайн-система обучения с флешкарточками', 'Эффективные методы запоминания слов', 'Изучение английского языка', 'Флешкарты', 'Учебные ресурсы для изучения лексики'],
   verification: {
     google: "VEMp4KvADQ9FUviZuVeemP0fRh4I2E97rSdbrw_pIV8",
+    yandex: "ffa6217e6fcfc487",
   },
 };
 

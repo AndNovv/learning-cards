@@ -5,12 +5,13 @@ import { Progress } from "@/components/ui/progress"
 import ForgetButton from './ForgetButton'
 import RememberButton from './RememberButton'
 import { cn } from '@/lib/utils'
-import { FlashCardType } from '@/types/types'
+import { ClientFlashCardType } from '@/types/types'
 import { useRouter } from 'next/navigation'
 import FlashCard from './FlashCard'
 
+const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCardType[] }) => {
 
-const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: FlashCardType[], collectionId: string }) => {
+    const NUMBER_OF_CARDS = 5
 
     const [isAnimating, setIsAnimating] = useState(false)
     const [flashcardIndex, setFlashcardIndex] = useState(0)
@@ -19,7 +20,8 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
 
     useEffect(() => {
         if (flashcardIndex >= flashcards.length) {
-            router.push(`/collection/${collectionId}`)
+            // router.push(`/collection/${collectionId}`)
+            router.back()
         }
     }, [flashcardIndex])
 
@@ -31,12 +33,13 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
     const controlsTwo = useAnimationControls()
     const controlsThree = useAnimationControls()
     const controlsFour = useAnimationControls()
+    const controlsFive = useAnimationControls()
 
-    const allControls = useMemo(() => [controlsOne, controlsTwo, controlsThree, controlsFour], [controlsOne, controlsTwo, controlsThree, controlsFour])
+    const allControls = useMemo(() => [controlsOne, controlsTwo, controlsThree, controlsFour, controlsFive], [controlsOne, controlsTwo, controlsThree, controlsFour, controlsFive])
 
     const handleNextCard = useCallback((() => {
         cardOffset.set(0)
-        setOrder((prev) => prev - 1 >= 0 ? prev - 1 : 3)
+        setOrder((prev) => prev - 1 >= 0 ? prev - 1 : NUMBER_OF_CARDS - 1)
         setFlashcardIndex((prev) => prev + 1)
     }), [cardOffset])
 
@@ -44,16 +47,16 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
         if (!isAnimating) {
             setIsAnimating(true)
             if (isRemembered) {
-                allControls[(4 - order) % 4].start("moveRight").finally(() => {
-                    allControls[(4 - order) % 4].start('shrink').finally(() => {
+                allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start("moveRight").finally(() => {
+                    allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start('shrink').finally(() => {
                         setIsAnimating(false)
                         handleNextCard()
                     })
                 })
             }
             else {
-                allControls[(4 - order) % 4].start("moveLeft").finally(() => {
-                    allControls[(4 - order) % 4].start('shrink').finally(() => {
+                allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start("moveLeft").finally(() => {
+                    allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start('shrink').finally(() => {
                         setIsAnimating(false)
                         handleNextCard()
                     })
@@ -113,10 +116,11 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
     return (
         <>
             <div className='relative h-80 w-full max-w-[500px] touch-none'>
-                <FlashCard key={'flashcard1'} controls={controlsOne} startingPosition={(order + 0) % 4} hidden={((order + 0) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 0) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <FlashCard key={'flashcard2'} controls={controlsTwo} startingPosition={(order + 1) % 4} hidden={((order + 1) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 1) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <FlashCard key={'flashcard3'} controls={controlsThree} startingPosition={(order + 2) % 4} hidden={((order + 2) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 2) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-                <FlashCard key={'flashcard4'} controls={controlsFour} startingPosition={(order + 3) % 4} hidden={((order + 3) % 4 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 4 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 3) % 4 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard1'} controls={controlsOne} startingPosition={(order + 0) % 5} hidden={((order + 0) % 5 + flashcardIndex) >= flashcards.length} progress={((order + 0) % 5 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 0) % 5 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard2'} controls={controlsTwo} startingPosition={(order + 1) % 5} hidden={((order + 1) % 5 + flashcardIndex) >= flashcards.length} progress={((order + 1) % 5 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 1) % 5 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard3'} controls={controlsThree} startingPosition={(order + 2) % 5} hidden={((order + 2) % 5 + flashcardIndex) >= flashcards.length} progress={((order + 2) % 5 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 2) % 5 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard4'} controls={controlsFour} startingPosition={(order + 3) % 5} hidden={((order + 3) % 5 + flashcardIndex) >= flashcards.length} progress={((order + 3) % 5 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 3) % 5 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
+                <FlashCard key={'flashcard5'} controls={controlsFive} startingPosition={(order + 4) % 5} hidden={((order + 4) % 5 + flashcardIndex) >= flashcards.length} progress={((order + 4) % 5 + flashcardIndex) / flashcards.length * 100} handleNextCard={handleNextCard} flashcard={flashcards[(order + 4) % 5 + flashcardIndex]} cardOffset={cardOffset} isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
             </div >
             <div className='flex flex-row w-full justify-between'>
                 <ForgetButton handleButtonClick={() => handleButtonClick(false)} />
@@ -129,7 +133,7 @@ const FlashCardsWithoutProgress = ({ flashcards, collectionId }: { flashcards: F
 
 export default FlashCardsWithoutProgress
 
-export const SingleFlashCard = ({ controls, startingPosition, hidden, progress, handleNextCard, flashcard, cardOffset, isAnimating, setIsAnimating }: { controls: AnimationControls, startingPosition: number, hidden: boolean, progress: number, handleNextCard: (isRemembered: boolean) => void, flashcard: FlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const SingleFlashCard = ({ controls, startingPosition, hidden, progress, handleNextCard, flashcard, cardOffset, isAnimating, setIsAnimating }: { controls: AnimationControls, startingPosition: number, hidden: boolean, progress: number, handleNextCard: (isRemembered: boolean) => void, flashcard: ClientFlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const CARD_MAX_OFFESET = 150
     const CARD_SENSITIVITY = 50

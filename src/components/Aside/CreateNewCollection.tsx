@@ -7,11 +7,14 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import logo from '../../../public/images/logo.svg'
+import { useToast } from '../ui/use-toast'
 
 const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disabled: boolean }) => {
 
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
+
+    const { toast } = useToast()
 
     const handleUserClick = () => {
         if (!isDesktop) {
@@ -24,7 +27,7 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
 
     return (
         <div className='px-4'>
-            <div onClick={disabled ? () => { } : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-asidehover bg-aside text-left cursor-pointer transition-all text-nowrap'>
+            <div onClick={disabled ? () => toast({ title: 'Войдите в аккаунт', description: 'Для сохранения прогресса вашего обучения требутеся авторизация!', variant: 'destructive' }) : handleUserClick} className='relative flex flex-row items-center gap-2 px-2 py-2 w-full rounded-xl hover:bg-asidehover bg-aside text-left cursor-pointer transition-all text-nowrap'>
                 <motion.div
                     initial={"initial"}
                     animate={muskotAnimate ? 'rotated' : 'initial'}
@@ -37,7 +40,7 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
                 >
                     <Image
                         src={logo}
-                        alt={'muskot-logo'}
+                        alt={'logo'}
                         width={40}
                         height={40}
                     />

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Settings } from 'lucide-react'
+import { ListTodo, Settings } from 'lucide-react'
 import React from 'react'
 
 const LoadingCollectionPage = () => {
@@ -14,8 +14,9 @@ const LoadingCollectionPage = () => {
                     </div>
 
                     <div className='flex gap-2 items-center'>
-                        <Button variant={'outline'}>
-                            Проверить себя
+                        <Button className='gap-2 h-10 w-10 p-2 md:px-4 md:py-2 md:w-auto' variant={'outline'}>
+                            <ListTodo size={20} />
+                            <p className='hidden md:block'>Проверить себя</p>
                         </Button>
                         <Button variant={'outline'} size={'smallIcon'}>
                             <Settings className='size-5' />

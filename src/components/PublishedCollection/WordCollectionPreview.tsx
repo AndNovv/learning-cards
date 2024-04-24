@@ -15,7 +15,7 @@ import { AppDispatch, RootState } from '@/state/store'
 import { useDispatch } from 'react-redux'
 import { likePublishedCollection, dislikePublishedCollection } from '@/state/user/userSlice'
 import { useRouter } from 'next/navigation'
-import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
+import { useSession } from 'next-auth/react'
 
 const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection: PublishedCollectionType, isFavourite: boolean }) => {
 
@@ -23,10 +23,9 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
 
     const router = useRouter()
 
-    const favouritePublishedCollections = useFavoritePublishedCollections()
-
-
     const { user, loading, error } = useSelector((state: RootState) => state.user);
+
+    const { status } = useSession()
 
     const publishedCollectionsId = user.publishedCollections.map((el) => el._id)
 
@@ -81,13 +80,18 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
 
                     </div>
 
-                    {!publishedCollectionsId.includes(wordCollection._id) ? isFavourite ? (
-                        <Button variant={'default'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
-                            <Star size={20} />
-                        </Button>) :
-                        <Button variant={'secondary'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
-                            <Star size={20} className='opacity-70' />
-                        </Button> : null
+                    {!publishedCollectionsId.includes(wordCollection._id) && (
+
+                        status === 'unauthenticated' ? null : isFavourite ? (
+                            <Button variant={'default'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
+                                <Star size={20} />
+                            </Button>) :
+                            (
+                                <Button variant={'secondary'} size={'smallIcon'} onClick={handleFavoutiteButtonClick}>
+                                    <Star size={20} className='opacity-70' />
+                                </Button>
+                            )
+                    )
                     }
                 </div>
             </CardContent>

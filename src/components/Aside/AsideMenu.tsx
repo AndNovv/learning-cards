@@ -15,6 +15,7 @@ import TimeGroupSection from './TimeGroupSection'
 import AsideMenuCloseIcon from './AsideMenuCloseIcon'
 import { Skeleton } from '../ui/skeleton'
 import { useSession } from 'next-auth/react'
+import { MoveDown } from 'lucide-react'
 
 const AsideMenu = () => {
 
@@ -48,11 +49,26 @@ const AsideMenu = () => {
             className={cn("md:relative md:translate-x-0 -translate-x-[300px] absolute bg-aside z-50 flex flex-col shrink-0 w-[300px] shadow-xl items-center h-full py-4")}
         >
             <div className='w-full h-full flex flex-col justify-between relative'>
-                <div className='flex flex-col w-full overflow-hidden'>
+                <div className='flex flex-col w-full overflow-hidden flex-1'>
                     <CreateNewCollection isDesktop={isDesktop} disabled={user.loading} />
                     <AsideMenuCloseIcon />
 
-                    {status === 'unauthenticated' ? null :
+                    {status === 'unauthenticated' ? (
+                        <div className='flex flex-col justify-between w-full h-full items-center mb-10 aside-paddings '>
+                            <div className='text-balance h-full w-full flex flex-col items-center justify-center gap-6'>
+                                <h3 className='text-foreground/70'>Без авторизации пользователям доступна вкладка: «Библиотека». Вы можете учить слова, а также проверить свои знания!</h3>
+                                <h3 className='text-foreground/70'>Для того чтобы сохранить прогресс вашего обучения, необходима авторизация.</h3>
+                                <h3 className='text-foreground/70'>Авторизация откроет доступ ко всем возможностям!</h3>
+                            </div>
+                            <motion.div
+                                animate={{ translateY: [-20, 10, -20], scale: [1, 0.7, 1] }}
+                                transition={{ times: [0, 2, 4], repeat: Infinity, repeatDelay: 5 }}
+                                className='origin-bottom'
+                            >
+                                <MoveDown size={50} strokeWidth={1} className='opacity-70' />
+                            </motion.div>
+                        </div>
+                    ) :
                         user.loading ? (
                             <div className='text-sm aside-paddings'>
                                 <Skeleton className='w-1/2 h-4 mt-8 ml-2' />
@@ -89,7 +105,7 @@ const AsideMenu = () => {
                 <AsideProfileIcon isDesktop={isDesktop} />
 
             </div>
-        </motion.aside>
+        </motion.aside >
     )
 }
 
