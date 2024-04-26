@@ -1,10 +1,11 @@
 import React from 'react'
-import { FlashCardType } from '@/types/types'
+import { AnyFlashCard } from '@/types/types'
 import ExistingCollectionWordPreview from './ExistingCollectionWordPreview'
 import { motion } from 'framer-motion'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn } from '@/lib/utils'
 
-const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
+const CollectionWords = ({ flashcards, bottomPadding }: { flashcards: AnyFlashCard[], bottomPadding: boolean }) => {
 
     return (
         <ScrollArea className='h-full paddings'>
@@ -15,15 +16,15 @@ const CollectionWord = ({ flashcards }: { flashcards: FlashCardType[] }) => {
                     ease: "linear",
                     duration: 0.2,
                 }}
-                className='flex flex-col divide-y-2 pb-10 overflow-hidden'>
+                className={cn(bottomPadding ? 'pb-10' : 'pb-0', 'flex flex-col divide-y-2 overflow-hidden')}>
                 {flashcards.slice().reverse().map((flashcard, index) => {
                     return (
                         <ExistingCollectionWordPreview key={`flashcardPreview${index}`} flashcard={flashcard} />
                     )
                 })}
             </motion.div>
-        </ScrollArea>
+        </ScrollArea >
     )
 }
 
-export default CollectionWord
+export default CollectionWords

@@ -1,15 +1,18 @@
 "use client"
 import FlashCardsWithoutProgress from '@/components/Learning/FlashCardsWithoutProgress'
 import LoadingLearningPage from '@/components/Learning/LoadingLearningPage'
-import { AnyFlashCard } from '@/types/types'
+import { PracticeFlashCardType } from '@/state/currentPracticeCollection/currentPracticeCollectionSlice'
+import { RootState } from '@/state/store'
+import { ClientFlashCardType } from '@/types/types'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const LearnCollectionCardsPage = () => {
 
-    const searchParams = useSearchParams()
+    const currentPracticeCollection = useSelector((state: RootState) => state.currentPracticeCollection)
 
-    const shuffleArray = (array: AnyFlashCard[]) => {
+    const shuffleArray = (array: PracticeFlashCardType[]) => {
         const shuffledArray = array.slice()
         for (let i = shuffledArray.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -18,17 +21,15 @@ const LearnCollectionCardsPage = () => {
         return shuffledArray;
     }
 
-    const [shuffledFlashcards, setShuffledFlashcards] = useState<AnyFlashCard[] | null>(null)
+    const [shuffledFlashcards, setShuffledFlashcards] = useState<PracticeFlashCardType[]>([])
 
     useEffect(() => {
-        const encodedFlashcards = searchParams.get('flashcards')
-        const flashcards = encodedFlashcards ? JSON.parse(decodeURIComponent(encodedFlashcards)) : null
-        if (flashcards) {
-            setShuffledFlashcards(shuffleArray(flashcards))
+        if (currentPracticeCollection.flashcards) {
+            setShuffledFlashcards(shuffleArray(currentPracticeCollection.flashcards))
         }
-    }, [searchParams])
+    }, [currentPracticeCollection])
 
-    if (!shuffledFlashcards) return <LoadingLearningPage />
+    if (shuffledFlashcards.length === 0) return <LoadingLearningPage />
 
     return (
         <div className='flex justify-center items-center h-full paddings'>

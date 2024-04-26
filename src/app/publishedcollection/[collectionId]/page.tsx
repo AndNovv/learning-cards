@@ -3,6 +3,7 @@ import LoadingPublishedCollectionPage from '@/components/PublishedCollection/Loa
 import PublishedCollectionWords from '@/components/PublishedCollection/PublishedCollectionWords'
 import { Button } from '@/components/ui/button'
 import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollections'
+import { initCurrentPracticeCollection } from '@/state/currentPracticeCollection/currentPracticeCollectionSlice'
 import { AppDispatch, RootState } from '@/state/store'
 import { dislikePublishedCollection, likePublishedCollection } from '@/state/user/userSlice'
 import { PublishedCollectionType } from '@/types/types'
@@ -68,6 +69,11 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
         }
     }
 
+    const checkYourSelf = () => {
+        dispatch(initCurrentPracticeCollection({ collectionLink: `/publishedcollection/${params.collectionId}`, flashcards: publishedCollection.flashcards }))
+        router.push('/learning/collection')
+    }
+
     return (
         <div className='relative flex flex-col h-full overflow-hidden pt-6 md:pt-0'>
             <div className='flex flex-col bg-background paddings'>
@@ -78,7 +84,7 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
                     </div>
 
                     <div className='flex gap-5 items-center'>
-                        <Button className='gap-2 h-10 w-10 p-2 md:px-4 md:py-2 md:w-auto' variant={'outline'} onClick={() => router.push(`/learning/collection?flashcards=${encodeURIComponent(JSON.stringify(publishedCollection.flashcards))}`)}>
+                        <Button className='gap-2 h-10 w-10 p-2 md:px-4 md:py-2 md:w-auto' variant={'outline'} onClick={checkYourSelf}>
                             <ListTodo size={20} />
                             <p className='hidden md:block'>Проверить себя</p>
                         </Button>

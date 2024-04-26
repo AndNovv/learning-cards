@@ -1,8 +1,8 @@
 import * as React from "react"
-import { FlashCardType } from "@/types/types"
+import { AnyFlashCard, FlashCardType } from "@/types/types"
 import { useEffect, useRef } from "react";
 
-const ExistingCollectionWordPreview = ({ flashcard }: { flashcard: FlashCardType }) => {
+const ExistingCollectionWordPreview = ({ flashcard }: { flashcard: AnyFlashCard }) => {
 
     const englishRef = useRef<HTMLParagraphElement>(null);
     const russianRef = useRef<HTMLParagraphElement>(null);

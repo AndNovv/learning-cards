@@ -42,7 +42,6 @@ export type ClientFlashCardType = {
 }
 
 export type AnyFlashCard = {
-    _id: string;
     english: string;
     russian: string;
     [key: string]: any; // Additional properties of any type

@@ -5,11 +5,14 @@ import { Progress } from "@/components/ui/progress"
 import ForgetButton from './ForgetButton'
 import RememberButton from './RememberButton'
 import { cn } from '@/lib/utils'
-import { ClientFlashCardType } from '@/types/types'
 import { useRouter } from 'next/navigation'
 import FlashCard from './FlashCard'
+import { PracticeFlashCardType, updateCurrentPracticeFlashcards } from '@/state/currentPracticeCollection/currentPracticeCollectionSlice'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/state/store'
+import { useDispatch } from 'react-redux'
 
-const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCardType[] }) => {
+const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: PracticeFlashCardType[] }) => {
 
     const NUMBER_OF_CARDS = 5
 
@@ -18,12 +21,21 @@ const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCard
 
     const router = useRouter()
 
+    const [forgottenCards, setForgottenCards] = useState<PracticeFlashCardType[]>([])
+
+    const currentPracticeCollection = useSelector((state: RootState) => state.currentPracticeCollection)
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if (flashcardIndex >= flashcards.length) {
-            // router.push(`/collection/${collectionId}`)
-            router.back()
+            if (forgottenCards.length > 0) {
+                dispatch(updateCurrentPracticeFlashcards({ flashcards: forgottenCards }))
+                router.push(`/learning/finished`)
+            }
+            else if (currentPracticeCollection.collectionLink) router.push(currentPracticeCollection.collectionLink)
+
         }
-    }, [flashcardIndex])
+    }, [flashcardIndex, forgottenCards])
 
     const [order, setOrder] = useState(0)
 
@@ -37,11 +49,12 @@ const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCard
 
     const allControls = useMemo(() => [controlsOne, controlsTwo, controlsThree, controlsFour, controlsFive], [controlsOne, controlsTwo, controlsThree, controlsFour, controlsFive])
 
-    const handleNextCard = useCallback((() => {
+    const handleNextCard = useCallback(((isRemembered: boolean) => {
         cardOffset.set(0)
+        if (!isRemembered) setForgottenCards((prev) => [...prev, flashcards[flashcardIndex]])
         setOrder((prev) => prev - 1 >= 0 ? prev - 1 : NUMBER_OF_CARDS - 1)
         setFlashcardIndex((prev) => prev + 1)
-    }), [cardOffset])
+    }), [cardOffset, flashcardIndex])
 
     const handleButtonClick = useCallback(((isRemembered: boolean) => {
         if (!isAnimating) {
@@ -50,7 +63,7 @@ const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCard
                 allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start("moveRight").finally(() => {
                     allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start('shrink').finally(() => {
                         setIsAnimating(false)
-                        handleNextCard()
+                        handleNextCard(true)
                     })
                 })
             }
@@ -58,7 +71,7 @@ const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCard
                 allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start("moveLeft").finally(() => {
                     allControls[(NUMBER_OF_CARDS - order) % NUMBER_OF_CARDS].start('shrink').finally(() => {
                         setIsAnimating(false)
-                        handleNextCard()
+                        handleNextCard(false)
                     })
                 })
             }
@@ -133,7 +146,7 @@ const FlashCardsWithoutProgress = ({ flashcards }: { flashcards: ClientFlashCard
 
 export default FlashCardsWithoutProgress
 
-export const SingleFlashCard = ({ controls, startingPosition, hidden, progress, handleNextCard, flashcard, cardOffset, isAnimating, setIsAnimating }: { controls: AnimationControls, startingPosition: number, hidden: boolean, progress: number, handleNextCard: (isRemembered: boolean) => void, flashcard: ClientFlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const SingleFlashCard = ({ controls, startingPosition, hidden, progress, handleNextCard, flashcard, cardOffset, isAnimating, setIsAnimating }: { controls: AnimationControls, startingPosition: number, hidden: boolean, progress: number, handleNextCard: (isRemembered: boolean) => void, flashcard: PracticeFlashCardType, cardOffset: MotionValue<number>, isAnimating: boolean, setIsAnimating: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const CARD_MAX_OFFESET = 150
     const CARD_SENSITIVITY = 50
