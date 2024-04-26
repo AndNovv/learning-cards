@@ -1,35 +1,30 @@
 "use client"
-import { motion } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 import { ChevronLeft } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 
 const ForgetButton = ({ handleButtonClick }: { handleButtonClick: () => void }) => {
 
-    const [hovered, setHovered] = useState(false)
+    const controls = useAnimationControls()
 
     return (
         <motion.div
-            initial={'notHovered'}
-            animate={hovered ? 'hovered' : 'notHovered'}
-            whileTap={{ scale: 1.1, transition: { duration: 0.1 } }}
-            variants={{
-                notHovered: { backgroundPositionX: '100%' },
-                hovered: { backgroundPositionX: '85%' }
-            }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            transition={{ duration: 0.5 }}
-            className='bg-gradient-to-l text-white to-red-600 from-transparent to-50% from-10% pl-4 pr-20 py-4 rounded-l-lg cursor-pointer animate-gradient'
+            whileTap={{ scale: 0.9, transition: { duration: 0.2 } }}
+            whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+            onTap={() => controls.start('leftSlideAnimation').finally(() => controls.start('rightSlideAnimation'))}
             onClick={handleButtonClick}
+            className='flex justify-center items-center rounded-full bg-red-500 size-20 select-none cursor-pointer'
         >
             <motion.div
+
                 initial={{ x: 0 }}
-                animate={{ x: hovered ? -10 : 0 }}
-                transition={{ duration: 0.4 }}
-                className='flex gap-1 items-center select-none'
+                animate={controls}
+                variants={{
+                    leftSlideAnimation: { x: [0, -15], opacity: [1, 0], transition: { duration: 0.3 } },
+                    rightSlideAnimation: { x: [15, 0], opacity: [0, 1], transition: { duration: 0.3 } }
+                }}
             >
-                <ChevronLeft className='size-8' />
-                <p>Забыл</p>
+                <ChevronLeft className='size-10' />
             </motion.div>
         </motion.div>
     )

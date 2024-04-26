@@ -1,35 +1,30 @@
 "use client"
-import { motion } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 
 const RememberButton = ({ handleButtonClick }: { handleButtonClick: () => void }) => {
 
-    const [hovered, setHovered] = useState(false)
+    const controls = useAnimationControls()
 
     return (
         <motion.div
-            initial={'notHovered'}
-            animate={hovered ? 'hovered' : 'notHovered'}
-            whileTap={{ scale: 1.1, transition: { duration: 0.1 } }}
-            variants={{
-                notHovered: { backgroundPositionX: '65%' },
-                hovered: { backgroundPositionX: '75%' }
-            }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            transition={{ duration: 0.5 }}
-            className='flex gap-2 text-white items-center bg-gradient-to-l from-green-600 to-transparent to-50% from-10% pr-4 pl-10 py-4 rounded-r-lg cursor-pointer animate-gradient'
+            whileTap={{ scale: 0.9, transition: { duration: 0.2 } }}
+            whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
+            onTap={() => controls.start('rightSlideAnimation').finally(() => controls.start('leftSlideAnimation'))}
             onClick={handleButtonClick}
+            className='flex justify-center items-center rounded-full bg-green-500 size-20 select-none cursor-pointer'
         >
             <motion.div
+
                 initial={{ x: 0 }}
-                animate={{ x: hovered ? 10 : 0 }}
-                transition={{ duration: 0.4 }}
-                className='flex gap-2 items-center select-none'
+                animate={controls}
+                variants={{
+                    rightSlideAnimation: { x: [0, 15], opacity: [1, 0], transition: { duration: 0.3 } },
+                    leftSlideAnimation: { x: [-15, 0], opacity: [0, 1], transition: { duration: 0.3 } }
+                }}
             >
-                <p>Помню</p>
-                <ChevronRight className='size-8' />
+                <ChevronRight className='size-10' />
             </motion.div>
         </motion.div>
     )
