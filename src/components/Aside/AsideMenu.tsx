@@ -61,13 +61,6 @@ const AsideMenu = () => {
                                     <h3 className='text-foreground/70'>Для того чтобы сохранить прогресс вашего обучения, необходима авторизация.</h3>
                                     <h3 className='text-foreground/70'>Авторизация откроет доступ ко всем возможностям!</h3>
                                 </div>
-                                <motion.div
-                                    animate={{ translateY: [-20, 10, -20], scale: [1, 0.7, 1] }}
-                                    transition={{ times: [0, 2, 4], repeat: Infinity, repeatDelay: 5 }}
-                                    className='origin-bottom'
-                                >
-                                    <MoveDown size={50} strokeWidth={1} className='opacity-70' />
-                                </motion.div>
                             </div>
                         ) :
                             user.loading ? (

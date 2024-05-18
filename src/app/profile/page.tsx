@@ -1,14 +1,16 @@
 "use client"
-import UserPublishedCollections from '@/components/Profile/UserPublishedCollections'
+import UserPublishedCollections from '@/app/profile/Components/UserPublishedCollections'
 import { Button } from '@/components/ui/button'
 import { RootState } from '@/state/store'
 import { signOut, useSession } from 'next-auth/react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Image from 'next/image';
-import LoadingProfilePage from '@/components/Profile/LoadingProfilePage'
+import LoadingProfilePage from '@/app/profile/Components/LoadingProfilePage'
 import { motion } from 'framer-motion'
 import { LogOut } from 'lucide-react'
+import AiPreferencesTab from './Components/AiPreferencesTab'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const ProfilePage = () => {
 
@@ -53,8 +55,13 @@ const ProfilePage = () => {
                     <Button className='flex gap-2 justify-center items-center size-15 p-3 md:size-auto md:px-4 md:py-3' variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}><LogOut size={20} /><p className='hidden md:block'>Выйти</p></Button>
                 </div>
             </div>
-            <UserPublishedCollections />
-        </div>
+            <ScrollArea className='h-full paddings'>
+                <div className='space-y-6'>
+                    <AiPreferencesTab />
+                    <UserPublishedCollections />
+                </div>
+            </ScrollArea>
+        </div >
     )
 }
 

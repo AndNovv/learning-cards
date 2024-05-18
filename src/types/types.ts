@@ -46,3 +46,21 @@ export type AnyFlashCard = {
     russian: string;
     [key: string]: any; // Additional properties of any type
 }
+
+export type PromptType = 'examples' | 'definition'
+
+export type DifficultyType = 'beginner' | 'intermediate' | 'advanced'
+
+export type AIPanelDataType = {
+    open: boolean
+    word: string
+    promptType: PromptType
+    subscriptionRequired: boolean
+    data: string[] | null
+} | {
+    open: false
+    word: null
+    promptType: null
+    subscriptionRequired: boolean
+    data: null
+}

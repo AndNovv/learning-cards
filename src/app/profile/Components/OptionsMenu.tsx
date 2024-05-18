@@ -5,7 +5,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import DeleteButtonWithAlert from '../Aside/DeleteButtonWithAlert'
+import DeleteButtonWithAlert from '../../../components/Aside/DeleteButtonWithAlert'
 import { deletePublishedCollection } from '@/state/user/userSlice'
 import { Ellipsis, PenLine } from 'lucide-react'
 import { useDispatch } from 'react-redux'

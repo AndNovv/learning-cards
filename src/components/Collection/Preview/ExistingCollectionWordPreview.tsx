@@ -1,8 +1,9 @@
 import * as React from "react"
 import { AnyFlashCard, FlashCardType } from "@/types/types"
 import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 
-const ExistingCollectionWordPreview = ({ flashcard }: { flashcard: AnyFlashCard }) => {
+const ExistingCollectionWordPreview = ({ flashcard, handleAiButtonClick }: { flashcard: AnyFlashCard, handleAiButtonClick: (word: string) => void }) => {
 
     const englishRef = useRef<HTMLParagraphElement>(null);
     const russianRef = useRef<HTMLParagraphElement>(null);
@@ -29,11 +30,12 @@ const ExistingCollectionWordPreview = ({ flashcard }: { flashcard: AnyFlashCard 
 
     return (
         <div className='flex flex-row w-full hover:bg-hover transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
-            <div className='flex flex-row w-full items-center text-balance'>
+            <div className='flex flex-row flex-1 items-center text-balance'>
                 <p ref={englishRef}>{flashcard.english}</p>
                 <span className='mx-2'>-</span>
                 <p ref={russianRef}>{flashcard.russian}</p>
             </div>
+            <Button variant={'ai'} onClick={() => handleAiButtonClick(flashcard.english)}>AI</Button>
         </div>
     )
 }

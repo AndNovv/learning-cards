@@ -9,6 +9,8 @@ import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] });
 
+
+
 export const metadata: Metadata = {
 
   title: "Plexicon: Флешкарты - ключ к языкам",
@@ -31,6 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-dvh" suppressHydrationWarning >
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       <body className={cn(inter.className, 'flex flex-row h-full overflow-hidden')}>
         <Providers>
           <>

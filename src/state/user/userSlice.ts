@@ -7,6 +7,8 @@ export interface User {
     _id: string
     name: string
     email: string
+    subscription: boolean
+    freeAssistances: number
     collections: WordCollection[]
     publishedCollections: PublishedCollectionType[]
 }
@@ -22,6 +24,8 @@ const initialState: UserDataState = {
         _id: '',
         name: '',
         email: '',
+        subscription: false,
+        freeAssistances: 0,
         collections: [],
         publishedCollections: []
     },
@@ -71,6 +75,9 @@ const userSlice = createSlice({
                     state.user.collections[collectionIndex].publishedCollectionRef = null
                 }
             }
+        },
+        decrementFreeAssistances: (state) => {
+            state.user.freeAssistances = state.user.freeAssistances - 1
         }
     },
     extraReducers: (builder) => {
@@ -80,11 +87,7 @@ const userSlice = createSlice({
             })
             .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User | undefined>) => {
                 if (action.payload) {
-                    state.user._id = action.payload._id
-                    state.user.name = action.payload.name
-                    state.user.email = action.payload.email
-                    state.user.collections = action.payload.collections
-                    state.user.publishedCollections = action.payload.publishedCollections
+                    state.user = action.payload
                 }
                 else {
                     state.error = "Ошибка получения информации о пользователе"
@@ -250,6 +253,6 @@ export const fetchUser = createAsyncThunk(
 )
 
 
-export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards, changeCollectionName, deletePublishedCollection } = userSlice.actions
+export const { deleteCollectionFromUser, editCollection, updateCollections, updateFlashcards, changeCollectionName, deletePublishedCollection, decrementFreeAssistances } = userSlice.actions
 
 export default userSlice.reducer
