@@ -48,7 +48,7 @@ const AiBottomPanel = ({ AiPanelData, setAiPanelData }: { AiPanelData: AIPanelDa
     }
     return (
         <Drawer open={AiPanelData.open} onClose={setOpen}>
-            <DrawerContent className="min-h-80 text-left text-balance">
+            <DrawerContent className="min-h-80 text-left">
                 <DrawerHeader className='flex gap-1 flex-col text-left flex-1'>
                     <DrawerTitle className='mb-2'>
                         {AiPanelData.subscriptionRequired ? <SubscriptionRequiredTitle /> : <PanelTitle AiPanelData={AiPanelData} />}
@@ -116,7 +116,7 @@ const PanelContent = ({ data }: { data: string[] | null }) => {
 
 const PanelTitle = ({ AiPanelData }: { AiPanelData: AIPanelDataType }) => {
     return (
-        <div className="flex flex-row justify-between items-center leading-6">
+        <div className="flex flex-row justify-between items-center leading-6 text-balance">
             <h2>
                 {AiPanelData.promptType === 'examples' ?
                     `Примеры предложений с ${AiPanelData.word}:` :
@@ -145,7 +145,7 @@ const SubscriptionRequiredTitle = () => {
 
 const SubscriptionRequiredContent = () => {
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 text-balance">
             <h2>Оформите ежемесячную подписку и пользуйтесь подсказками без ограничений!</h2>
             <Card className='p-4 w-fit self-center'>
                 <CardTitle className='mb-1'>Подписки скоро будут доступны</CardTitle>
