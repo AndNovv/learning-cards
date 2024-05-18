@@ -73,7 +73,7 @@ const PanelContent = ({ data }: { data: string[] | null }) => {
                     aria-hidden
                 >
                     {data.map((line, index) => (
-                        <span key={`line${index}`} className='block' >
+                        <span key={`line${index}`} className='block text-wrap' >
                             {line.split(" ").map((word, index) => (
                                 <span key={`word${index}`} className='inline-block'>
                                     {word.split("").map((char, index) => (

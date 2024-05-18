@@ -24,7 +24,7 @@ const useUserPreferences = () => {
 
         localStorage.getItem("knowledgeLevel") ?
             setKnowledgeLevel(localStorage.getItem("knowledgeLevel") as DifficultyType) :
-            localStorage.setItem("knowledgeLevel", 'intermidiate')
+            localStorage.setItem("knowledgeLevel", 'intermediate')
 
     }, [])
 

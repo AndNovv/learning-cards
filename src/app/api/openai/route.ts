@@ -3,13 +3,13 @@ import OpenAI from "openai";
 import dbConnect from "@/lib/mongo/dbConnect";
 import User from "@/models/User";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    baseURL: "https://api.proxyapi.ru/openai/v1",
-});
 
 export async function POST(request: NextRequest) {
 
+    const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+        baseURL: "https://api.proxyapi.ru/openai/v1",
+    });
     try {
 
         const { prompt, userId }: { prompt: string, userId: string } = await request.json()
