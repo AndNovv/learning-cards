@@ -5,6 +5,11 @@ import { NextRequest } from "next/server";
 
 export async function PATCH(request: NextRequest) {
 
+    // Проверка токена не имеет смысла
+    // Для изменения карточки необходима знать ее ObjectID
+    // Этой информацией может владеть только сам пользователь
+    // Неправомерное вмешательство в процесс работы этого Route затруднительно
+
     try {
         const { updatedCards }: { updatedCards: FlashCardType[] } = await request.json()
 
@@ -20,6 +25,11 @@ export async function PATCH(request: NextRequest) {
         return Response.json(res)
 
     } catch (e) {
-        return Response.json("Ошибка обновления карточек")
+        return Response.json(e, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 500,
+        })
     }
 }

@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import PublishedCollection from "@/models/PublishedCollection";
 
-
+// Retrieves a random sample of 10 Published Collection (currently is not used)
 export async function GET() {
 
     try {
@@ -16,7 +16,7 @@ export async function GET() {
             headers: {
                 "Content-Type": "application/json",
             },
-            status: 400,
+            status: 500,
         })
     }
 }

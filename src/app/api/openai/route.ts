@@ -2,6 +2,7 @@ import { NextRequest } from "next/server"
 import OpenAI from "openai";
 import dbConnect from "@/lib/mongo/dbConnect";
 import User from "@/models/User";
+import { validateAccessToken } from "@/lib/ValidateAccessToken";
 
 
 export async function POST(request: NextRequest) {
@@ -10,14 +11,19 @@ export async function POST(request: NextRequest) {
         apiKey: process.env.OPENAI_API_KEY,
         baseURL: "https://api.proxyapi.ru/openai/v1",
     });
+
     try {
 
+        const result = await validateAccessToken(request)
+        if (typeof result !== 'string') return result
+
         const { prompt, userId }: { prompt: string, userId: string } = await request.json()
+
         await dbConnect()
         const user = await User.findById(userId)
 
-        if (!user) {
-            return Response.json("Пользователь не найден", {
+        if (!user || user.email !== result) {
+            return Response.json("User not found", {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -27,7 +33,7 @@ export async function POST(request: NextRequest) {
 
         if (!user.subscription) {
             if (user.freeAssistances <= 0) {
-                return Response.json("Бесплатные подсказки ассистента закончились", {
+                return Response.json("Free Assistances are over", {
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -55,7 +61,7 @@ export async function POST(request: NextRequest) {
             headers: {
                 "Content-Type": "application/json",
             },
-            status: 400,
+            status: 500,
         })
     }
 

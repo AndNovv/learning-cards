@@ -24,14 +24,14 @@ const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCo
 
     useEffect(() => {
         if (!editedCollection.collectionId || editedCollection.collectionId !== collection._id) {
-            dispatch(initEditedCollection({ collectionId: collection._id, title: collection.title, author: collection.author, flashcards: collection.flashcards }))
+            dispatch(initEditedCollection({ collectionId: collection._id, title: collection.title, author: collection.author, authorId: collection.authorId, flashcards: collection.flashcards }))
         }
     }, [])
 
     const handleSaveClick = async () => {
         setEditing(false)
         if (editedCollection.collectionId) {
-            const updatedCollection = await dispatch(updateCollection({ collectionId: editedCollection.collectionId, newCards: editedCollection.newCards, deletedCards: editedCollection.deletedCards, updatedCards: editedCollection.updatedCards })).unwrap()
+            const updatedCollection = await dispatch(updateCollection({ userId: user._id, collectionId: editedCollection.collectionId, newCards: editedCollection.newCards, deletedCards: editedCollection.deletedCards, updatedCards: editedCollection.updatedCards })).unwrap()
             if (updatedCollection) {
                 dispatch(editCollection(updatedCollection))
             }

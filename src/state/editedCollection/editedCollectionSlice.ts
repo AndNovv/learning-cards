@@ -6,6 +6,7 @@ export type EditedWordCollection = {
     collectionId: string | null
     title: string
     author: string
+    authorId: string
     flashcards: FlashCardType[]
     updatedCards: FlashCardType[]
     newCards: FlashCardType[]
@@ -16,6 +17,7 @@ const initialState: EditedWordCollection = {
     collectionId: null,
     title: '',
     author: '',
+    authorId: '',
     flashcards: [],
     updatedCards: [],
     newCards: [],
@@ -26,8 +28,9 @@ const editedCollectionSlice = createSlice({
     name: "editedCollection",
     initialState,
     reducers: {
-        initEditedCollection: (state, action: PayloadAction<{ author: string, title: string, collectionId: string, flashcards: FlashCardType[] }>) => {
+        initEditedCollection: (state, action: PayloadAction<{ author: string, authorId: string, title: string, collectionId: string, flashcards: FlashCardType[] }>) => {
             state.author = action.payload.author
+            state.authorId = action.payload.authorId
             state.title = action.payload.title
             state.collectionId = action.payload.collectionId
             state.flashcards = action.payload.flashcards
@@ -78,6 +81,7 @@ const editedCollectionSlice = createSlice({
                 collectionId: null,
                 title: '',
                 author: '',
+                authorId: '',
                 flashcards: [],
                 updatedCards: [],
                 newCards: [],
@@ -94,6 +98,7 @@ const editedCollectionSlice = createSlice({
                 if (action.payload) {
                     state.collectionId = action.payload._id
                     state.author = action.payload.author
+                    state.authorId = action.payload.authorId
                     state.title = action.payload.title
                     state.flashcards = action.payload.flashcards
                     state.updatedCards = []
@@ -109,9 +114,9 @@ const editedCollectionSlice = createSlice({
 
 export const updateCollection = createAsyncThunk(
     'editedCollection/updateCollection',
-    async ({ collectionId, newCards, deletedCards, updatedCards }: { collectionId: string, newCards: FlashCardType[], deletedCards: string[], updatedCards: FlashCardType[] }) => {
+    async ({ userId, collectionId, newCards, deletedCards, updatedCards }: { userId: string, collectionId: string, newCards: FlashCardType[], deletedCards: string[], updatedCards: FlashCardType[] }) => {
         try {
-            const request = { newCards, deletedCards, updatedCards }
+            const request = { userId, newCards, deletedCards, updatedCards }
             const { data }: { data: WordCollection } = await axios.patch(`/api/collection/${collectionId}`, request)
             return data as WordCollection
         }

@@ -31,10 +31,9 @@ const CreateCollectionPage = () => {
 
 
     const createNewCollection = async (title: string) => {
-        const newCollection = await dispatch(createNewCollectionAndAddToUser({ userId: user._id, collection: { title: title, author: user.name, flashcards } })).unwrap()
-        if (newCollection) {
-            router.push(`/collection/${newCollection._id}`)
-        }
+        const newCollection = await dispatch(createNewCollectionAndAddToUser({ userId: user._id, collection: { title: title, author: user.name, authorId: user._id, flashcards } })).unwrap()
+        if (newCollection) router.push(`/collection/${newCollection._id}`)
+
     }
 
     const handleSubmitNewWordCollection = (e: React.FormEvent<HTMLFormElement>) => {

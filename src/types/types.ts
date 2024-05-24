@@ -2,6 +2,7 @@ export type WordCollection = {
     _id: string
     title: string
     author: string
+    authorId: string
     flashcards: FlashCardType[]
     lastUpdateAt: Date
     publishedCollectionRef: string | null
@@ -32,6 +33,7 @@ export type PublishedCollectionType = {
 export type ClientWordCollection = {
     title: string
     author: string
+    authorId: string
     flashcards: ClientFlashCardType[]
 }
 

@@ -14,7 +14,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         if (email) {
-            dispatch(fetchUser(email))
+            dispatch(fetchUser())
         }
     }, [email, dispatch])
 

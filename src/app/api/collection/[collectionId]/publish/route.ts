@@ -1,8 +1,9 @@
+import { validateAccessToken } from "@/lib/ValidateAccessToken";
 import dbConnect from "@/lib/mongo/dbConnect";
 import Collection from "@/models/Collection";
 import PublishedCollection from "@/models/PublishedCollection";
 import User from "@/models/User";
-import { FlashCardType, PublishedCollectionType, WordCollection } from "@/types/types";
+import { FlashCardType, PublishedCollectionType } from "@/types/types";
 
 import { NextRequest } from "next/server";
 
@@ -10,29 +11,49 @@ export async function POST(request: NextRequest, { params }: { params: { collect
 
     try {
 
-        const { userId }: { userId: string } = await request.json()
+        const result = await validateAccessToken(request)
+        if (typeof result !== 'string') return result
 
         await dbConnect()
         const collection = await Collection.findById(params.collectionId).populate('flashcards')
 
-        if (collection) {
-
-            const flashcards = collection.flashcards.map((flashcard: FlashCardType) => ({ english: flashcard.english, russian: flashcard.russian }))
-            const res: PublishedCollectionType | null = await PublishedCollection.create({ title: collection.title, authorId: userId, authorName: collection.author, flashcards, originCollection: params.collectionId })
-
-            if (res) {
-                await Collection.findByIdAndUpdate(params.collectionId, { $set: { publishedCollectionRef: res._id } })
-                await User.findByIdAndUpdate(userId, { $push: { publishedCollections: res._id } })
-                return Response.json(res)
-            }
-            else {
-                return Response.json("Ошибка публикации")
-            }
-
+        if (!collection) {
+            return Response.json("Collection not found", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            })
         }
-        else {
-            return Response.json("Коллекция не найдена")
+
+        const user = await User.findById(collection.authorId)
+
+        if (!user || user.email !== result) {
+            return Response.json("User does not have access to this Collection", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            })
         }
+
+
+        const flashcards = collection.flashcards.map((flashcard: FlashCardType) => ({ english: flashcard.english, russian: flashcard.russian }))
+        const createdPublishedCollection: PublishedCollectionType | null = await PublishedCollection.create({ title: collection.title, authorId: collection.authorId, authorName: collection.author, flashcards, originCollection: params.collectionId })
+
+        if (!createdPublishedCollection) {
+            return Response.json("Publication error", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 500,
+            })
+        }
+
+        await Collection.findByIdAndUpdate(params.collectionId, { $set: { publishedCollectionRef: createdPublishedCollection._id } })
+        await User.findByIdAndUpdate(collection.authorId, { $push: { publishedCollections: createdPublishedCollection._id } })
+
+        return Response.json(createdPublishedCollection)
 
     } catch (e) {
         console.log(e)

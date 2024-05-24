@@ -4,6 +4,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 const initialState: ClientWordCollection = {
     title: '',
     author: '',
+    authorId: '',
     flashcards: []
 }
 
@@ -25,6 +26,7 @@ const newCollectionSlice = createSlice({
             return {
                 title: '',
                 author: '',
+                authorId: '',
                 flashcards: []
             }
         }

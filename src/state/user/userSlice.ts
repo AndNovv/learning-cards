@@ -193,7 +193,8 @@ export const likePublishedCollection = createAsyncThunk(
     'user/likePublishedCollection',
     async ({ userId, collectionId }: { userId: string, collectionId: string }) => {
         try {
-            const createdCollectionResponse = await axios.post(`/api/publishedcollection/${collectionId}/like`)
+            const request = { userId }
+            const createdCollectionResponse = await axios.post(`/api/publishedcollection/${collectionId}/like`, request)
             const createdCollection = createdCollectionResponse.data
             await addCollectionToUserDB(userId, createdCollection._id)
             return createdCollection as WordCollection
@@ -225,7 +226,12 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
     async ({ userId, collection }: { userId: string, collection: ClientWordCollection }) => {
         try {
             const request = collection
-            const { data } = await axios.post(`/api/collection`, request)
+            const { data, status } = await axios.post(`/api/collection`, request)
+
+            if (status !== 200) {
+                throw new Error(`Error ${status}`);
+            }
+
             const newCollection: WordCollection = data
 
             await addCollectionToUserDB(userId, newCollection._id)
@@ -239,9 +245,9 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
     'user/fetchUser',
-    async (email: string) => {
+    async () => {
         try {
-            const { data, status } = await axios(`/api/user/${email}`)
+            const { data, status } = await axios(`/api/user`)
             if (status === 200) {
                 return data as User
             }

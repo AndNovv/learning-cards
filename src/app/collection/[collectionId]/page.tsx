@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '@/state/store';
 import { useDispatch } from 'react-redux';
 import { changeActiveCollection, resetActiveCollection } from '@/state/activeCollection/activeCollectionSlice';
 import LoadingCollectionPage from '@/components/Collection/Preview/LoadingCollectionPage';
+import { redirect } from 'next/navigation';
 
 const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) => {
 
@@ -28,7 +29,7 @@ const SingleCollectionPage = ({ params }: { params: { collectionId: string } }) 
 
 
     if (loading) return <LoadingCollectionPage />
-    if (!collection) return <div>Такой коллекции не существует...</div>
+    if (!collection) redirect('/')
 
 
     return (
