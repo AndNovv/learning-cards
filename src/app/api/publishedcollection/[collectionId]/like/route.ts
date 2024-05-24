@@ -47,6 +47,11 @@ export async function POST(request: NextRequest, { params }: { params: { collect
         const addedCollection: WordCollection = await Collection.create({ title: publishedCollection.title, author: publishedCollection.authorName, authorId: userId, flashcards: createdFlashcardsIds, lastUpdateAt: new Date(), publishedCollectionRef: publishedCollection._id })
 
         const resultCollection = await Collection.findById(addedCollection._id).populate('flashcards')
+
+        // Adding colleciton to user
+        user.collections.push(addedCollection._id)
+        await user.save()
+
         return Response.json(resultCollection)
 
     } catch (e) {

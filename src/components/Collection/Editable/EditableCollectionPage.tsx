@@ -6,13 +6,10 @@ import { initEditedCollection, resetCollection, updateCollection } from '@/state
 import { AppDispatch, RootState } from '@/state/store';
 import { editCollection } from '@/state/user/userSlice';
 import { WordCollection } from '@/types/types';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import CancelButtonWithAlert from './CancelButtonWithAlert';
-import DeleteButtonWithAlert from '../../Aside/DeleteButtonWithAlert';
-import axios from 'axios';
 
 const EditableCollectionPage = ({ collection, setEditing }: { collection: WordCollection, setEditing: React.Dispatch<React.SetStateAction<boolean>> }) => {
 

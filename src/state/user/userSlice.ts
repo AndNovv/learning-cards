@@ -154,16 +154,6 @@ const changeCollectionNameDB = async (collectionId: string, collectionName: stri
     }
 }
 
-const addCollectionToUserDB = async (userId: string, collectionId: string) => {
-    try {
-        const request = { userId, collectionId }
-        await axios.post(`/api/user/collection`, request)
-    }
-    catch (e) {
-        console.log("Ошибка добавления коллекции")
-    }
-}
-
 const deleteCollectionFromUserDB = async (userId: string, collectionId: string) => {
     try {
         const request = { userId, collectionId }
@@ -194,10 +184,9 @@ export const likePublishedCollection = createAsyncThunk(
     async ({ userId, collectionId }: { userId: string, collectionId: string }) => {
         try {
             const request = { userId }
-            const createdCollectionResponse = await axios.post(`/api/publishedcollection/${collectionId}/like`, request)
-            const createdCollection = createdCollectionResponse.data
-            await addCollectionToUserDB(userId, createdCollection._id)
-            return createdCollection as WordCollection
+            const { data, status } = await axios.post(`/api/publishedcollection/${collectionId}/like`, request)
+            if (status !== 200) console.log('error')
+            return data as WordCollection
         }
         catch (e) {
             console.log(e)
@@ -223,7 +212,7 @@ export const publishCollection = createAsyncThunk(
 
 export const createNewCollectionAndAddToUser = createAsyncThunk(
     'user/createNewCollectionAndAddToUser',
-    async ({ userId, collection }: { userId: string, collection: ClientWordCollection }) => {
+    async ({ collection }: { collection: ClientWordCollection }) => {
         try {
             const request = collection
             const { data, status } = await axios.post(`/api/collection`, request)
@@ -232,10 +221,7 @@ export const createNewCollectionAndAddToUser = createAsyncThunk(
                 throw new Error(`Error ${status}`);
             }
 
-            const newCollection: WordCollection = data
-
-            await addCollectionToUserDB(userId, newCollection._id)
-            return newCollection as WordCollection
+            return data as WordCollection
         }
         catch (e) {
             console.log(e)
