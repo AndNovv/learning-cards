@@ -18,7 +18,7 @@ export default function Home() {
         <section className="flex flex-wrap justify-center items-center gap-4 w-full pb-6 pt-6 md:pt-0">
           <LinkNavigationCard navigatingForbidden={status === 'unauthenticated'} title={'Карточки'} description={"Алгоритмы подобрали для вас оптимальные слова"} href={'/learning'} image={learn} />
           <LinkNavigationCard navigatingForbidden={false} title={'Библиотека'} description={'Поиск новых коллекций'} href={'/collections'} image={library} />
-          <LinkNavigationCard navigatingForbidden={false} title={'Обзор'} description={"В разработке..."} href={'/'} image={review} />
+          <LinkNavigationCard navigatingForbidden={status === 'unauthenticated'} title={'Обзор'} description={"Уделите больше внимания этим словам"} href={'/overview'} image={review} />
           <LinkNavigationCard navigatingForbidden={false} title={'Статистика'} description={'В разработке...'} href={'/'} image={stats} />
         </section>
       </ScrollArea>
