@@ -15,7 +15,6 @@ import TimeGroupSection from './TimeGroupSection'
 import AsideMenuCloseIcon from './AsideMenuCloseIcon'
 import { Skeleton } from '../ui/skeleton'
 import { useSession } from 'next-auth/react'
-import { MoveDown } from 'lucide-react'
 
 const AsideMenu = () => {
 
@@ -57,7 +56,7 @@ const AsideMenu = () => {
                         {status === 'unauthenticated' ? (
                             <div className='flex flex-col justify-between w-full h-full items-center mb-10 aside-paddings '>
                                 <div className='text-balance h-full w-full flex flex-col items-center justify-center gap-6'>
-                                    <h3 className='text-foreground/70'>Без авторизации пользователям доступна вкладка: «Библиотека». Вы можете учить слова, а также проверить свои знания!</h3>
+                                    <h3 className='text-foreground/70'>Без авторизации пользователям доступны вкладки: «Библиотека» и «Уроки».</h3>
                                     <h3 className='text-foreground/70'>Для того чтобы сохранить прогресс вашего обучения, необходима авторизация.</h3>
                                     <h3 className='text-foreground/70'>Авторизация откроет доступ ко всем возможностям!</h3>
                                 </div>

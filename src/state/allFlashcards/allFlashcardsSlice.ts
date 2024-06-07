@@ -14,6 +14,8 @@ const initialState: AllFlashcards = {
     updatedCards: []
 }
 
+
+// Флешкарты, которые необходимо повторить
 const allFlashcardsSlice = createSlice({
     name: "allFlashcards",
     initialState,

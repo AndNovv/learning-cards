@@ -66,3 +66,32 @@ export type AIPanelDataType = {
     subscriptionRequired: boolean
     data: null
 }
+
+
+// Lessons
+
+export type wordDefinitionExerciseType = {
+    word: string
+    definition: string
+}[]
+
+export type FillBlankExerciseType = {
+    options: string[],
+    blankSentences: {
+        sentence: string,
+        right: string
+    }[]
+}
+
+export type LessonType = {
+    title: string
+    text: string
+    audio: string
+    wordDefinitionsExercise: wordDefinitionExerciseType
+    fillBlankExercise: FillBlankExerciseType
+}
+
+export type LessonPreviewType = {
+    _id: string
+    title: string
+}

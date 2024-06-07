@@ -11,31 +11,20 @@ import {
 } from "@/components/ui/popover"
 import { Button } from '@/components/ui/button'
 
-type SortType = 'easiness factor' | 'repetition time'
-
 const OverviewPage = () => {
 
-    const { user, loading } = useSelector((state: RootState) => state.user)
-
-    const [sortType, setSortType] = useState<SortType>('repetition time')
+    const { user } = useSelector((state: RootState) => state.user)
 
     const calculateFlashcards = () => {
-        const result: FlashCardType[] = []
+        const allFlashccards: FlashCardType[] = []
         user.collections.forEach((collection) => {
-            collection.flashcards.forEach((flashcard) => result.push(flashcard))
+            collection.flashcards.forEach((flashcard) => allFlashccards.push(flashcard))
         })
-        return result
-    }
-
-    const allFlashcards = calculateFlashcards()
-
-    const sortFlashcards = (flashcards: FlashCardType[]) => {
-        const sortedFlashcards = flashcards.sort((a, b) => a.repetitionTime - b.repetitionTime)
+        const sortedFlashcards = allFlashccards.sort((a, b) => b.EF - a.EF)
         return sortedFlashcards
     }
 
-    const sortedCards = sortFlashcards(allFlashcards)
-
+    const sortedFlashcards = calculateFlashcards()
 
     return (
         <div className='relative flex flex-col gap-2 h-full w-full pt-6 md:pt-1 overflow-hidden'>
@@ -52,7 +41,7 @@ const OverviewPage = () => {
                     </PopoverContent>
                 </Popover>
             </div>
-            <CollectionWords flashcards={sortedCards} bottomPadding={true} />
+            <CollectionWords flashcards={sortedFlashcards} bottomPadding={true} />
         </div>
     )
 }
