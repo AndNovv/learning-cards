@@ -6,6 +6,7 @@ import DefinitionExercise from '@/components/Lesson/DefinitionExercise'
 import { LessonType } from '@/types/types'
 import AudioPlayer from '@/components/Lesson/AudioPlayer'
 import axios from 'axios'
+import { audioFiles } from '@/audioFiles/audioFiles'
 
 const LessonPage = ({ params }: { params: { lessonId: string } }) => {
 
@@ -40,7 +41,7 @@ const LessonPage = ({ params }: { params: { lessonId: string } }) => {
 
                     <div className='flex items-center gap-2 relative h-16'>
                         <h1 className='font-medium text-2xl w-2/3'>Space Exploration</h1>
-                        <AudioPlayer src={lessonData.audio} />
+                        <AudioPlayer src={audioFiles.get(lessonData.title)} />
                     </div>
 
                     <div className='flex flex-col gap-4 text-balance'>
