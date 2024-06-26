@@ -5,7 +5,6 @@ import { RootState } from '@/state/store'
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { audioFiles } from '@/audioFiles/audioFiles'
 
 const AudioPlayer = ({ src }: { src: string }) => {
 

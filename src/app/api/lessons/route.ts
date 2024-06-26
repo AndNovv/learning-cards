@@ -5,7 +5,7 @@ export async function GET() {
 
     try {
         await dbConnect()
-        const lessonsResponse = await Lesson.find({}, '_id title').limit(20)
+        const lessonsResponse = await Lesson.find({}, '_id title description level').limit(20)
         if (lessonsResponse) {
             return Response.json(lessonsResponse)
         }

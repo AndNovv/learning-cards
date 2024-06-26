@@ -71,9 +71,10 @@ const DefinitionExercise = ({ wordDefinitionsExercise }: { wordDefinitionsExerci
         wordAnswers.forEach((wordAnswer, index) => {
             elements.push(
                 <motion.div
-                    layout="position"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    key={`word-${wordAnswer.word}`}
+                    key={`word-${wordAnswer.word}${index}`}
                     onClick={() => wordClickHandle(wordAnswer.word)}
                     className={cn('bg-[#252529] border border-gray-700 w-full text-center h-fit my-auto rounded-sm px-2 py-1 col-span-3 hover:bg-[#353b43] cursor-pointer', wordAnswer.correct !== null && (wordAnswer.correct ? 'border-green-500' : 'border-red-500'), wordAnswer.word === active ? 'bg-[#353b43]' : null)}
                 >
@@ -81,9 +82,9 @@ const DefinitionExercise = ({ wordDefinitionsExercise }: { wordDefinitionsExerci
                 </motion.div>)
 
             elements.push(
-                <motion.div layout key={`definition-${index}`} className='col-span-5 my-auto'>
+                <div key={`definition-${index}`} className='col-span-5 my-auto'>
                     {`${definitions[index]}`}
-                </motion.div>
+                </div>
             )
         })
         return elements
@@ -96,9 +97,10 @@ const DefinitionExercise = ({ wordDefinitionsExercise }: { wordDefinitionsExerci
             <h1 className='text-2xl font-medium'>Сопоставьте слова с их значениями</h1>
 
             <div className='flex flex-col gap-1'>
-                <div className='grid grid-cols-8 gap-y-2 gap-x-3'>
+                <motion.div
+                    className='grid grid-cols-8 gap-y-2 gap-x-3 overflow-visible'>
                     {generateGridElements().map((el) => el)}
-                </div>
+                </motion.div>
             </div>
 
             <div className='flex gap-4 items-center justify-end w-full'>

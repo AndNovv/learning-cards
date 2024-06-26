@@ -85,7 +85,9 @@ export type FillBlankExerciseType = {
 
 export type LessonType = {
     title: string
-    text: string
+    textParagraphs: string[]
+    description: string
+    level: 'Beginner' | 'Intermediate' | 'Advanced'
     audio: string
     wordDefinitionsExercise: wordDefinitionExerciseType
     fillBlankExercise: FillBlankExerciseType
@@ -94,4 +96,6 @@ export type LessonType = {
 export type LessonPreviewType = {
     _id: string
     title: string
+    description: string
+    level: 'Beginner' | 'Intermediate' | 'Advanced'
 }

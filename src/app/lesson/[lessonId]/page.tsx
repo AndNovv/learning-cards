@@ -40,12 +40,14 @@ const LessonPage = ({ params }: { params: { lessonId: string } }) => {
                 <div className='flex gap-5 flex-col pb-10 overflow-hidden'>
 
                     <div className='flex items-center gap-2 relative h-16'>
-                        <h1 className='font-medium text-2xl w-2/3'>Space Exploration</h1>
+                        <h1 className='font-medium text-2xl w-2/3'>{lessonData.title}</h1>
                         <AudioPlayer src={audioFiles.get(lessonData.title)} />
                     </div>
 
-                    <div className='flex flex-col gap-4 text-balance'>
-                        <p className='whitespace-pre-wrap'>{lessonData.text}</p>
+                    <div className='flex flex-col gap-4'>
+                        {lessonData.textParagraphs.map((paragraph, index) => {
+                            return <p key={`paragraph-${index}`}>{paragraph}</p>
+                        })}
                     </div>
 
                     {/* Раздел с новыми словами */}

@@ -3,7 +3,6 @@ import LessonPreviewCard from '@/components/Lesson/LessonPreviewCard'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { LessonPreviewType } from '@/types/types'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 
@@ -11,8 +10,6 @@ const LessonsPage = () => {
 
     const [lessons, setLessons] = useState<LessonPreviewType[]>([])
     const [error, setError] = useState('')
-
-    const router = useRouter()
 
     useEffect(() => {
 
@@ -42,7 +39,7 @@ const LessonsPage = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6'>
                     {lessons.map((lesson) => {
                         return (
-                            <LessonPreviewCard key={`lesson-${lesson._id}`} _id={lesson._id} title={lesson.title} />
+                            <LessonPreviewCard key={`lesson-${lesson._id}`} lesson={lesson} />
                         )
                     })}
                 </div>

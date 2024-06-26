@@ -7,21 +7,23 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { useRouter } from 'next/navigation'
+import { LessonPreviewType } from '@/types/types'
 
 
-
-const LessonPreviewCard = ({ _id, title }: { title: string, _id: string }) => {
+const LessonPreviewCard = ({ lesson }: { lesson: LessonPreviewType }) => {
 
     const router = useRouter()
 
     return (
-        <Card className='w-full flex flex-col shadow-xl cursor-pointer' onClick={() => router.push(`/lesson/${_id}`)}>
+        <Card className='w-full flex flex-col shadow-xl cursor-pointer' onClick={() => router.push(`/lesson/${lesson._id}`)}>
             <CardHeader>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription>Описание</CardDescription>
+                <CardTitle>{lesson.title}</CardTitle>
+                <CardDescription>
+                    {lesson.level}
+                </CardDescription>
             </CardHeader>
             <CardContent className='flex flex-col justify-between flex-1 gap-8'>
-                Контент
+                {lesson.description}
             </CardContent>
         </Card>
     )
