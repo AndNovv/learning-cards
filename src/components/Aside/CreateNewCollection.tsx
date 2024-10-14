@@ -45,7 +45,7 @@ const CreateNewCollection = ({ isDesktop, disabled }: { isDesktop: boolean, disa
                         height={40}
                     />
                 </motion.div>
-                <p className='flex-1'>Новая коллекция</p>
+                <span className='flex-1'>Новая коллекция</span>
                 <ClipboardPlus strokeWidth={1.2} size={20} />
             </div>
         </div>

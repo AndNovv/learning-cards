@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react'
 
 const PublishedCollectionWord = ({ flashcard }: { flashcard: { english: string, russian: string } }) => {
 
-    const englishRef = useRef<HTMLParagraphElement>(null);
-    const russianRef = useRef<HTMLParagraphElement>(null);
+    const englishRef = useRef<HTMLSpanElement>(null);
+    const russianRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         if (englishRef.current && russianRef.current) {
@@ -27,10 +27,10 @@ const PublishedCollectionWord = ({ flashcard }: { flashcard: { english: string, 
 
     return (
         <div className='flex flex-row hover:bg-secondary transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
-            <div className='flex flex-row w-full items-center text-balance'>
-                <p ref={englishRef}>{flashcard.english}</p>
+            <div className='flex flex-row w-full items-center text-balance my-2'>
+                <span ref={englishRef}>{flashcard.english}</span>
                 <span className='mx-2'>-</span>
-                <p ref={russianRef}>{flashcard.russian}</p>
+                <span ref={russianRef}>{flashcard.russian}</span>
             </div>
         </div>
     )

@@ -46,7 +46,7 @@ const OptionsMenu = ({ collectionId }: { collectionId: string }) => {
                 <div className="grid text-sm">
                     <div className="flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handleUpdateClick}>
                         <PenLine className='size-5' />
-                        <p>Обновить</p>
+                        <span>Обновить</span>
                     </div>
                     <DeleteButtonWithAlert handleDeleteClick={handleDeleteClick} />
                 </div>

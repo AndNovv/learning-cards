@@ -49,7 +49,7 @@ const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
                     <div className='flex items-center justify-center size-10 rounded-full bg-secondary'>
                         <User className='size-5' />
                     </div>
-                    <p>Войти</p>
+                    <span>Войти</span>
                 </div>
             </div>
         )
@@ -70,7 +70,7 @@ const AsideProfileIcon = ({ isDesktop }: { isDesktop: boolean }) => {
                         height={40}
                         className='rounded-full'
                     />}
-                <p>{data.user?.name}</p>
+                <span>{data.user?.name}</span>
             </div>
         </div>
     )

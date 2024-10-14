@@ -75,21 +75,21 @@ const PublishedCollectionPage = ({ params }: { params: { collectionId: string } 
     }
 
     return (
-        <div className='relative flex flex-col h-full overflow-hidden pt-6 md:pt-0'>
+        <div className='relative flex flex-col gap-2 h-full overflow-hidden pt-6 md:pt-0'>
             <div className='flex flex-col bg-background paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
-                        <h1 className='text-xl mt-2'>{publishedCollection.title}</h1>
-                        <p className='text-muted-foreground mt-2 mb-4'>{`Автор: ${publishedCollection.authorName}`}</p>
+                        <h3>{publishedCollection.title}</h3>
+                        <span className='text-muted-foreground mt-2'>{`Автор: ${publishedCollection.authorName}`}</span>
                     </div>
 
                     <div className='flex gap-5 items-center'>
                         <Button className='gap-2 h-10 w-10 p-2 md:px-4 md:py-2 md:w-auto' variant={'outline'} onClick={checkYourSelf}>
                             <ListTodo size={20} />
-                            <p className='hidden md:block'>Проверить себя</p>
+                            <span className='hidden md:block'>Проверить себя</span>
                         </Button>
                         <div className='flex gap-2 items-center opacity-70'>
-                            <p>{publishedCollection.favouriteCount}</p>
+                            <span>{publishedCollection.favouriteCount}</span>
                             <Heart size={18} />
                         </div>
                         {user._id !== publishedCollection.authorId && status === 'authenticated' &&

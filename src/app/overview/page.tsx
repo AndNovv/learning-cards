@@ -29,7 +29,7 @@ const OverviewPage = () => {
     return (
         <div className='relative flex flex-col gap-2 h-full w-full pt-6 md:pt-1 overflow-hidden'>
             <div className='flex justify-between gap-2 bg-background sticky top-0 z-10 paddings'>
-                <h3 className='font-semibold text-2xl'>Трудные карточки</h3>
+                <h3>Трудные карточки</h3>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button className='rounded-full' variant="outline">?</Button>

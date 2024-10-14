@@ -124,4 +124,65 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Styling Markdown Content */
+  h1 {
+    @apply text-4xl font-bold my-4;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold my-3;
+  }
+  
+  h3 {
+    @apply text-2xl font-semibold my-2;
+  }
+  
+  h4 {
+    @apply text-xl leading-6 font-semibold mb-1
+  }
+
+  p {
+    @apply my-4 leading-relaxed text-lg;
+  }
+
+  a {
+    @apply text-blue-500 underline hover:text-blue-700;
+  }
+
+  ul {
+    @apply list-disc list-inside my-4;
+  }
+
+  ol {
+    @apply list-decimal list-inside my-4;
+  }
+
+  li {
+    @apply my-1;
+  }
+
+  blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic text-gray-700 my-6;
+  }
+
+  code {
+    @apply bg-gray-100 text-red-500 px-2 py-1 rounded text-sm;
+  }
+
+  pre {
+    @apply bg-gray-900 text-white p-4 rounded-lg overflow-x-auto;
+  }
+
+  table {
+    @apply table-auto border-collapse border border-gray-300 w-full my-6;
+  }
+
+  th, td {
+    @apply border border-gray-300 px-4 py-2 text-left;
+  }
+
+  th {
+    @apply bg-gray-100 font-semibold;
+  }
 }

@@ -13,11 +13,11 @@ const AiPreferencesTab = () => {
 
     return (
         <div className='w-full overflow-hidden'>
-            <h2 className='text-2xl mb-5'>Настройка ассистента Плекси</h2>
+            <h3 className='text-2xl mb-5'>Настройка ассистента Плекси</h3>
             <div className='flex flex-col gap-4 text-balance'>
-                <div className='space-y-2'>
-                    <h4 className='text-lg'>1. Как вы хотите чтобы Плекси вам помог?</h4>
-                    <p className="opacity-60">Ассистент может приводить примеры использования слов или давать их определения.</p>
+                <div>
+                    <h4>1. Как вы хотите чтобы Плекси вам помог?</h4>
+                    <p>Ассистент может приводить примеры использования слов или давать их определения.</p>
                     <ToggleGroup className='pt-1 self-start flex-wrap' type="single" value={promptType} onValueChange={(value: PromptType) => { changePromptType(value) }}>
                         <ToggleGroupItem variant={'outline'} value="examples" aria-label="Toggle examples">
                             Примеры
@@ -29,9 +29,9 @@ const AiPreferencesTab = () => {
 
                 </div>
 
-                <div className='space-y-2'>
-                    <h4 className='text-lg'>2. Укажите ваш уровень знания языка</h4>
-                    <p className='opacity-60'>Ассистент будет помогать учитывая ваши знания, например давать более сложные или наоборот простые примеры.</p>
+                <div>
+                    <h4>2. Укажите ваш уровень знания языка</h4>
+                    <p>Ассистент будет помогать учитывая ваши знания, например давать более сложные или наоборот простые примеры.</p>
                     <ToggleGroup className='pt-1 self-start flex-wrap' type="single" value={knowledgeLevel} onValueChange={(value: DifficultyType) => { changeKnowledgeLevel(value) }}>
                         <ToggleGroupItem variant={'outline'} value="beginner" aria-label="Toggle beginner">
                             Начинающий

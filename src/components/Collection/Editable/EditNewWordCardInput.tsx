@@ -47,18 +47,16 @@ const EditNewWordCardInput = () => {
     }
 
     return (
-        <div className='mb-6'>
-            <form onSubmit={handleSubmitNewWordCard} className='flex flex-row gap-4'>
-                <div className='flex flex-row gap-4 flex-1'>
-                    <Input className={wordsOrderReversed ? 'order-first' : 'order-last'} placeholder='Русский' ref={russianWordInputRef} />
-                    <MoveHorizontal className='h-10 shrink-0 cursor-pointer' onClick={() => { setWordsOrderReversed((prev) => !prev) }} />
-                    <Input className={wordsOrderReversed ? 'order-last' : 'order-first'} placeholder='Английский' ref={englishWordInputRef} />
-                </div>
-                <Button type='submit' variant={'outline'} className='h-10 w-10 p-0 shrink-0'>
-                    <Plus />
-                </Button>
-            </form>
-        </div >
+        <form onSubmit={handleSubmitNewWordCard} className='flex flex-row gap-4'>
+            <div className='flex flex-row gap-4 flex-1'>
+                <Input className={wordsOrderReversed ? 'order-first' : 'order-last'} placeholder='Русский' ref={russianWordInputRef} />
+                <MoveHorizontal className='h-10 shrink-0 cursor-pointer' onClick={() => { setWordsOrderReversed((prev) => !prev) }} />
+                <Input className={wordsOrderReversed ? 'order-last' : 'order-first'} placeholder='Английский' ref={englishWordInputRef} />
+            </div>
+            <Button type='submit' variant={'outline'} className='h-10 w-10 p-0 shrink-0'>
+                <Plus />
+            </Button>
+        </form>
     )
 }
 

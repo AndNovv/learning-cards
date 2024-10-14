@@ -14,8 +14,6 @@ import { promptBuilder } from '@/lib/collection/helpers'
 
 const axios = require('axios')
 
-
-
 const CollectionWords = ({ flashcards, bottomPadding }: { flashcards: AnyFlashCard[], bottomPadding: boolean }) => {
 
 

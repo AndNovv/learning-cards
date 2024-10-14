@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const ExistingCollectionWordPreview = ({ flashcard, handleAiButtonClick }: { flashcard: AnyFlashCard, handleAiButtonClick: (word: string) => void }) => {
 
-    const englishRef = useRef<HTMLParagraphElement>(null);
-    const russianRef = useRef<HTMLParagraphElement>(null);
+    const englishRef = useRef<HTMLSpanElement>(null);
+    const russianRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         if (englishRef.current && russianRef.current) {
@@ -31,9 +31,9 @@ const ExistingCollectionWordPreview = ({ flashcard, handleAiButtonClick }: { fla
     return (
         <div className='flex flex-row w-full hover:bg-hover transition-all cursor-pointer px-4 py-3 justify-between gap-4'>
             <div className='flex flex-row flex-1 items-center text-balance'>
-                <p ref={englishRef}>{flashcard.english}</p>
+                <span ref={englishRef}>{flashcard.english}</span>
                 <span className='mx-2'>-</span>
-                <p ref={russianRef}>{flashcard.russian}</p>
+                <span ref={russianRef}>{flashcard.russian}</span>
             </div>
             <Button variant={'ai'} onClick={() => handleAiButtonClick(flashcard.english)}>AI</Button>
         </div>

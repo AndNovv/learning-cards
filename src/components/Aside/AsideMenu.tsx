@@ -56,9 +56,9 @@ const AsideMenu = () => {
                         {status === 'unauthenticated' ? (
                             <div className='flex flex-col justify-between w-full h-full items-center mb-10 aside-paddings '>
                                 <div className='text-balance h-full w-full flex flex-col items-center justify-center gap-6'>
-                                    <h3 className='text-foreground/70'>Без авторизации пользователям доступны вкладки: «Библиотека» и «Уроки».</h3>
-                                    <h3 className='text-foreground/70'>Для того чтобы сохранить прогресс вашего обучения, необходима авторизация.</h3>
-                                    <h3 className='text-foreground/70'>Авторизация откроет доступ ко всем возможностям!</h3>
+                                    <span className='text-foreground/70'>Без авторизации пользователям доступны вкладки: «Библиотека» и «Уроки».</span>
+                                    <span className='text-foreground/70'>Для того чтобы сохранить прогресс вашего обучения, необходима авторизация.</span>
+                                    <span className='text-foreground/70'>Авторизация откроет доступ ко всем возможностям!</span>
                                 </div>
                             </div>
                         ) :
@@ -78,7 +78,7 @@ const AsideMenu = () => {
                                 <>
 
                                     <ScrollArea className='flex-1'>
-                                        <motion.ol
+                                        <motion.div
                                             layout
                                             transition={{ ease: "linear", duration: 0.2, }}
                                             className='flex flex-col items-start px-4 pb-4'
@@ -88,7 +88,7 @@ const AsideMenu = () => {
                                             {groupedCollection.Week.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Week} groupName={'Последняя неделя'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
                                             {groupedCollection.Month.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Month} groupName={'Последний месяц'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
                                             {groupedCollection.Later.length > 0 && <TimeGroupSection wordCollectionGroup={groupedCollection.Later} groupName={'Больше месяца назад'} activeCollectionId={activeCollectionId} isDesktop={isDesktop} />}
-                                        </motion.ol>
+                                        </motion.div>
                                     </ScrollArea>
                                 </>
                             )

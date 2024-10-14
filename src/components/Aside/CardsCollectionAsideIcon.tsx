@@ -95,7 +95,7 @@ const CardsCollectionAsideIcon = ({ collection, active, isDesktop }: { collectio
                         />
                     </label>
                 </form> :
-                <h4>{collection.title}</h4>}
+                <span>{collection.title}</span>}
             <Popover open={optionsOpen} onOpenChange={setOptionsOpen}>
                 <PopoverTrigger onClick={handleOptionsClick}>
                     <div className='h-full'>
@@ -107,12 +107,12 @@ const CardsCollectionAsideIcon = ({ collection, active, isDesktop }: { collectio
                     <div className="grid text-sm">
                         <div className="inside flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handleRenameClick}>
                             <PenLine className='size-5 inside' />
-                            <p className='inside'>Переименовать</p>
+                            <span className='inside'>Переименовать</span>
                         </div>
                         {!collection.publishedCollectionRef &&
                             <div className="inside flex items-center px-2 py-3 gap-4 hover:bg-accent transition-all cursor-pointer rounded-xl" onClick={handlePublishClick}>
                                 <Share className='size-5 inside' />
-                                <p className='inside'>Опубликовать</p>
+                                <span className='inside'>Опубликовать</span>
                             </div>
                         }
                         <DeleteButtonWithAlert handleDeleteClick={handleDeleteClick} />

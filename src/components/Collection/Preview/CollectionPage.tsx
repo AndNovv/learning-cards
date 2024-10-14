@@ -21,18 +21,18 @@ const CollectionPage = ({ collection, setEditing }: { collection: WordCollection
 
 
     return (
-        <div className='relative flex flex-col h-full w-full pt-6 md:pt-1 overflow-hidden'>
+        <div className='relative flex flex-col gap-2 h-full w-full pt-6 md:pt-0 overflow-hidden'>
             <div className='flex flex-col bg-background sticky top-0 z-10 paddings'>
                 <div className='flex flex-row justify-between items-center'>
                     <div>
-                        <h1 className='text-xl mt-2'>{collection.title}</h1>
-                        <p className='text-muted-foreground mt-2 mb-4'>{`Автор: ${collection.author}`}</p>
+                        <h3>{collection.title}</h3>
+                        <span className='text-muted-foreground mt-2'>{`Автор: ${collection.author}`}</span>
                     </div>
 
                     <div className='flex gap-2 items-center'>
                         <Button className='gap-2 h-10 w-10 p-2 md:px-4 md:py-2 md:w-auto' variant={'outline'} onClick={checkYourSelf}>
                             <ListTodo size={20} />
-                            <p className='hidden md:block'>Проверить себя</p>
+                            <span className='hidden md:block'>Проверить себя</span>
                         </Button>
                         <Button onClick={() => setEditing((prev) => !prev)} variant={'outline'} size={'smallIcon'}>
                             <Settings className='size-5' />

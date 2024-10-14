@@ -24,8 +24,8 @@ const LinkNavigationCard = ({ navigatingForbidden, title, description, href, ima
                 className='group bg-[#00000095] absolute w-full h-full top-0 left-0 z-10 transition-all flex justify-center items-center origin-center'>
             </motion.div>
             <div className='flex-1'>
-                <h2 className='md:text-2xl text-xl leading-6 font-semibold mb-1'>{title}</h2>
-                <p className='text-sm text-foreground/60'>{description}</p>
+                <h4 className='md:text-2xl'>{title}</h4>
+                <p className='text-sm text-foreground/60 mt-2 mb-0'>{description}</p>
             </div>
             <div className='flex-1 max-w-[150px]'>
                 <Image

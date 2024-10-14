@@ -46,13 +46,14 @@ const ProfilePage = () => {
                         initial={{ x: 30 }}
                         animate={{ x: 0 }}
                         transition={{ ease: 'easeInOut', duration: 0.2 }}
+                        className='flex flex-col'
                     >
-                        <p className='text-base md:text-lg'>{user.name}</p>
-                        <p className='opacity-60 text-xs md:text-base'>{user.email}</p>
+                        <span className='text-base md:text-lg'>{user.name}</span>
+                        <span className='opacity-60 text-xs md:text-base'>{user.email}</span>
                     </motion.div>
                 </div>
                 <div>
-                    <Button className='flex gap-2 justify-center items-center size-15 p-3 md:size-auto md:px-4 md:py-3' variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}><LogOut size={20} /><p className='hidden md:block'>Выйти</p></Button>
+                    <Button className='flex gap-2 justify-center items-center size-15 p-3 md:size-auto md:px-4 md:py-3' variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}><LogOut size={20} /><span className='hidden md:block'>Выйти</span></Button>
                 </div>
             </div>
             <ScrollArea className='h-full paddings'>

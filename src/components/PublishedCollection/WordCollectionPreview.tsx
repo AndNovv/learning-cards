@@ -54,13 +54,13 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                 <CardDescription>Автор: {wordCollection.authorName}</CardDescription>
             </CardHeader>
             <CardContent className='flex flex-col justify-between flex-1 gap-8'>
-                <div className='relative flex-1 overflow-hidden'>
+                <div className='relative flex flex-col gap-1 flex-1 overflow-hidden'>
                     {previewFlashCards.map((flashcard, index) => {
                         return (
-                            <div key={`${wordCollection.title}${index}`} className='flex gap-2'>
-                                <p className='text-center'>{flashcard.english}</p>
-                                <p>-</p>
-                                <p className='text-center'>{flashcard.russian}</p>
+                            <div key={`${wordCollection.title}${index}`} className='flex gap-x-2 flex-wrap'>
+                                <span className=''>{flashcard.english}</span>
+                                <span className=''>-</span>
+                                <span className=''>{flashcard.russian}</span>
                             </div>
                         )
                     })}
@@ -70,11 +70,11 @@ const WordCollectionPreview = ({ wordCollection, isFavourite }: { wordCollection
                 <div className='flex justify-between items-center h-10'>
                     <div className='flex gap-5'>
                         <div className='flex gap-2 items-center justify-center opacity-70'>
-                            <p>{wordCollection.favouriteCount}</p>
+                            <span>{wordCollection.favouriteCount}</span>
                             <Heart size={18} />
                         </div>
                         <div className='flex gap-2 items-center justify-center opacity-70'>
-                            <p>0</p>
+                            <span>0</span>
                             <MessageCircleMore size={18} />
                         </div>
 

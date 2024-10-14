@@ -44,7 +44,7 @@ const LessonPage = ({ params }: { params: { lessonId: string } }) => {
                         <AudioPlayer src={audioFiles.get(lessonData.title)} />
                     </div>
 
-                    <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col'>
                         {lessonData.textParagraphs.map((paragraph, index) => {
                             return <p key={`paragraph-${index}`}>{paragraph}</p>
                         })}

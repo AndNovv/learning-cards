@@ -117,11 +117,11 @@ const PanelContent = ({ data }: { data: string[] | null }) => {
 const PanelTitle = ({ AiPanelData }: { AiPanelData: AIPanelDataType }) => {
     return (
         <div className="flex flex-row justify-between items-center leading-6 text-balance">
-            <h2>
+            <h3>
                 {AiPanelData.promptType === 'examples' ?
                     `Примеры предложений с ${AiPanelData.word}:` :
                     `Определение ${AiPanelData.word}:`}
-            </h2>
+            </h3>
             <Popover>
                 <PopoverTrigger asChild>
                     <Button className='rounded-full' variant="outline">?</Button>
@@ -151,9 +151,9 @@ const SubscriptionRequiredContent = () => {
                 <CardTitle className='mb-1'>Подписки скоро будут доступны</CardTitle>
                 <CardDescription>Отличный способ поддержать проект</CardDescription>
                 <CardContent className='p-0 pt-2'>
-                    <h3 className='font-medium mb-1'>Что дает подписка:</h3>
-                    <p>- Помощь ассистента доступна 24/7</p>
-                    <p>- Поддержка дальнейшего улучшения платформы</p>
+                    <h3>Что дает подписка:</h3>
+                    <span>- Помощь ассистента доступна 24/7</span>
+                    <span>- Поддержка дальнейшего улучшения платформы</span>
                 </CardContent>
             </Card>
         </div>

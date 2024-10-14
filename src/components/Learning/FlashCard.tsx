@@ -179,16 +179,16 @@ const FlashCard = ({ controls, startingPosition, hidden, progress, handleNextCar
         >
             <Progress value={progress} className='h-2' />
             <div className='relative flex flex-col flex-1 h-full justify-center items-center p-4 select-none'>
-                <motion.p
+                <motion.span
                     className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center'
                     initial={{ opacity: 1 }}
                     animate={{ opacity: isFlipped ? 0 : 1, transition: { ease: 'easeOut', duration: 0.25 } }}
-                >{flashcard.english}</motion.p>
-                <motion.p
+                >{flashcard.english}</motion.span>
+                <motion.span
                     className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isFlipped ? 1 : 0, transition: { ease: 'easeOut', duration: 0.25 } }}
-                >{flashcard.russian}</motion.p>
+                >{flashcard.russian}</motion.span>
             </div>
         </motion.div >
     )

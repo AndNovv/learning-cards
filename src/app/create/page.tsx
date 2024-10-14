@@ -85,7 +85,7 @@ const CreateCollectionPage = () => {
                     wrapperStyle={{}}
                     wrapperClass=""
                 />
-                <p className='text-xl'>Создаем коллекцию</p>
+                <span className='text-xl'>Создаем коллекцию</span>
             </div>
         </div>
     )

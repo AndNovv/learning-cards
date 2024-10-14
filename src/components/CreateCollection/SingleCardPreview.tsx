@@ -28,8 +28,8 @@ import { deleteFlashcard, editFlashcard } from "@/state/newCollection/newCollect
 const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard: ClientFlashCardType, flashcardIndex: number, isDesktop: boolean }) => {
     const [open, setOpen] = React.useState(false)
 
-    const englishRef = useRef<HTMLParagraphElement>(null);
-    const russianRef = useRef<HTMLParagraphElement>(null);
+    const englishRef = useRef<HTMLSpanElement>(null);
+    const russianRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         if (englishRef.current && russianRef.current) {
@@ -57,9 +57,9 @@ const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard
                 <DialogTrigger asChild>
                     <div className='flex flex-row hover:bg-hover transition-all items-center h-full cursor-pointer px-4 py-3 justify-between gap-4'>
                         <div className='flex flex-row w-full items-center text-balance'>
-                            <p ref={englishRef}>{flashcard.english}</p>
+                            <span ref={englishRef}>{flashcard.english}</span>
                             <span className='mx-2'>-</span>
-                            <p ref={russianRef}>{flashcard.russian}</p>
+                            <span ref={russianRef}>{flashcard.russian}</span>
                         </div>
                         <EllipsisVertical />
                     </div>
@@ -82,9 +82,9 @@ const SingleCardPreview = ({ flashcard, flashcardIndex, isDesktop }: { flashcard
             <DrawerTrigger asChild>
                 <div className='flex flex-row hover:bg-secondary transition-all items-center cursor-pointer px-4 py-3 justify-between gap-4'>
                     <div className='flex flex-row w-full items-center text-balance'>
-                        <p ref={englishRef}>{flashcard.english}</p>
+                        <span ref={englishRef}>{flashcard.english}</span>
                         <span className='mx-2'>-</span>
-                        <p ref={russianRef}>{flashcard.russian}</p>
+                        <span ref={russianRef}>{flashcard.russian}</span>
                     </div>
                     <EllipsisVertical />
                 </div>
@@ -128,11 +128,11 @@ const ModalWindowDialog = ({ setOpen, flashcard, flashcardIndex }: { setOpen: Re
         >
             <div className="flex flex-row gap-4">
                 <div className="flex flex-col gap-2 flex-1">
-                    <p>Английский</p>
+                    <span>Английский</span>
                     <Input ref={englishModalInputRef} placeholder="Английский" defaultValue={flashcard.english}></Input>
                 </div>
                 <div className="flex flex-col gap-2 flex-1">
-                    <p>Русский</p>
+                    <span>Русский</span>
                     <Input ref={russianModalInputRef} placeholder="Русский" defaultValue={flashcard.russian}></Input>
                 </div>
             </div>
