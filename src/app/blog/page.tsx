@@ -53,7 +53,7 @@ const BlogPostsPage = () => {
                 <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 pb-6'>
                     {blogPosts.map((blogPost) => {
                         return (
-                            <BlogPostCard blogPost={blogPost} />
+                            <BlogPostCard key={`blog-${blogPost._id}`} blogPost={blogPost} />
                         )
                     })}
                 </div>
