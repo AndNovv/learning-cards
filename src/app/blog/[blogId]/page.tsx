@@ -1,6 +1,7 @@
 "use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Skeleton } from "@/components/ui/skeleton";
 import { BlogPostType } from "@/types/types";
 import axios from "axios";
 import React, { useEffect, useState } from 'react'
@@ -25,7 +26,30 @@ const BlogPage = ({ params }: { params: { blogId: string } }) => {
         fetchBlogPost()
     }, [])
 
-    if (!blogPost) return <h3>Загрузка</h3>
+    if (!blogPost) return (
+        <ScrollArea className='paddings'>
+            <Skeleton className="w-3/4 h-8 my-8" />
+
+            <Skeleton className="w-4/5 h-3 my-4" />
+            <Skeleton className="w-5/6 h-3 my-4" />
+            <Skeleton className="w-full h-3 my-4" />
+            <Skeleton className="w-2/3 h-3 my-4" />
+            <Skeleton className="w-4/5 h-3 my-4" />
+            <Skeleton className="w-full h-3 my-4" />
+
+            <Skeleton className="w-full h-60" />
+
+            <Skeleton className="w-3/4 h-8 my-8" />
+
+            <Skeleton className="w-4/5 h-3 my-4" />
+            <Skeleton className="w-5/6 h-3 my-4" />
+            <Skeleton className="w-full h-3 my-4" />
+            <Skeleton className="w-2/3 h-3 my-4" />
+            <Skeleton className="w-4/5 h-3 my-4" />
+            <Skeleton className="w-full h-3 my-4" />
+
+        </ScrollArea>
+    )
 
     return (
         <ScrollArea className='paddings'>
