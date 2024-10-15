@@ -14,7 +14,6 @@ const BlogPostCard = ({ blogPost }: { blogPost: BlogPostType }) => {
                         fill
                         src={blogPost.imageUrl}
                         alt={`Image-${blogPost.title}`}
-                        unoptimized
                     />
                     <div className='absolute flex items-end pb-4 px-4 w-full h-full bg-gradient-to-b from-[#00000000] to-[#000000]'>
                         <h3 className='mb-0 group-hover:text-zinc-300 transition'>{blogPost.title}</h3>
