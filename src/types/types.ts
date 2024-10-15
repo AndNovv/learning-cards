@@ -99,3 +99,13 @@ export type LessonPreviewType = {
     description: string
     level: 'Beginner' | 'Intermediate' | 'Advanced'
 }
+
+
+// Blog
+
+export type BlogPostType = {
+    _id: string
+    title: string
+    content: string
+    imageUrl: string
+}

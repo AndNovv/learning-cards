@@ -1,14 +1,10 @@
 "use client"
 
+import BlogPostCard from '@/components/Blog/BlogPostCard'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { BlogPostType } from '@/types/types'
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
-
-type BlogPostType = {
-    _id: string
-    title: string
-    content: string
-}
 
 const BlogPostsPage = () => {
 
@@ -36,13 +32,14 @@ const BlogPostsPage = () => {
         <div className='flex w-full flex-col gap-6 pt-6 md:pt-0 flex-1 overflow-hidden'>
 
             <ScrollArea className='h-full paddings'>
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6'>
+                <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 pb-6'>
                     {blogPosts.map((blogPost) => {
                         return (
-                            <a href={`/blog/${blogPost._id}`} key={`blog-${blogPost._id}`}>{blogPost.title}</a>
+                            <BlogPostCard blogPost={blogPost} />
                         )
                     })}
                 </div>
+
             </ScrollArea >
         </div>
     )

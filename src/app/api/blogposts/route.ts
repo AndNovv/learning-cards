@@ -1,13 +1,12 @@
 import dbConnect from "@/lib/mongo/dbConnect";
 import BlogPost from "@/models/BlogPost";
-import PublishedCollection from "@/models/PublishedCollection";
 
 
 export async function GET() {
 
     try {
         await dbConnect()
-        const blogPosts = await BlogPost.find({}).limit(20)
+        const blogPosts = await BlogPost.find({})
         return Response.json(blogPosts)
     }
     catch (e) {

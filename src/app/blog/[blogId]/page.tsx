@@ -1,14 +1,11 @@
 "use client"
 
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { BlogPostType } from "@/types/types";
 import axios from "axios";
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown';
 
-type BlogPostType = {
-    title: string
-    content: string
-}
 
 const BlogPage = ({ params }: { params: { blogId: string } }) => {
 
@@ -32,6 +29,7 @@ const BlogPage = ({ params }: { params: { blogId: string } }) => {
 
     return (
         <ScrollArea className='paddings'>
+            <h1>{blogPost.title}</h1>
             <ReactMarkdown className={'pb-10'}>{blogPost.content}</ReactMarkdown>
         </ScrollArea>
     )
