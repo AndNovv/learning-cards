@@ -39,6 +39,8 @@ import BlogPost from '@/models/BlogPost';
 
 const baseUrl = 'https://plexicon.ru';
 
+export const dynamic = 'force-dynamic';
+
 // Generate all dynamic paths at build time
 export const generateStaticParams = async () => {
     await dbConnect();
