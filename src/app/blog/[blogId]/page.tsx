@@ -1,5 +1,6 @@
 "use client"
 
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton";
 import { BlogPostType } from "@/types/types";
@@ -52,9 +53,9 @@ const BlogPage = ({ params }: { params: { blogId: string } }) => {
     )
 
     return (
-        <ScrollArea className='paddings'>
+        <ScrollArea className='paddings mb-10'>
             <h1>{blogPost.title}</h1>
-            <ReactMarkdown className={'pb-10'}>{blogPost.content}</ReactMarkdown>
+            <MarkdownRenderer content={blogPost.content} />
         </ScrollArea>
     )
 }
