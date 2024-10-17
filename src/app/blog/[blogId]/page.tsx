@@ -1,41 +1,40 @@
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { ScrollArea } from "@/components/ui/scroll-area"
+import dbConnect from "@/lib/mongo/dbConnect";
+import BlogPost from "@/models/BlogPost";
 import { BlogPostType } from "@/types/types";
 import { Metadata } from "next";
 import React from 'react'
 
 async function getBlogPost(id: string): Promise<BlogPostType | null> {
+
     try {
-        const response = await fetch(`${process.env.BASE_URL}/api/blogposts/${id}`, { cache: 'no-store' });
+        // Connect to the database
+        await dbConnect();
 
-        // Check if the response is not OK (e.g., 404, 500 errors)
-        if (!response.ok) {
-            console.error(`Error fetching post: ${response.status} ${response.statusText}`);
-            return null; // or handle it differently based on your needs
+        // Fetch the blog post by ID
+        const blogPost: BlogPostType | null = await BlogPost.findById(id);
+
+        if (!blogPost) {
+            console.error(`Blog post with ID ${id} not found.`);
+            return null; // Or throw a custom error if needed
         }
 
-        const post: BlogPostType = await response.json();
-
-        // If the post is empty or invalid
-        if (!post) {
-            console.warn('No post found.');
-            return null;
-        }
-
-        return post;
+        return blogPost;
     } catch (error) {
-        console.error('Failed to fetch the blog post:', error);
-        return null;
+        console.error('An error occurred while fetching the blog post:', error);
+        return null
     }
 }
 
 export async function generateStaticParams() {
 
-    let posts = await fetch(`${process.env.BASE_URL}/api/blogposts/`, { cache: "no-store" }).then((res) =>
-        res.json()
-    )
+    dbConnect()
+    const blogPosts: BlogPostType[] = await BlogPost.find({})
 
-    return posts.map((post: BlogPostType) => ({
+    if (!blogPosts) return []
+
+    return blogPosts.map((post) => ({
         id: post._id,
     }))
 }
