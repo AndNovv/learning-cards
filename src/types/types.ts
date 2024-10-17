@@ -108,4 +108,6 @@ export type BlogPostType = {
     title: string
     content: string
     imageUrl: string
+    description: string
+    keywords: string[]
 }

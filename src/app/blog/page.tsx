@@ -3,7 +3,6 @@
 import BlogPostCard from '@/components/Blog/BlogPostCard'
 import BlogPostSkeleton from '@/components/Blog/BlogPostSkeleton'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Skeleton } from '@/components/ui/skeleton'
 import { BlogPostType } from '@/types/types'
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -11,7 +10,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 const BlogPostsPage = () => {
 
     const [blogPosts, setBlogPosts] = useState<BlogPostType[] | null>(null)
-    console.log(blogPosts)
 
     const fetchBlogPosts = useCallback(async () => {
         try {
