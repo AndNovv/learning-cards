@@ -63,7 +63,7 @@ export default async function BlogPage({ params }: { params: { blogId: string } 
 
     return (
         <ScrollArea className='paddings'>
-            <article className="pb-10">
+            <article className="pb-10 w-full">
                 <h1>{blogPost.title}</h1>
                 <MarkdownRenderer content={blogPost.content} />
             </article>
