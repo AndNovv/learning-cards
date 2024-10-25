@@ -11,10 +11,10 @@ const MarkdownImage = ({ src = '', alt = '' }: { src?: string; alt?: string }) =
     <Image
         src={src}
         alt={alt || 'Image'}
-        width={0}
-        height={0}
+        width="0"
+        height="0"
         sizes="100vw"
-        style={{ width: '100%', height: 'auto' }}
+        className="w-full max-h-80 aspect-[5/3] object-contain my-6"
     />
 );
 

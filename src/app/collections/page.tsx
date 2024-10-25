@@ -7,10 +7,12 @@ import useFavoritePublishedCollections from '@/hooks/useFavoritePublishedCollect
 import { cn } from '@/lib/utils'
 import { PublishedCollectionType } from '@/types/types'
 import axios from 'axios'
+import { Metadata } from 'next'
 import React, { useCallback, useEffect, useState } from 'react'
 
 
 type CategoryType = 'popular' | 'official' | 'new'
+
 
 const AllCollectionsPage = () => {
 
