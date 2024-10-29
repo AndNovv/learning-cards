@@ -17,7 +17,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
     }
 
     return (
-        <ScrollArea className='h-full paddings'>
+        <ScrollArea className='h-full'>
             <motion.div
                 layout
                 transition={{
@@ -25,7 +25,7 @@ const EditableCollectionWords = ({ collection }: { collection: EditedWordCollect
                     duration: 2,
                     x: { duration: 1 }
                 }}
-                className='flex flex-col divide-y-2 pb-10'
+                className='flex flex-col paddings divide-y-2 pb-10'
             >
                 {collection.flashcards.slice().reverse().map((flashcard, index) => {
                     return (

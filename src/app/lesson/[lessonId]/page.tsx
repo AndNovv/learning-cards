@@ -36,8 +36,8 @@ const LessonPage = ({ params }: { params: { lessonId: string } }) => {
 
     return (
         <div className='relative flex flex-col gap-2 h-full w-full pt-6 md:pt-1 overflow-hidden'>
-            <ScrollArea className='paddings h-full'>
-                <div className='flex gap-5 flex-col pb-10 overflow-hidden'>
+            <ScrollArea className='h-full'>
+                <div className='flex paddings gap-5 flex-col pb-10 overflow-hidden'>
 
                     <div className='flex items-center gap-2 relative h-16'>
                         <h1 className='font-medium text-2xl w-2/3'>{lessonData.title}</h1>

@@ -75,8 +75,8 @@ const AllCollectionsPage = () => {
                 </ScrollArea>
             </div>
 
-            <ScrollArea className='h-full paddings'>
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6'>
+            <ScrollArea className='h-full'>
+                <div className='grid grid-cols-1 paddings lg:grid-cols-2 gap-6 pb-6'>
                     {collections.map((wordCollection, index) => {
                         return (
                             <WordCollectionPreview key={`wordCollection${index}`} wordCollection={wordCollection} isFavourite={favouritePublishedCollections.includes(wordCollection._id)} />

@@ -48,7 +48,7 @@ const CollectionWords = ({ flashcards, bottomPadding }: { flashcards: AnyFlashCa
     return (
         <>
             <AiBottomPanel AiPanelData={AiPanelData} setAiPanelData={setAiPanelData} />
-            <ScrollArea className='h-full paddings'>
+            <ScrollArea className='h-full'>
 
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ const CollectionWords = ({ flashcards, bottomPadding }: { flashcards: AnyFlashCa
                         ease: "linear",
                         duration: 0.2,
                     }}
-                    className={cn(bottomPadding ? 'pb-10' : 'pb-0', 'flex flex-col divide-y-2 overflow-hidden')}>
+                    className={cn(bottomPadding ? 'pb-10' : 'pb-0', 'flex flex-col paddings divide-y-2 overflow-hidden')}>
                     {flashcards.slice().reverse().map((flashcard, index) => {
                         return (
                             <ExistingCollectionWordPreview key={`flashcardPreview${index}`} flashcard={flashcard} handleAiButtonClick={handleAiButtonClick} />

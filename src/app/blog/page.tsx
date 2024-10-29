@@ -26,9 +26,9 @@ const BlogPostsPage = () => {
     }, [fetchBlogPosts])
 
     if (!blogPosts) return (
-        <div className='flex w-full flex-col gap-6 pt-6 md:pt-0 flex-1 overflow-hidden'>
+        <ScrollArea className='h-full'>
+            <div className='flex paddings w-full flex-col gap-6 pt-6 md:pt-0 flex-1 overflow-hidden'>
 
-            <ScrollArea className='h-full paddings'>
                 <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 pb-6'>
                     <BlogPostSkeleton />
                     <BlogPostSkeleton />
@@ -36,8 +36,8 @@ const BlogPostsPage = () => {
                     <BlogPostSkeleton />
                 </div>
 
-            </ScrollArea >
-        </div>
+            </div>
+        </ScrollArea >
 
     )
 
@@ -45,9 +45,9 @@ const BlogPostsPage = () => {
     if (blogPosts.length === 0) return <h3>Статьи не найдены</h3>
 
     return (
-        <div className='flex w-full flex-col gap-6 pt-6 md:pt-0 flex-1 overflow-hidden'>
+        <ScrollArea className='h-full'>
+            <div className='flex paddings w-full flex-col gap-6 pt-6 md:pt-0 flex-1 overflow-hidden'>
 
-            <ScrollArea className='h-full paddings'>
                 <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 pb-6'>
                     {blogPosts.map((blogPost) => {
                         return (
@@ -56,8 +56,8 @@ const BlogPostsPage = () => {
                     })}
                 </div>
 
-            </ScrollArea >
-        </div>
+            </div>
+        </ScrollArea >
     )
 }
 

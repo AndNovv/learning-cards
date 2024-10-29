@@ -62,8 +62,8 @@ export default async function BlogPage({ params }: { params: { blogId: string } 
     if (!blogPost) return (<div className="h-full w-full flex justify-center"><h3>Такой статьи не существует</h3></div>)
 
     return (
-        <ScrollArea className='paddings'>
-            <article className="pb-10 w-full">
+        <ScrollArea className="w-full h-full">
+            <article className="paddings pb-10 w-full">
                 <h1>{blogPost.title}</h1>
                 <MarkdownRenderer content={blogPost.content} />
             </article>

@@ -56,8 +56,8 @@ const ProfilePage = () => {
                     <Button className='flex gap-2 justify-center items-center size-15 p-3 md:size-auto md:px-4 md:py-3' variant={'outline'} onClick={() => signOut({ callbackUrl: '/' })}><LogOut size={20} /><span className='hidden md:block'>Выйти</span></Button>
                 </div>
             </div>
-            <ScrollArea className='h-full paddings'>
-                <div className='space-y-6'>
+            <ScrollArea className='h-full'>
+                <div className='space-y-6 paddings'>
                     <AiPreferencesTab />
                     <UserPublishedCollections />
                 </div>
