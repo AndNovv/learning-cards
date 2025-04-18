@@ -53,7 +53,7 @@ BASE_URL=http://localhost:3000
 OPENAI_API_KEY=ваш_openai_api_key
 ```
 
-3. Запуск через Docker Compose
+### 3. Запуск через Docker Compose
 
 Убедитесь, что Docker установлен:
 
