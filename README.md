@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📘 Plexicon
 
-## Getting Started
+**Plexicon** — это образовательная платформа для изучения иностранных языков с помощью интерактивных флешкарточек и встроенного AI-ассистента на базе ChatGPT.  
+Проект создан с использованием **Next.js**, **MongoDB** и **Docker Compose**, и доступен онлайн по адресу: [https://plexicon.ru](https://plexicon.ru).
 
-First, run the development server:
+## Возможности
+
+- 🧠 Эффективное запоминание слов благодаря алгоритму интервального повторения (spaced repetition)
+- 🤖 Помощь в изучении от искусственного интеллекта (ChatGPT): примеры, объяснения, грамматика
+- 📚 Создание и редактирование собственных карточек
+- 🔐 Вход через Google-аккаунт (OAuth 2.0)
+- 📊 Личный кабинет с прогрессом и статистикой и настройкой ассистента
+- 🐳 Быстрый запуск проекта через Docker Compose
+
+---
+
+## Стек технологий
+
+- **Frontend / Backend**: Next.js (App Router)
+- **База данных**: MongoDB
+- **Аутентификация**: NextAuth.js + Google OAuth
+- **AI**: OpenAI (ChatGPT API)
+- **Контейнеризация**: Docker + Docker Compose
+
+---
+
+## Установка и запуск
+
+### 1. Клонируйте репозиторий
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/plexicon.git
+cd plexicon
+```
+### 2. Создайте файл .env.local
+
+Скопируйте пример и заполните переменные:
+
+```
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Пример переменных окружения:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+MONGODB_URI=ваш_адрес_бд
+GOOGLE_CLIENT_ID=ваш_google_client_id
+GOOGLE_CLIENT_SECRET=ваш_google_client_secret
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=секрет_для_nextauth
+OFFICIAL_AUTHOR_ID=внутренний_id_автора
+BASE_URL=http://localhost:3000
+OPENAI_API_KEY=ваш_openai_api_key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Запуск через Docker Compose
 
-## Learn More
+Убедитесь, что Docker установлен:
 
-To learn more about Next.js, take a look at the following resources:
+docker-compose up --build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+После запуска платформа будет доступна по адресу: http://localhost:3000
+## Разработка без Docker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
